@@ -1,12 +1,14 @@
 // components/LoginButton.tsx
-'use client'; // Directive for indicating client-side component
+'use client';
 import Link from 'next/link';
 import React from 'react';
-import { Connexion_Route } from '../../routes'; // Update this path to the actual location of your route file
+import { useTranslations } from "next-intl";
+import { Connexion_Route } from '../../routes';
 
 const LoginButton: React.FC = () => {
+    const  t  = useTranslations('Layout.LoginButton');
+
     const handleLogin = () => {
-        // Logique pour le login
         console.log('Login clicked');
     };
 
@@ -15,7 +17,7 @@ const LoginButton: React.FC = () => {
             <button 
                 onClick={handleLogin} 
                 className="px-4 py-2 bg-primary text-primary-foreground border border-primary rounded-lg hover:bg-primary-dark transition">
-                Login
+                 {t("Login") + " "}
             </button>
         </Link>
     );

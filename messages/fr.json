@@ -6,13 +6,17 @@
         },
         "Footer": {
             "copyright": "Tous droits réservés © pour la société"
-        }
+        },  
+        "LoginButton":{
+            "Login": "Se connecter"
+    }
     },
     "NotFoundPage": {
         "title": "La page que vous recherchez n'existe pas sur cette plateforme",
         "desc": "Le contenu lisible d'une page distraira le lecteur de se concentrer sur l'apparence extérieure du texte ou la disposition des paragraphes sur la page qu'il lit.",
         "action": "Retour à la Page d'Accueil"
     },
+   
     "HomePage": {
         "HeroSection": {
             "title": "Vous voulez passer votre permis ? Vous ne savez pas par où commencer ou à qui vous adresser ?",

@@ -6,7 +6,10 @@
         },
         "Footer": {
             "copyright": "Todos los derechos reservados © para la empresa"
-        }
+        },
+        "LoginButton":{
+            "Login": "Iniciar sesión"
+    }
     },
     "NotFoundPage": {
         "title": "La página que buscas no se encuentra en esta plataforma",
