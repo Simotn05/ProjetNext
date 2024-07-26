@@ -35,6 +35,127 @@ import { PermisEnum } from "@/schemas/autoecoles";
 
 type newClientType = InferType<typeof newClientSchema>;
 
+const cities = [
+    "Afourar",
+    "Agadir",
+    "Aghbala",
+    "Aghbalou",
+    "Agdz",
+    "Agouraï",
+    "Aguelmous",
+    "Ahfir",
+    "Aïn Leuh",
+    "Aïn Bni Mathar",
+    "Aïn Cheggag",
+    "Aïn Dorij",
+    "Aïn El Aouda",
+    "Aïn Erreggada",
+    "Aïn Harrouda",
+    "Aïn Jemaa",
+    "Aïn Karma",
+    "Aïn Taoujdate",
+    "Aït Iaaza",
+    "Aït Baha",
+    "Ait Benhaddou",
+    "Ait Ourir",
+    "Ait Melloul",
+    "Ait Tamlil",
+    "Ait Zineb",
+    "Akka",
+    "Al Hoceima",
+    "Al Jadida",
+    "Amizmiz",
+    "Anoual",
+    "Arfoud",
+    "Azilal",
+    "Azrou",
+    "Berkane",
+    "Beni Mellal",
+    "Ben Guerir",
+    "Beni Mella",
+    "Bouarfa",
+    "Boujad",
+    "Bouizakarne",
+    "Boulemane",
+    "Boumia",
+    "Bouznika",
+    "Casablanca",
+    "Chefchaouen",
+    "Chichaoua",
+    "Chtouka Ait Baha",
+    "Dcheira El Jihadia",
+    "El Ayoun",
+    "El Hajeb",
+    "El Jadida",
+    "El Kelaa des Sraghna",
+    "El Kelâa",
+    "El Menzel",
+    "El Ouatia",
+    "El Oued",
+    "Errachidia",
+    "Essaouira",
+    "Fes",
+    "Figuig",
+    "Fquih Ben Salah",
+    "Goulmima",
+    "Guercif",
+    "Haddada",
+    "Ifrane",
+    "Igli",
+    "Imlil",
+    "Imouzzer Kandar",
+    "Imouzzer Marmoucha",
+    "Issaguen",
+    "Jorf El Melha",
+    "Karia",
+    "Khemisset",
+    "Khouribga",
+    "Ksar El Kebir",
+    "Ksar el Hadid",
+    "Ksar Ouled Selmane",
+    "Kssiba",
+    "Larache",
+    "Marrakech",
+    "Meknes",
+    "Midelt",
+    "Moulay Bousselham",
+    "Nador",
+    "Ouarzazate",
+    "Oujda",
+    "Oulad Teima",
+    "Oulad Zem",
+    "Rabat",
+    "Rissani",
+    "Safi",
+    "Salé",
+    "Sefrou",
+    "Sidi Kacem",
+    "Sidi Slimane",
+    "Tafraout",
+    "Taza",
+    "Temara",
+    "Tiznit",
+    "Tizi Ouzou",
+    "Taroudant",
+    "Tantan",
+    "Taounate",
+    "Taourirt",
+    "Tétouan",
+    "Tinejdad",
+    "Tineghir",
+    "Youssoufia",
+    "Zagora",
+    "Zenata",
+    "Zerhoun",
+    "Zagora",
+    "Zouagha",
+    "Zouitat",
+    "Zour",
+    "Zrarda"
+  ];
+  
+
+
 export default function NewClientForm() {
     const locale = useLocale();
     const t = useTranslations("HomePage.HeroSection.Form");
@@ -104,12 +225,26 @@ export default function NewClientForm() {
                     name="city"
                     render={({ field }) => (
                         <FormItem className="grow">
-                            <FormControl>
-                                <Input
-                                    placeholder={t("inputs.city")}
-                                    {...field}
-                                />
-                            </FormControl>
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                                dir={locale === "ar" ? "rtl" : "ltr"}
+                            >
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder={t("inputs.city")}
+                                        />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {cities.map((city) => (
+                                        <SelectItem key={city} value={city}>
+                                            {city}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -144,9 +279,7 @@ export default function NewClientForm() {
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue
-                                            placeholder={t(
-                                                "inputs.type.placeholder"
-                                            )}
+                                            placeholder={t("inputs.type.placeholder")}
                                         />
                                     </SelectTrigger>
                                 </FormControl>
@@ -177,27 +310,16 @@ export default function NewClientForm() {
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue
-                                            placeholder={t(
-                                                "inputs.category.placeholder"
-                                            )}
+                                            placeholder={t("inputs.category.placeholder")}
                                         />
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    {
-                                        Object.values(PermisEnum).map(permis => (
-                                            <SelectItem key={permis} value={permis}>
-                                                {permis}
-                                            </SelectItem>
-                                        ))
-                                    }
-                                    {/* {
-                                        Object.values(PermisEnum).map(permis => (
-                                            <SelectItem key={permis} value={`الرخصة ${permis}`}>
-                                                {t(`inputs.category.options.${permis}`)}
-                                            </SelectItem>
-                                        ))
-                                    } */}
+                                    {Object.values(PermisEnum).map((permis) => (
+                                        <SelectItem key={permis} value={permis}>
+                                            {permis}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                             <FormMessage />
