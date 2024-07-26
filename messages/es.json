@@ -1,0 +1,160 @@
+{
+    "Layout": {
+        "Metadata": {
+            "title": "MonAutoEcole - Tu Asistente para Elegir la Mejor Autoescuela",
+            "desc": "¿Quieres sacar tu carnet de conducir? ¿No sabes por dónde empezar ni a quién acudir? Bienvenido a la plataforma Mon AutoÉcole, en colaboración con más de 1000 autoescuelas en Marruecos. Encontrarás la escuela adecuada para ti aquí, ¡y todo esto es gratis!"
+        },
+        "Footer": {
+            "copyright": "Todos los derechos reservados © para la empresa"
+        }
+    },
+    "NotFoundPage": {
+        "title": "La página que buscas no se encuentra en esta plataforma",
+        "desc": "El contenido legible de una página distraerá al lector de centrarse en la apariencia externa del texto o en la disposición de los párrafos en la página que está leyendo.",
+        "action": "Volver a la Página Principal"
+    },
+    "HomePage": {
+        "HeroSection": {
+            "title": "¿Quieres sacar el permiso de conducir? ¿No sabes por dónde empezar ni a quién acudir?",
+            "desc": "Bienvenido a la plataforma MonAutoEcole, en colaboración con más de 1000 autoescuelas en Marruecos, encontrarás la escuela adecuada para ti, y todo esto gratis.",
+            "Form": {
+                "inputs": {
+                    "name": "Nombre Completo",
+                    "city": "Ciudad",
+                    "phone": "Número de Teléfono",
+                    "type": {
+                        "placeholder": "Selecciona el tipo de formación",
+                        "options": {
+                            "permis": "Permiso de Conducir",
+                            "seances": "Sesiones Adicionales"
+                        }
+                    },
+                    "category": {
+                        "placeholder": "Selecciona la categoría",
+                        "options": {
+                            "motors": "Motos",
+                            "cars": "Coches",
+                            "camions": "Autobuses",
+                            "autobus": "Vehículos de Transporte",
+                            "remorques": "Autobuses de Transporte"
+                        }
+                    }
+                },
+                "action": "Enviar Solicitud de Asistencia"
+            },
+            "Features": {
+                "pricing": {
+                    "title": "Precios Asequibles",
+                    "desc": "Aseguramos que nuestros usuarios obtengan los mejores precios del mercado en comparación con la calidad de los servicios y la formación! Con posibilidad de pago a plazos o préstamo gratuito."
+                },
+                "quality": {
+                    "title": "Formación de Calidad",
+                    "desc": "Buena formación que te permite conducir inmediatamente después de obtener el permiso de conducir, y una calidad de servicio que se adapta a tus necesidades y condiciones financieras, prácticas o académicas."
+                },
+                "speed": {
+                    "title": "Rapidez y Flexibilidad",
+                    "desc": "MonAutoEcole responde en menos de 48 horas y proporciona la escuela adecuada para obtener tu licencia en menos de un mes!"
+                },
+                "caring": {
+                    "title": "Atención y Seguimiento",
+                    "desc": "Damos atención especial y seguimiento continuo a los candidatos para asegurar que reciban una buena formación y servicio, e intervenimos directa y rápidamente para resolver problemas!"
+                }
+            }
+        },
+        "HowWeWorkSection": {
+            "title": "¿Cómo funciona la plataforma MonAutoEcole?",
+            "desc": "Estos son los pasos que debes seguir para beneficiarte de la plataforma MonAutoEcole 100% gratis.",
+            "steps": {
+                "sendTicket": {
+                    "title": "Enviar Solicitud de Asistencia",
+                    "desc": "Envía la solicitud de asistencia llenando tu información arriba especificando el tipo de formación y la categoría del permiso, luego espera nuestra llamada en menos de 48 horas."
+                },
+                "call": {
+                    "title": "Responde a Nuestra Llamada",
+                    "desc": "Responde a nuestra llamada para obtener toda la información relacionada contigo y luego te dirigiremos a la mejor autoescuela adecuada para ti."
+                },
+                "startLearning": {
+                    "title": "Comienza tus Lecciones",
+                    "desc": "Únete a la escuela sugerida y comienza tu aprendizaje, con la posibilidad de contactarnos para informar de cualquier mala conducta para garantizar que recibas la mejor educación."
+                }
+            }
+        },
+        "ContactSection": {
+            "title": "Formulario de quejas",
+            "desc": "Para preguntas o para reportar una mala conducta por parte de nuestros socios, puedes contactarnos y reportar cualquier problema o sugerencias.",
+            "address": "45 Calle Hassan II, Edificio Nacional, 8° Piso, N° 802, Marruecos, Fez 30050.",
+            "phone": "+ 212 (0) 661 189 821",
+            "mail": "jhb.plus@yahoo.com",
+            "Form": {
+                "inputs": {
+                    "name": "Nombre Completo",
+                    "phone": "Número de Teléfono",
+                    "city": "Ciudad",
+                    "autoEcole": "Nombre de la Escuela",
+                    "message": "Mensaje"
+                },
+                "action": "Enviar Queja"
+            }
+        }
+    },
+    "ValidationMessages": {
+        "NewClient": {
+            "name": {
+                "required": "Por favor ingresa el nombre completo"
+            },
+            "city": {
+                "required": "Por favor ingresa la ciudad"
+            },
+            "phone": {
+                "required": "Por favor ingresa el número de teléfono"
+            },
+            "type": {
+                "required": "Por favor selecciona el tipo de formación"
+            },
+            "permis": {
+                "required": "Por favor selecciona la categoría adecuada"
+            },
+            "Messages": {
+                "success": {
+                    "title": "Tu solicitud ha sido enviada con éxito",
+                    "desc": "Nos pondremos en contacto contigo lo antes posible",
+                    "action": "Cerrar"
+                },
+                "failed": {
+                    "title": "Error al enviar tu solicitud",
+                    "desc": "Intenta de nuevo y verifica tu información personal",
+                    "action": "Cerrar"
+                }
+            }
+        },
+        "Contact": {
+            "name": {
+                "required": "Por favor ingresa el nombre completo"
+            },
+            "phone": {
+                "required": "Por favor ingresa el número de teléfono"
+            },
+            "city": {
+                "required": "Por favor ingresa la ciudad"
+            },
+            "autoEcole": {
+                "required": "Por favor ingresa el nombre de la escuela"
+            },
+            "message": {
+                "required": "Por favor ingresa tu mensaje"
+            },
+            "Messages": {
+                "success": {
+                    "title": "Tu mensaje ha sido enviado con éxito",
+                    "desc": "Tu mensaje será revisado y nos pondremos en contacto contigo lo antes posible",
+                    "action": "Cerrar"
+                },
+                "failed": {
+                    "title": "Error al enviar tu mensaje",
+                    "desc": "Intenta de nuevo y verifica tu información personal",
+                    "action": "Cerrar"
+                }
+            }
+        }
+    }
+}

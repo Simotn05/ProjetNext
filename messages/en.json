@@ -1,0 +1,160 @@
+{
+    "Layout": {
+        "Metadata": {
+            "title": "MonAutoEcole - Your Assistant in Choosing the Best Driving School for You",
+            "desc": "Do you want to get your driving license? Don't know where to start or whom to go to? Welcome to the Mon AutoÉcole platform, in collaboration with more than 1000 driving schools in Morocco. You will find the right school for you here, and all of this is free!"
+        },
+        "Footer": {
+            "copyright": "All rights reserved © for the company"
+        }
+    },
+    "NotFoundPage": {
+        "title": "The page you are looking for is not found on this platform",
+        "desc": "Readable content of a page will distract the reader from focusing on the external appearance of the text or the layout of the paragraphs on the page they are reading.",
+        "action": "Return to Home Page"
+    },
+    "HomePage": {
+        "HeroSection": {
+            "title": "Do you want to get a driving license? Not sure where to start or who to go to?",
+            "desc": "Welcome to MonAutoEcole platform, in collaboration with more than 1000 driving schools in Morocco, you will find the right school for you, and all this for free.",
+            "Form": {
+                "inputs": {
+                    "name": "Full Name",
+                    "city": "City",
+                    "phone": "Phone Number",
+                    "type": {
+                        "placeholder": "Select the type of training",
+                        "options": {
+                            "permis": "Driving License",
+                            "seances": "Additional Sessions"
+                        }
+                    },
+                    "category": {
+                        "placeholder": "Select the category",
+                        "options": {
+                            "motors": "Motorcycles",
+                            "cars": "Cars",
+                            "camions": "Buses",
+                            "autobus": "Transport Vehicles",
+                            "remorques": "Transport Buses"
+                        }
+                    }
+                },
+                "action": "Send Assistance Request"
+            },
+            "Features": {
+                "pricing": {
+                    "title": "Affordable Prices",
+                    "desc": "Ensuring our users get the best prices in the market compared to the quality of services and training! With the possibility of installment payment or free loan."
+                },
+                "quality": {
+                    "title": "Quality Training",
+                    "desc": "Good training that enables you to drive immediately after obtaining the driving license, and service quality that meets your needs and financial, practical, or academic conditions."
+                },
+                "speed": {
+                    "title": "Speed and Flexibility",
+                    "desc": "MonAutoEcole responds to you in less than 48 hours and provides the suitable school for you to get your license within a month!"
+                },
+                "caring": {
+                    "title": "Attention and Follow-up",
+                    "desc": "We give special attention and continuous follow-up to candidates to ensure they receive good training and service, and we intervene directly and quickly to solve problems!"
+                }
+            }
+        },
+        "HowWeWorkSection": {
+            "title": "How does MonAutoEcole platform work?",
+            "desc": "These are the steps you need to follow to benefit from the MonAutoEcole platform 100% free.",
+            "steps": {
+                "sendTicket": {
+                    "title": "Send Assistance Request",
+                    "desc": "Send the assistance request by filling in your information above specifying the type of training and license category, then wait for our call within less than 48 hours."
+                },
+                "call": {
+                    "title": "Answer Our Call",
+                    "desc": "Answer our call to get all the information related to you and then direct you to the best suitable driving school."
+                },
+                "startLearning": {
+                    "title": "Start Your Lessons",
+                    "desc": "Join the suggested school and start your learning, with the possibility to contact us to report any misconduct to ensure you get the best education."
+                }
+            }
+        },
+        "ContactSection": {
+            "title": "Complaints form",
+            "desc": "For inquiries or to report any misconduct by our partners, you can contact us and report any issue or suggestions.",
+            "address": "45 Hassan II Street, National Building, 8th Floor, No. 802, Morocco, Fez 30050.",
+            "phone": "+ 212 (0) 661 189 821",
+            "mail": "jhb.plus@yahoo.com",
+            "Form": {
+                "inputs": {
+                    "name": "Full Name",
+                    "phone": "Phone Number",
+                    "city": "City",
+                    "autoEcole": "School Name",
+                    "message": "Message"
+                },
+                "action": "Send Complaint"
+            }
+        }
+    },
+    "ValidationMessages": {
+        "NewClient": {
+            "name": {
+                "required": "Please enter the full name"
+            },
+            "city": {
+                "required": "Please enter the city"
+            },
+            "phone": {
+                "required": "Please enter the phone number"
+            },
+            "type": {
+                "required": "Please select the type of training"
+            },
+            "permis": {
+                "required": "Please select the appropriate category"
+            },
+            "Messages": {
+                "success": {
+                    "title": "Your request has been successfully sent",
+                    "desc": "You will be contacted as soon as possible",
+                    "action": "Close"
+                },
+                "failed": {
+                    "title": "Failed to send your request",
+                    "desc": "Try again and check your personal information",
+                    "action": "Close"
+                }
+            }
+        },
+        "Contact": {
+            "name": {
+                "required": "Please enter the full name"
+            },
+            "phone": {
+                "required": "Please enter the phone number"
+            },
+            "city": {
+                "required": "Please enter the city"
+            },
+            "autoEcole": {
+                "required": "Please enter the school name"
+            },
+            "message": {
+                "required": "Please enter your message"
+            },
+            "Messages": {
+                "success": {
+                    "title": "Your message has been successfully sent",
+                    "desc": "Your message will be reviewed and you will be contacted as soon as possible",
+                    "action": "Close"
+                },
+                "failed": {
+                    "title": "Failed to send your message",
+                    "desc": "Try again and check your personal information",
+                    "action": "Close"
+                }
+            }
+        }
+    }
+}

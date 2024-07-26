@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Ticket {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  city      String
+  type      String
+  permis    String
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Status {
+  PENDING
+  ACTIVE
+}
+
+model AutoEcole {
+  id                Int    @id @default(autoincrement())
+  name              String
+  ownerName         String
+  city              String
+  address           String
+  phone             String
+  fix               String
+  registerNumber    Int
+  businessDocNumber Int
+
+  status Status @default(ACTIVE)
+
+  paymentConvenienceStatus Boolean @default(false)
+  paymentConvenienceNum    Int?
+
+  features Json
+
+  Affectations Affectation[]
+  permis       Permis[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Permis {
+  id Int @id @default(autoincrement())
+
+  name                 String
+  practicalTutorsSex   String
+  theoreticalTutorsSex String
+
+  practicalLangs   Json
+  theoreticalLangs Json
+
+  trainingPrice        Json
+  repeatedPrice        Json
+  practicalHourPrice   Json
+  theoreticalHourPrice Json
+
+  autoEcoleId Int
+  autoEcole   AutoEcole @relation(fields: [autoEcoleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  vehicles Vehicle[]
+
+  @@unique([name, autoEcoleId])
+}
+
+model Vehicle {
+  id Int @id @default(autoincrement())
+
+  brand String
+  model Int
+
+  permisId Int
+  permis   Permis @relation(fields: [permisId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([permisId, brand, model])
+}
+
+model Affectation {
+  id          Int       @id @default(autoincrement())
+  phone       String
+  permis      String
+  type        String
+  autoEcole   AutoEcole @relation(fields: [autoEcoleId], references: [id])
+  autoEcoleId Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  name      String
+  autoEcole String
+  city      String
+  phone     String
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

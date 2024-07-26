@@ -1,0 +1,160 @@
+{
+    "Layout": {
+        "Metadata": {
+            "title": "MonAutoEcole - Votre Assistant pour Choisir la Meilleure Auto-école",
+            "desc": "Tu veux passer ton permis ? Tu ne sais pas par où commencer ni vers qui te tourner ? Bienvenue sur la plateforme Mon AutoÉcole, en collaboration avec plus de 1000 auto-écoles au Maroc. Tu trouveras chez nous l'école qui te convient, et tout cela gratuitement !"
+        },
+        "Footer": {
+            "copyright": "Tous droits réservés © pour la société"
+        }
+    },
+    "NotFoundPage": {
+        "title": "La page que vous recherchez n'existe pas sur cette plateforme",
+        "desc": "Le contenu lisible d'une page distraira le lecteur de se concentrer sur l'apparence extérieure du texte ou la disposition des paragraphes sur la page qu'il lit.",
+        "action": "Retour à la Page d'Accueil"
+    },
+    "HomePage": {
+        "HeroSection": {
+            "title": "Vous voulez passer votre permis ? Vous ne savez pas par où commencer ou à qui vous adresser ?",
+            "desc": "Bienvenue sur la plateforme MonAutoEcole, en collaboration avec plus de 1000 auto-écoles au Maroc, vous trouverez l'école qui vous convient, et tout cela gratuitement.",
+            "Form": {
+                "inputs": {
+                    "name": "Nom Complet",
+                    "city": "Ville",
+                    "phone": "Numéro de Téléphone",
+                    "type": {
+                        "placeholder": "Sélectionnez le type de formation",
+                        "options": {
+                            "permis": "Permis de Conduire",
+                            "seances": "Séances Supplémentaires"
+                        }
+                    },
+                    "category": {
+                        "placeholder": "Sélectionnez la catégorie",
+                        "options": {
+                            "motors": "Motos",
+                            "cars": "Voitures",
+                            "camions": "Bus",
+                            "autobus": "Véhicules de Transport",
+                            "remorques": "Bus de Transport"
+                        }
+                    }
+                },
+                "action": "Envoyer la Demande d'Aide"
+            },
+            "Features": {
+                "pricing": {
+                    "title": "Prix Abordables",
+                    "desc": "Assurer à nos utilisateurs d'obtenir les meilleurs prix du marché par rapport à la qualité des services et de la formation ! Avec possibilité de paiement échelonné ou de prêt gratuit."
+                },
+                "quality": {
+                    "title": "Formation de Qualité",
+                    "desc": "Une bonne formation qui vous permet de conduire immédiatement après avoir obtenu le permis de conduire, et une qualité de service qui répond à vos besoins et à vos conditions financières, pratiques ou académiques."
+                },
+                "speed": {
+                    "title": "Rapidité et Flexibilité",
+                    "desc": "MonAutoEcole vous répond en moins de 48 heures et vous fournit l'école adaptée pour obtenir votre permis en moins d'un mois !"
+                },
+                "caring": {
+                    "title": "Attention et Suivi",
+                    "desc": "Nous accordons une attention particulière et un suivi continu aux candidats pour garantir qu'ils reçoivent une bonne formation et un bon service, et nous intervenons directement et rapidement pour résoudre les problèmes !"
+                }
+            }
+        },
+        "HowWeWorkSection": {
+            "title": "Comment fonctionne la plateforme MonAutoEcole ?",
+            "desc": "Voici les étapes à suivre pour bénéficier de la plateforme MonAutoEcole gratuitement à 100 %. ",
+            "steps": {
+                "sendTicket": {
+                    "title": "Envoyer la Demande d'Aide",
+                    "desc": "Envoyez la demande d'aide en remplissant vos informations ci-dessus en précisant le type de formation et la catégorie de permis, puis attendez notre appel en moins de 48 heures."
+                },
+                "call": {
+                    "title": "Répondez à notre Appel",
+                    "desc": "Répondez à notre appel pour obtenir toutes les informations vous concernant puis vous diriger vers la meilleure auto-école adaptée pour vous."
+                },
+                "startLearning": {
+                    "title": "Commencez vos Leçons",
+                    "desc": "Rejoignez l'école suggérée et commencez votre apprentissage, avec la possibilité de nous contacter pour signaler toute mauvaise conduite afin de garantir que vous receviez la meilleure formation."
+                }
+            }
+        },
+        "ContactSection": {
+            "title": "Formulaire de réclamation",
+            "desc": "Pour toute question ou pour signaler une mauvaise conduite de la part de nos partenaires, vous pouvez nous contacter et signaler tout problème ou suggestions.",
+            "address": "45 Rue Hassan II, Immeuble National, 8ème Étage, N° 802, Maroc, Fès 30050.",
+            "phone": "+ 212 (0) 661 189 821",
+            "mail": "jhb.plus@yahoo.com",
+            "Form": {
+                "inputs": {
+                    "name": "Nom Complet",
+                    "phone": "Numéro de Téléphone",
+                    "city": "Ville",
+                    "autoEcole": "Nom de l'École",
+                    "message": "Message"
+                },
+                "action": "Envoyer la Réclamation"
+            }
+        }
+    },
+    "ValidationMessages": {
+        "NewClient": {
+            "name": {
+                "required": "Veuillez entrer le nom complet"
+            },
+            "city": {
+                "required": "Veuillez entrer la ville"
+            },
+            "phone": {
+                "required": "Veuillez entrer le numéro de téléphone"
+            },
+            "type": {
+                "required": "Veuillez sélectionner le type de formation"
+            },
+            "permis": {
+                "required": "Veuillez sélectionner la catégorie appropriée"
+            },
+            "Messages": {
+                "success": {
+                    "title": "Votre demande a été envoyée avec succès",
+                    "desc": "Vous serez contacté dès que possible",
+                    "action": "Fermer"
+                },
+                "failed": {
+                    "title": "Échec de l'envoi de votre demande",
+                    "desc": "Réessayez et vérifiez vos informations personnelles",
+                    "action": "Fermer"
+                }
+            }
+        },
+        "Contact": {
+            "name": {
+                "required": "Veuillez entrer le nom complet"
+            },
+            "phone": {
+                "required": "Veuillez entrer le numéro de téléphone"
+            },
+            "city": {
+                "required": "Veuillez entrer la ville"
+            },
+            "autoEcole": {
+                "required": "Veuillez entrer le nom de l'école"
+            },
+            "message": {
+                "required": "Veuillez entrer votre message"
+            },
+            "Messages": {
+                "success": {
+                    "title": "Votre message a été envoyé avec succès",
+                    "desc": "Votre message sera examiné et vous serez contacté dès que possible",
+                    "action": "Fermer"
+                },
+                "failed": {
+                    "title": "Échec de l'envoi de votre message",
+                    "desc": "Réessayez et vérifiez vos informations personnelles",
+                    "action": "Fermer"
+                }
+            }
+        }
+    }
+}
