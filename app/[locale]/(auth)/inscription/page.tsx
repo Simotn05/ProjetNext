@@ -20,7 +20,9 @@ const SignupForm: React.FC = () => {
     birthdate: '', // New field initialized to empty string
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLInputElement>): void => {
+  const [error, setError] = useState<string | null>(null); // État pour gérer les erreurs
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
@@ -29,31 +31,37 @@ const SignupForm: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();   
-
+    e.preventDefault();
 
     // Data validation (optional but recommended)
     // Check if all fields are filled and email format is valid
     // Validate birthday format (e.g., YYYY-MM-DD)
 
     try {
-      const lang = 'fr';
+      const lang = 'fr'; // Change this as needed or dynamically determine the language
       const response = await fetch(`/${lang}/api/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error('Signup failed!');
+        throw new Error(result.error || 'Signup failed!');
       }
 
       console.log('Signup successful!');
       // Optionally clear the form or redirect to a confirmation page
       setForm({ username: '', email: '', number: '', password: '', birthdate: '' });
+      setError(null); // Réinitialisez les erreurs en cas de succès
     } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message); // Affichez le message d'erreur
+      } else {
+        setError('Une erreur inconnue est survenue'); // Gestion des erreurs inconnues
+      }
       console.error('Signup error:', error);
-      // Display an error message to the user
     }
   };
 
@@ -61,6 +69,7 @@ const SignupForm: React.FC = () => {
     <Card className="w-full max-w-lg mx-auto my-8">
       <CardContent className="p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Inscription</h1>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>} {/* Affichez les erreurs ici */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="username" className="block mb-2 text-sm font-medium">Nom d'utilisateur</label>
