@@ -1,28 +1,60 @@
 'use client'; // Directive pour indiquer que ce composant est côté client
 import { useState } from 'react';
-import { Card, CardContent } from "@/components/ui/card"; // Assurez-vous que Card et CardContent sont bien importés
+import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 
+interface FormValues {
+  username: string;
+  email: string;
+  number: string;
+  password: string;
+  birthdate: string; // New field for birthday
+}
+
 const SignupForm: React.FC = () => {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormValues>({
     username: '',
     email: '',
     number: '',
     password: '',
+    birthdate: '', // New field initialized to empty string
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLInputElement>): void => {
     const { name, value } = e.target;
-    setForm({
-      ...form,
+    setForm((prevForm) => ({
+      ...prevForm,
       [name]: value,
-    });
+    }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Logique pour soumettre les données du formulaire
-    console.log(form);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();   
+
+
+    // Data validation (optional but recommended)
+    // Check if all fields are filled and email format is valid
+    // Validate birthday format (e.g., YYYY-MM-DD)
+
+    try {
+      const lang = 'fr';
+      const response = await fetch(`/${lang}/api/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        throw new Error('Signup failed!');
+      }
+
+      console.log('Signup successful!');
+      // Optionally clear the form or redirect to a confirmation page
+      setForm({ username: '', email: '', number: '', password: '', birthdate: '' });
+    } catch (error) {
+      console.error('Signup error:', error);
+      // Display an error message to the user
+    }
   };
 
   return (
@@ -73,6 +105,18 @@ const SignupForm: React.FC = () => {
               id="password"
               name="password"
               value={form.password}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="birthdate" className="block mb-2 text-sm font-medium">Date de naissance</label>
+            <input
+              type="date"
+              id="birthdate"
+              name="birthdate"
+              value={form.birthdate}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               required
