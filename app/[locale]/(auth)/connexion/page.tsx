@@ -1,13 +1,14 @@
-'use client'; // Directive pour indiquer que ce composant est côté client
+'use client';
+
 import { useState } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
-import Link from 'next/link'; // Import du composant Link pour la navigation
+import { useRouter } from 'next/navigation';
+import { Card, CardContent } from '@/components/ui/card';
+import Link from 'next/link';
 
 const LoginPage: React.FC = () => {
-  const [form, setForm] = useState({
-    email: '',
-    password: '',
-  });
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -17,10 +18,33 @@ const LoginPage: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Logique pour soumettre les données du formulaire
-    console.log(form);
+
+    if (!form.email || !form.password) {
+      setError('Veuillez remplir tous les champs.');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api2/signin', {
+        method: 'POST',
+        body: JSON.stringify(form),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        router.push('/userpage'); // Redirection après connexion réussie
+      } else {
+        setError(result.error || 'Une erreur est survenue lors de la connexion.');
+      }
+    } catch (err) {
+      setError('Impossible de se connecter. Veuillez vérifier votre connexion Internet.');
+    }
   };
 
   return (
@@ -54,6 +78,7 @@ const LoginPage: React.FC = () => {
           </div>
           <button type="submit" className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium hover:bg-primary-dark transition">Se connecter</button>
         </form>
+        {error && <p className="text-red-500 mt-4">{error}</p>}
         <div className="mt-4 text-center">
           <p className="text-sm">
             Vous n'avez pas de compte ?{' '}

@@ -1,5 +1,6 @@
 'use client'; // Directive pour indiquer que ce composant est côté client
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'; // Importation de useRouter pour la redirection
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 
@@ -8,7 +9,7 @@ interface FormValues {
   email: string;
   number: string;
   password: string;
-  birthdate: string; // New field for birthday
+  birthdate: string; // Nouveau champ pour la date de naissance
 }
 
 const SignupForm: React.FC = () => {
@@ -17,10 +18,11 @@ const SignupForm: React.FC = () => {
     email: '',
     number: '',
     password: '',
-    birthdate: '', // New field initialized to empty string
+    birthdate: '', // Nouveau champ initialisé à une chaîne vide
   });
 
   const [error, setError] = useState<string | null>(null); // État pour gérer les erreurs
+  const router = useRouter(); // Création de l'instance useRouter
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -33,13 +35,13 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Data validation (optional but recommended)
-    // Check if all fields are filled and email format is valid
-    // Validate birthday format (e.g., YYYY-MM-DD)
+    // Validation des données (optionnelle mais recommandée)
+    // Vérifiez si tous les champs sont remplis et si le format de l'email est valide
+    // Validez le format de la date de naissance (par exemple, YYYY-MM-DD)
 
     try {
-      const lang = 'fr'; // Change this as needed or dynamically determine the language
-      const response = await fetch(`/${lang}/api/signup`, {
+      const lang = 'fr'; // Changez cela si nécessaire ou déterminez dynamiquement la langue
+      const response = await fetch(`/${lang}/api2/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -48,20 +50,23 @@ const SignupForm: React.FC = () => {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Signup failed!');
+        throw new Error(result.error || 'Échec de l\'inscription!');
       }
 
-      console.log('Signup successful!');
-      // Optionally clear the form or redirect to a confirmation page
+      console.log('Inscription réussie!');
+      // Réinitialisez le formulaire et les erreurs en cas de succès
       setForm({ username: '', email: '', number: '', password: '', birthdate: '' });
-      setError(null); // Réinitialisez les erreurs en cas de succès
+      setError(null);
+
+      // Redirection vers la page de connexion après une inscription réussie
+      router.push('/connexion');
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message); // Affichez le message d'erreur
       } else {
         setError('Une erreur inconnue est survenue'); // Gestion des erreurs inconnues
       }
-      console.error('Signup error:', error);
+      console.error('Erreur d\'inscription:', error);
     }
   };
 
