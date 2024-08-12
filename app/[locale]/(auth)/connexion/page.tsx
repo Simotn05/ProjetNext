@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
@@ -8,7 +8,36 @@ import Link from 'next/link';
 const LoginPage: React.FC = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api2/check-auth', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include', // Assurez-vous que les cookies sont envoyés
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.user) {
+            // Redirigez vers la page de l'utilisateur si l'utilisateur est déjà connecté
+            router.push(`/userpage/${data.user.id}`);
+          }
+        }
+      } catch (err) {
+        console.error('Erreur lors de la vérification de l’authentification:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,19 +62,33 @@ const LoginPage: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Assurez-vous que les cookies sont envoyés
       });
 
       const result = await res.json();
 
       if (res.ok) {
-        router.push('/userpage'); // Redirection après connexion réussie
+        const user = result.user; // Supposons que l'API renvoie l'objet utilisateur avec un champ "user"
+        
+        // Redirection vers la page de l'utilisateur après connexion réussie
+        router.push(`/userpage/${user.id}`); // Utilisez l'ID de l'utilisateur pour rediriger vers une page spécifique
       } else {
         setError(result.error || 'Une erreur est survenue lors de la connexion.');
       }
     } catch (err) {
-      setError('Impossible de se connecter. Veuillez vérifier votre connexion Internet.');
+      setError('Impossible de se connecter..');
     }
   };
+
+  if (loading) {
+    return (
+      <Card className="w-full max-w-lg mx-auto my-8">
+        <CardContent className="p-8">
+          <p className="text-center">Chargement...</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="w-full max-w-lg mx-auto my-8">

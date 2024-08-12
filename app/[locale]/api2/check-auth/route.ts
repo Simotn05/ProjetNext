@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { verify } from 'jsonwebtoken';
 
-export async function GET(req: NextRequest) {
+const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
+
+export async function GET(request: NextRequest) {
   try {
-    // Logique pour vérifier l'état de connexion de l'utilisateur
-    // Cela peut impliquer la vérification d'un cookie ou d'un token
-    const isAuthenticated = !!req.cookies.get('authToken'); // Exemple de vérification avec un cookie
+    const token = request.cookies.get('authToken')?.value;
 
-    return NextResponse.json({ isAuthenticated });
+    if (!token) {
+      return NextResponse.json({ user: null }, { status: 200 });
+    }
+
+    const decoded = verify(token, JWT_SECRET) as { userId: string };
+
+    return NextResponse.json({ user: { id: decoded.userId } }, { status: 200 });
   } catch (error) {
-    console.error('Erreur lors de la vérification de l\'authentification:', error);
-    return NextResponse.json({ isAuthenticated: false }, { status: 500 });
+    return NextResponse.json({ user: null }, { status: 200 });
   }
 }
