@@ -31,7 +31,7 @@ const UserPage: React.FC = () => {
           if (userId) {
             // Vérifiez si l'ID de la page correspond à l'ID de l'utilisateur connecté
             if (userId.toString() !== params.id) {
-              router.push('/connexion');
+              router.push('/errorPage');
               return;
             }
 
