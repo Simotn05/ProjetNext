@@ -112,7 +112,7 @@ const UserPage: React.FC = () => {
     return (
       <Card className="w-full max-w-lg mx-auto my-8">
         <CardContent className="p-8">
-          <p className="text-center">Utilisateur non trouvé.</p>
+          <p className="text-center">Chargement...</p>
         </CardContent>
       </Card>
     );

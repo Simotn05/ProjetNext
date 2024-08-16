@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import prisma from '@/lib/prisma'; // Assurez-vous que Prisma est configuré correctement
+import prisma from '@/lib/prisma';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
@@ -19,13 +19,6 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json({ error: 'Email ou mot de passe incorrect' }, { status: 401 });
-    }
-
-    // Vérifier si un autre utilisateur est déjà connecté
-    const loggedInUser = await prisma.etudiant.findFirst({ where: { isLoggedIn: true } });
-
-    if (loggedInUser) {
-      return NextResponse.json({ error: 'Un utilisateur est déjà connecté. Veuillez attendre qu\'il se déconnecte.' }, { status: 403 });
     }
 
     // Vérifier le mot de passe

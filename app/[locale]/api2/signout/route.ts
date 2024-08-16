@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verify } from 'jsonwebtoken';
-import prisma from '@/lib/prisma'; // Assurez-vous que Prisma est configuré correctement
+import prisma from '@/lib/prisma';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
@@ -9,15 +9,26 @@ export async function POST(request: NextRequest) {
     // Récupérer le token d'authentification des cookies
     const token = request.cookies.get('authToken')?.value;
 
-    if (token) {
-      // Vérifier et décoder le token
-      const decoded = verify(token, JWT_SECRET) as { userId: string };
+    if (!token) {
+      return NextResponse.json({ error: 'Token d\'authentification manquant' }, { status: 401 });
+    }
 
-      // Mettre à jour l'état de connexion de l'utilisateur dans la base de données
-      await prisma.etudiant.update({
-        where: { id: parseInt(decoded.userId, 10) },
-        data: { isLoggedIn: false },
-      });
+    // Vérifier et décoder le token
+    let decoded;
+    try {
+      decoded = verify(token, JWT_SECRET) as { userId: string };
+    } catch (error) {
+      return NextResponse.json({ error: 'Token invalide' }, { status: 401 });
+    }
+
+    // Mettre à jour l'état de connexion de l'utilisateur dans la base de données
+    const user = await prisma.etudiant.update({
+      where: { id: parseInt(decoded.userId, 10) },
+      data: { isLoggedIn: false },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 });
     }
 
     // Préparer la réponse de déconnexion réussie
@@ -29,6 +40,6 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     console.error('Erreur lors de la déconnexion:', error);
-    return NextResponse.json({ error: 'Erreur lors de la déconnexion' }, { status: 500 });
+    return NextResponse.json({ error: 'Erreur interne du serveur' }, { status: 500 });
   }
 }
