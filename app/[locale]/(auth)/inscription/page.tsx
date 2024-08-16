@@ -1,15 +1,17 @@
 'use client'; // Directive pour indiquer que ce composant est côté client
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Importation de useRouter pour la redirection
+import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
+import { Eye, EyeOff } from 'react-feather'; // Assurez-vous d'installer react-feather pour les icônes
 
 interface FormValues {
   username: string;
   email: string;
   number: string;
   password: string;
-  birthdate: string; // Nouveau champ pour la date de naissance
+  birthdate: string; 
+  drivingLicenseType: string; 
 }
 
 const SignupForm: React.FC = () => {
@@ -18,13 +20,15 @@ const SignupForm: React.FC = () => {
     email: '',
     number: '',
     password: '',
-    birthdate: '', // Nouveau champ initialisé à une chaîne vide
+    birthdate: '',
+    drivingLicenseType: '', 
   });
 
-  const [error, setError] = useState<string | null>(null); // État pour gérer les erreurs
-  const router = useRouter(); // Création de l'instance useRouter
+  const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState<boolean>(false); // État pour afficher ou masquer le mot de passe
+  const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
@@ -35,12 +39,23 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validation des données (optionnelle mais recommandée)
-    // Vérifiez si tous les champs sont remplis et si le format de l'email est valide
-    // Validez le format de la date de naissance (par exemple, YYYY-MM-DD)
+    // Vérification de l'âge
+    const today = new Date();
+    const birthDate = new Date(form.birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    if (age < 18) {
+      setError('Vous devez avoir au moins 18 ans pour vous inscrire.');
+      return;
+    }
 
     try {
-      const lang = 'fr'; // Changez cela si nécessaire ou déterminez dynamiquement la langue
+      const lang = 'fr';
       const response = await fetch(`/${lang}/api2/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,17 +69,14 @@ const SignupForm: React.FC = () => {
       }
 
       console.log('Inscription réussie!');
-      // Réinitialisez le formulaire et les erreurs en cas de succès
-      setForm({ username: '', email: '', number: '', password: '', birthdate: '' });
+      setForm({ username: '', email: '', number: '', password: '', birthdate: '', drivingLicenseType: '' });
       setError(null);
-
-      // Redirection vers la page de connexion après une inscription réussie
       router.push('/connexion');
     } catch (error) {
       if (error instanceof Error) {
-        setError(error.message); // Affichez le message d'erreur
+        setError(error.message);
       } else {
-        setError('Une erreur inconnue est survenue'); // Gestion des erreurs inconnues
+        setError('Une erreur inconnue est survenue');
       }
       console.error('Erreur d\'inscription:', error);
     }
@@ -74,7 +86,7 @@ const SignupForm: React.FC = () => {
     <Card className="w-full max-w-lg mx-auto my-8">
       <CardContent className="p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Inscription</h1>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>} {/* Affichez les erreurs ici */}
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="username" className="block mb-2 text-sm font-medium">Nom d'utilisateur</label>
@@ -114,15 +126,24 @@ const SignupForm: React.FC = () => {
           </div>
           <div>
             <label htmlFor="password" className="block mb-2 text-sm font-medium">Mot de passe</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
+              >
+                {showPassword ? <EyeOff /> : <Eye />} {/* Icône pour afficher/masquer le mot de passe */}
+              </button>
+            </div>
           </div>
           <div>
             <label htmlFor="birthdate" className="block mb-2 text-sm font-medium">Date de naissance</label>
@@ -135,6 +156,28 @@ const SignupForm: React.FC = () => {
               className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               required
             />
+          </div>
+          <div>
+            <label htmlFor="drivingLicenseType" className="block mb-2 text-sm font-medium">Type de permis de conduire</label>
+            <select
+              id="drivingLicenseType"
+              name="drivingLicenseType"
+              value={form.drivingLicenseType}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            >
+              <option value="">Sélectionnez un type de permis</option>
+              <option value="AM : Cyclomoteur">AM (Cyclomoteur)</option>
+              <option value="A1 : Motocyclette légère">A1 (Motocyclette légère)</option>
+              <option value="A : Motocyclette">A (Motocyclette)</option>
+              <option value="B : Véhicule léger">B (Véhicule léger)</option>
+              <option value="EB : Véhicule léger avec remorque">EB (Véhicule léger avec remorque)</option>
+              <option value="C : Véhicule de plus de 3,5 tonnes">C (Véhicule de plus de 3,5 tonnes)</option>
+              <option value="EC : Camion avec remorque">EC (Camion avec remorque)</option>
+              <option value="D : Autobus">D (Autobus)</option>
+              <option value="ED : Autobus avec remorque">ED (Autobus avec remorque)</option>
+            </select>
           </div>
           <button type="submit" className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium hover:bg-primary-dark transition">S'inscrire</button>
         </form>

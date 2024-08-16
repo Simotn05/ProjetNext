@@ -15,13 +15,12 @@ const UserPage: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // Vérifiez si un jeton d'authentification est présent dans les cookies
         const authRes = await fetch('/api2/check-auth', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include', // Assurez-vous que les cookies sont envoyés
+          credentials: 'include',
         });
 
         if (authRes.ok) {
@@ -29,13 +28,11 @@ const UserPage: React.FC = () => {
           const userId = authData.user?.id;
 
           if (userId) {
-            // Vérifiez si l'ID de la page correspond à l'ID de l'utilisateur connecté
             if (userId.toString() !== params.id) {
               router.push('/errorPage');
               return;
             }
 
-            // Si les ID correspondent, chargez les informations utilisateur
             const userRes = await fetch(`/api2/user/${params.id}`, {
               method: 'GET',
               headers: {
@@ -51,7 +48,6 @@ const UserPage: React.FC = () => {
               setError('Utilisateur non trouvé ou accès non autorisé.');
             }
           } else {
-            // Redirigez vers la page de connexion si l'utilisateur n'est pas authentifié
             router.push('/connexion');
           }
         } else {
@@ -78,7 +74,7 @@ const UserPage: React.FC = () => {
       });
 
       if (res.ok) {
-        router.push('/connexion'); // Redirige vers la page de connexion après la déconnexion
+        router.push('/connexion');
       } else {
         const result = await res.json();
         setError(result.message || 'Une erreur est survenue lors de la déconnexion.');
@@ -90,9 +86,9 @@ const UserPage: React.FC = () => {
 
   if (loading) {
     return (
-      <Card className="w-full max-w-lg mx-auto my-8">
-        <CardContent className="p-8">
-          <p className="text-center">Chargement...</p>
+      <Card className="w-full max-w-lg mx-auto my-16 shadow-lg rounded-lg">
+        <CardContent className="p-10">
+          <p className="text-center text-xl font-medium text-gray-600">Chargement...</p>
         </CardContent>
       </Card>
     );
@@ -100,9 +96,9 @@ const UserPage: React.FC = () => {
 
   if (error) {
     return (
-      <Card className="w-full max-w-lg mx-auto my-8">
-        <CardContent className="p-8">
-          <p className="text-red-500 text-center">{error}</p>
+      <Card className="w-full max-w-lg mx-auto my-16 shadow-lg rounded-lg">
+        <CardContent className="p-10">
+          <p className="text-red-500 text-center text-lg font-semibold">{error}</p>
         </CardContent>
       </Card>
     );
@@ -110,35 +106,38 @@ const UserPage: React.FC = () => {
 
   if (!user) {
     return (
-      <Card className="w-full max-w-lg mx-auto my-8">
-        <CardContent className="p-8">
-          <p className="text-center">Chargement...</p>
+      <Card className="w-full max-w-lg mx-auto my-16 shadow-lg rounded-lg">
+        <CardContent className="p-10">
+          <p className="text-center text-xl font-medium text-gray-600">Chargement...</p>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="w-full max-w-lg mx-auto my-8">
-      <CardContent className="p-8">
-        <h1 className="text-3xl font-bold mb-6 text-center">Bienvenue, {user.username} !</h1>
-        <p className="text-center mb-4">Vous êtes connecté en tant qu'utilisateur.</p>
-        <button 
-          onClick={handleLogout} 
-          className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium hover:bg-primary-dark transition"
-        >
-          Se déconnecter
-        </button>
-        <div className="mt-4 text-center">
-          <p className="text-sm">
-            Vous souhaitez modifier vos informations ?{' '}
-            <Link href={`/profile/${params.id}`} className="text-primary hover:underline">
-              Accédez à votre profil
-            </Link>
-          </p>
-        </div>
-      </CardContent>
-    </Card>
+    <Card className="w-full max-w-4xl mx-auto my-16 shadow-xl rounded-lg relative bg-white">
+  <button 
+    onClick={handleLogout} 
+    className="absolute top-4 right-4 bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-800 transition duration-200"
+  >
+    Se déconnecter
+  </button>
+  <CardContent className="p-12">
+    <h1 className="text-5xl font-bold mb-8 text-center text-black-800">Bienvenue, {user.username} !</h1>
+    <p className="text-center mb-8 text-xl text-red-600">
+      Si vous voulez accéder à votre profil, cliquez sur le bouton ci-dessous :
+    </p>
+    <div className="flex justify-center">
+      <Link 
+        href={`/profile/${params.id}`} 
+        className="bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 transition duration-200"
+      >
+        Accédez à votre profil
+      </Link>
+    </div>
+  </CardContent>
+</Card>
+
   );
 };
 

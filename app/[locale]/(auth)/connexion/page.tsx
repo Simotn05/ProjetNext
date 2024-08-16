@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
+import { Eye, EyeOff } from 'react-feather'; // Assurez-vous d'installer react-feather pour les icônes
 
 const LoginPage: React.FC = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState<boolean>(false); // État pour afficher ou masquer le mot de passe
   const router = useRouter();
 
   useEffect(() => {
@@ -76,7 +78,7 @@ const LoginPage: React.FC = () => {
         setError(result.error || 'Une erreur est survenue lors de la connexion.');
       }
     } catch (err) {
-      setError('Impossible de se connecter..');
+      setError('Impossible de se connecter.');
     }
   };
 
@@ -109,15 +111,24 @@ const LoginPage: React.FC = () => {
           </div>
           <div>
             <label htmlFor="password" className="block mb-2 text-sm font-medium">Mot de passe</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
+              >
+                {showPassword ? <EyeOff /> : <Eye />} {/* Icône pour afficher/masquer le mot de passe */}
+              </button>
+            </div>
           </div>
           <button type="submit" className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium hover:bg-primary-dark transition">Se connecter</button>
         </form>

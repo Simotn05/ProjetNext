@@ -6,13 +6,29 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest, { params }: { params: { lang: string } }) {
   try {
-    console.log('Received request for language:', params.lang); // Vérifiez la langue reçue
+    console.log('Requête reçue pour la langue:', params.lang); // Vérifiez la langue reçue
     const data = await req.json();
 
-    const { username, email, number, password, birthdate } = data;
+    const { username, email, number, password, birthdate, drivingLicenseType } = data;
 
-    if (!username || !email || !number || !password || !birthdate) {
-      return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
+    if (!username || !email || !number || !password || !birthdate || !drivingLicenseType) {
+      return NextResponse.json({ error: 'Tous les champs sont obligatoires' }, { status: 400 });
+    }
+
+    // Validation du numéro de téléphone
+    const phoneRegex = /^(06|07)\d{8}$/;
+    if (!phoneRegex.test(number)) {
+      return NextResponse.json({
+        error: 'Le numéro de téléphone doit être au format 06XXXXXXXX ou 07XXXXXXXX.',
+      }, { status: 400 });
+    }
+
+    // Validation de la force du mot de passe
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return NextResponse.json({
+        error: 'Le mot de passe doit comporter au moins 8 caractères, inclure des lettres majuscules et minuscules, et contenir au moins un chiffre.',
+      }, { status: 400 });
     }
 
     // Vérifiez si le nom d'utilisateur ou l'email est déjà présent
@@ -27,10 +43,10 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
 
     if (existingUser) {
       if (existingUser.username === username) {
-        return NextResponse.json({ error: 'Username already taken' }, { status: 400 });
+        return NextResponse.json({ error: 'Nom d\'utilisateur déjà pris' }, { status: 400 });
       }
       if (existingUser.email === email) {
-        return NextResponse.json({ error: 'Email already registered' }, { status: 400 });
+        return NextResponse.json({ error: 'Email déjà enregistré' }, { status: 400 });
       }
     }
 
@@ -38,20 +54,21 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
     const saltRounds = 10; // Nombre de tours de salage
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Insertion dans la base de données avec le mot de passe haché
-    const newStudent = await prisma.etudiant.create({
+    // Insertion dans la base de données avec le mot de passe haché et le type de permis
+    const nouvelEtudiant = await prisma.etudiant.create({
       data: {
         username,
         email,
         number,
         password: hashedPassword,
         birthdate: new Date(birthdate),
+        drivingLicenseType,  // Ajout du type de permis
       },
     });
 
-    return NextResponse.json(newStudent, { status: 201 });
+    return NextResponse.json(nouvelEtudiant, { status: 201 });
   } catch (error) {
-    console.error('Signup error:', error);
-    return NextResponse.json({ error: 'Signup failed' }, { status: 500 });
+    console.error('Erreur d\'inscription:', error);
+    return NextResponse.json({ error: 'Échec de l\'inscription' }, { status: 500 });
   }
 }
