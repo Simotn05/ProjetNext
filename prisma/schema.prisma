@@ -120,6 +120,21 @@ model Message {
   updatedAt DateTime @updatedAt
 }
 
+model Region {
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  villes   Ville[]
+  etudiants Etudiant[] // Ajoute ce champ pour la relation inverse
+}
+
+model Ville {
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  region   Region   @relation(fields: [regionId], references: [id])
+  regionId Int
+  etudiants Etudiant[]
+}
+
 model Etudiant {
   id                Int       @id @default(autoincrement())
   username          String    @unique
@@ -128,7 +143,21 @@ model Etudiant {
   password          String
   birthdate         DateTime
   drivingLicenseType String
+  region            Region    @relation(fields: [regionId], references: [id])
+  regionId          Int
+  ville             Ville     @relation(fields: [villeId], references: [id])
+  villeId           Int
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   isLoggedIn        Boolean   @default(false)
+  commercialId      Int?         // Clé étrangère vers Commercial
+  commercial        Commercial?  @relation(fields: [commercialId], references: [id], onDelete: Cascade)
 }
+model Commercial {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  clients   Etudiant[]
+}
+

@@ -9,9 +9,9 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
     console.log('Requête reçue pour la langue:', params.lang); // Vérifiez la langue reçue
     const data = await req.json();
 
-    const { username, email, number, password, birthdate, drivingLicenseType } = data;
+    const { username, email, number, password, birthdate, drivingLicenseType, regionId, villeId } = data;
 
-    if (!username || !email || !number || !password || !birthdate || !drivingLicenseType) {
+    if (!username || !email || !number || !password || !birthdate || !drivingLicenseType || !regionId || !villeId) {
       return NextResponse.json({ error: 'Tous les champs sont obligatoires' }, { status: 400 });
     }
 
@@ -54,7 +54,15 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
     const saltRounds = 10; // Nombre de tours de salage
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Insertion dans la base de données avec le mot de passe haché et le type de permis
+    // Convertir les IDs en nombres entiers
+    const regionIdInt = parseInt(regionId, 10);
+    const villeIdInt = parseInt(villeId, 10);
+
+    if (isNaN(regionIdInt) || isNaN(villeIdInt)) {
+      return NextResponse.json({ error: 'Les identifiants de région ou de ville sont invalides.' }, { status: 400 });
+    }
+
+    // Insertion dans la base de données avec le mot de passe haché, type de permis, et relations
     const nouvelEtudiant = await prisma.etudiant.create({
       data: {
         username,
@@ -62,7 +70,13 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
         number,
         password: hashedPassword,
         birthdate: new Date(birthdate),
-        drivingLicenseType,  // Ajout du type de permis
+        drivingLicenseType,
+        region: {
+          connect: { id: regionIdInt } // Connexion à la région
+        },
+        ville: {
+          connect: { id: villeIdInt } // Connexion à la ville
+        },
       },
     });
 

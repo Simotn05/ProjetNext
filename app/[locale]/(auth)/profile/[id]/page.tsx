@@ -29,7 +29,7 @@ const ProfilePage: React.FC = () => {
           const userId = authData.user?.id;
 
           if (userId && userId.toString() === params.id) {
-            const userRes = await fetch(`/api2/user/${params.id}`, {
+            const userRes = await fetch(`/api2/profile/${params.id}`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const ProfilePage: React.FC = () => {
 
             if (userRes.ok) {
               const userData = await userRes.json();
-              setUser(userData.user);
+              setUser(userData);
             } else {
               setError('Utilisateur non trouvé.');
             }
@@ -120,10 +120,19 @@ const ProfilePage: React.FC = () => {
             <p className="text-gray-800">{user.drivingLicenseType}</p>
           </div>
           <div>
-            <p className="font-semibold text-red-600">Date de création du compte :</p>
-            <p className="text-gray-800">{new Date(user.createdAt).toLocaleDateString()}</p>
+            <p className="font-semibold text-red-600">Région :</p>
+            <p className="text-gray-800">{user.ville?.region?.name || 'Non spécifiée'}</p>
           </div>
           <div>
+            <p className="font-semibold text-red-600">Ville :</p>
+            <p className="text-gray-800">{user.ville?.name || 'Non spécifiée'}</p>
+          </div>
+          <div>
+            <p className="font-semibold text-red-600">Date de création du compte :</p>
+            <p className="text-gray-800">{new Date(user.createdAt).toLocaleDateString() || 'Date invalide'}</p>
+          </div>
+        </div>
+        <div>
             <p className="font-semibold text-red-600">Auto-ecole :</p>
             <p className="text-gray-800"></p>
           </div>
@@ -135,7 +144,6 @@ const ProfilePage: React.FC = () => {
             <p className="font-semibold text-red-600">Nombre de séance restante :</p>
             <p className="text-gray-800"></p>
           </div>
-        </div>
         <div className="mt-6 text-center">
           <Link 
             href={`/edit-profile/${user.id}`} 

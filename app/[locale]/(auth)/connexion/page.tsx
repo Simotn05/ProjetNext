@@ -27,8 +27,9 @@ const LoginPage: React.FC = () => {
         if (res.ok) {
           const data = await res.json();
           if (data.user) {
-            // Redirigez vers la page de l'utilisateur si l'utilisateur est déjà connecté
-            router.push(`/userpage/${data.user.id}`);
+            // Redirigez vers la page appropriée en fonction du rôle de l'utilisateur
+            const redirectPath = data.user.role === 'commercial' ? `/commercial/${data.user.id}` : `/userpage/${data.user.id}`;
+            router.push(redirectPath);
           }
         }
       } catch (err) {
@@ -72,8 +73,9 @@ const LoginPage: React.FC = () => {
       if (res.ok) {
         const user = result.user; // Supposons que l'API renvoie l'objet utilisateur avec un champ "user"
         
-        // Redirection vers la page de l'utilisateur après connexion réussie
-        router.push(`/userpage/${user.id}`); // Utilisez l'ID de l'utilisateur pour rediriger vers une page spécifique
+        // Redirection vers la page appropriée en fonction du rôle de l'utilisateur après connexion réussie
+        const redirectPath = user.role === 'commercial' ? `/commercial/${user.id}` : `/userpage/${user.id}`;
+        router.push(redirectPath);
       } else {
         setError(result.error || 'Une erreur est survenue lors de la connexion.');
       }

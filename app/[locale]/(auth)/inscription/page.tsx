@@ -1,5 +1,5 @@
 'use client'; // Directive pour indiquer que ce composant est côté client
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
@@ -12,6 +12,8 @@ interface FormValues {
   password: string;
   birthdate: string; 
   drivingLicenseType: string; 
+  regionId: number;
+  villeId: number;
 }
 
 const SignupForm: React.FC = () => {
@@ -22,11 +24,39 @@ const SignupForm: React.FC = () => {
     password: '',
     birthdate: '',
     drivingLicenseType: '', 
+    regionId: 0,
+    villeId: 0
   });
 
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false); // État pour afficher ou masquer le mot de passe
+  const [regions, setRegions] = useState<{ id: number, name: string }[]>([]);
+  const [villes, setVilles] = useState<{ id: number, name: string }[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchRegions = async () => {
+      const response = await fetch('/api2/regions'); // Assurez-vous que cette API est disponible
+      const data = await response.json();
+      setRegions(data);
+    };
+
+    fetchRegions();
+  }, []);
+
+  useEffect(() => {
+    if (form.regionId) {
+      const fetchVilles = async () => {
+        const response = await fetch(`/api2/villes?regionId=${form.regionId}`); // Assurez-vous que cette API est disponible
+        const data = await response.json();
+        setVilles(data);
+      };
+
+      fetchVilles();
+    } else {
+      setVilles([]);
+    }
+  }, [form.regionId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     const { name, value } = e.target;
@@ -69,7 +99,7 @@ const SignupForm: React.FC = () => {
       }
 
       console.log('Inscription réussie!');
-      setForm({ username: '', email: '', number: '', password: '', birthdate: '', drivingLicenseType: '' });
+      setForm({ username: '', email: '', number: '', password: '', birthdate: '', drivingLicenseType: '', regionId: 0, villeId: 0 });
       setError(null);
       router.push('/connexion');
     } catch (error) {
@@ -179,15 +209,51 @@ const SignupForm: React.FC = () => {
               <option value="ED : Autobus avec remorque">ED (Autobus avec remorque)</option>
             </select>
           </div>
-          <button type="submit" className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium hover:bg-primary-dark transition">S'inscrire</button>
+          <div>
+            <label htmlFor="region" className="block mb-2 text-sm font-medium">Région</label>
+            <select
+              id="region"
+              name="regionId"
+              value={form.regionId}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            >
+              <option value="">Sélectionnez une région</option>
+              {regions.map((region) => (
+                <option key={region.id} value={region.id}>
+                  {region.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="ville" className="block mb-2 text-sm font-medium">Ville</label>
+            <select
+              id="ville"
+              name="villeId"
+              value={form.villeId}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+              disabled={villes.length === 0} // Désactive le sélecteur de ville si aucune ville n'est disponible
+            >
+              <option value="">Sélectionnez une ville</option>
+              {villes.map((ville) => (
+                <option key={ville.id} value={ville.id}>
+                  {ville.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium hover:bg-primary-dark transition"
+          >S'inscrire
+          </button>
         </form>
         <div className="mt-4 text-center">
-          <p className="text-sm">
-            Vous avez déjà un compte ?{' '}
-            <Link href="/connexion" className="text-primary hover:underline">
-              Connectez-vous
-            </Link>
-          </p>
+          <p>Vous avez déjà un compte ? <Link href="/connexion" className="text-primary hover:underline">Connexion</Link></p>
         </div>
       </CardContent>
     </Card>
