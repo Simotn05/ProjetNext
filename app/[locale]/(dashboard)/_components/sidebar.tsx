@@ -9,9 +9,21 @@ import { cn } from "@/lib/utils";
 
 import { usePathname } from "@/lib/navigation";
 import { Badge } from "@/components/ui/badge";
+import { PlusIcon } from "@heroicons/react/24/outline"; // Importez l'icône souhaitée
 
 export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
     const pathname = usePathname();
+
+    // Ajoutez un nouvel élément "Ajouter commercial" à la liste navLinks
+    const updatedNavLinks = [
+        ...navLinks,
+        {
+            href: '/add-commercial',
+            label: 'Ajouter commercial',
+            icon: <PlusIcon className="h-4 w-4" />, // Icône d'ajout
+        },
+    ];
+
     return (
         <aside className="hidden sticky top-0 start-0 border-r bg-muted/40 md:block h-screen">
             <div className="flex h-full max-h-screen flex-col gap-2">
@@ -20,7 +32,7 @@ export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
                 </div>
                 <div className="flex-1">
                     <nav className="grid items-start gap-1 px-2 text-sm font-medium lg:px-4">
-                        {navLinks.map((link, i) => (
+                        {updatedNavLinks.map((link, i) => (
                             <Link
                                 key={i}
                                 href={link.href}
@@ -35,11 +47,7 @@ export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
                                 {link.icon}
                                 {link.label}
 
-                                {!!link.notifications && (
-                                    <Badge className="ms-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                                        {link.notifications}
-                                    </Badge>
-                                )}
+                              
                             </Link>
                         ))}
                     </nav>

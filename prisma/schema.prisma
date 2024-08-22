@@ -120,11 +120,22 @@ model Message {
   updatedAt DateTime @updatedAt
 }
 
+model Commercial {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  regionId  Int?       // Rendre cette colonne obligatoire
+  region    Region?    @relation(fields: [regionId], references: [id])
+  clients   Etudiant[]
+}
+
 model Region {
   id       Int      @id @default(autoincrement())
   name     String   @unique
   villes   Ville[]
-  etudiants Etudiant[] // Ajoute ce champ pour la relation inverse
+  etudiants Etudiant[]
+  commercials Commercial[]  // Ajoute ce champ pour la relation inverse
 }
 
 model Ville {
@@ -150,14 +161,6 @@ model Etudiant {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   isLoggedIn        Boolean   @default(false)
-  commercialId      Int?         // Clé étrangère vers Commercial
-  commercial        Commercial?  @relation(fields: [commercialId], references: [id], onDelete: Cascade)
+  commercialId      Int?      // Clé étrangère vers Commercial
+  commercial        Commercial? @relation(fields: [commercialId], references: [id], onDelete: Cascade)
 }
-model Commercial {
-  id        Int       @id @default(autoincrement())
-  name      String
-  email     String    @unique
-  password  String
-  clients   Etudiant[]
-}
-
