@@ -11,6 +11,7 @@ const AddCommercial: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [regionId, setRegionId] = useState<number | null>(null);
   const [regions, setRegions] = useState<{ id: number; name: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -45,11 +46,11 @@ const AddCommercial: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password, regionId }),
+        body: JSON.stringify({ name, email, password, regionId, phoneNumber }), // Inclure le numéro de téléphone
       });
 
       if (response.ok) {
-         router.push('/.'); // Redirection vers la liste des commerciaux ou autre page
+        router.push('/add-commercial'); // Redirection vers la liste des commerciaux ou autre page
       } else {
         const result = await response.json();
         setError(result.error || 'Une erreur est survenue lors de l\'ajout du commercial.');
@@ -98,6 +99,17 @@ const AddCommercial: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="Mot de passe"
+            />
+          </div>
+          <div>
+            <Label htmlFor="phoneNumber" className="block mb-1">Numéro de téléphone</Label>
+            <Input
+              id="phoneNumber"
+              type="text"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              required
+              placeholder="Numéro de téléphone du commercial"
             />
           </div>
           <div>

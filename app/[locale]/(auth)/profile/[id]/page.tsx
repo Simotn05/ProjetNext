@@ -98,52 +98,66 @@ const ProfilePage: React.FC = () => {
           </button>
         </Link>
         <h1 className="text-4xl font-bold mb-6 text-center text-black-800">Profile de {user.username} :</h1>
-        <div className="space-y-4">
-          <div>
-            <p className="font-semibold text-red-600">Nom d'utilisateur :</p>
-            <p className="text-gray-800">{user.username}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-red-600">Email :</p>
-            <p className="text-gray-800">{user.email}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-red-600">Numéro :</p>
-            <p className="text-gray-800">{user.number}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-red-600">Date de naissance :</p>
-            <p className="text-gray-800">{new Date(user.birthdate).toLocaleDateString()}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-red-600">Type de Permis :</p>
-            <p className="text-gray-800">{user.drivingLicenseType}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-red-600">Région :</p>
-            <p className="text-gray-800">{user.ville?.region?.name || 'Non spécifiée'}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-red-600">Ville :</p>
-            <p className="text-gray-800">{user.ville?.name || 'Non spécifiée'}</p>
-          </div>
-          <div>
-            <p className="font-semibold text-red-600">Date de création du compte :</p>
-            <p className="text-gray-800">{new Date(user.createdAt).toLocaleDateString() || 'Date invalide'}</p>
-          </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr className="bg-gray-100 text-left">
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Domaine</th>
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Information</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Nom d'utilisateur :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.username}</td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Email :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.email}</td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Numéro :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.number}</td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Date de naissance :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{new Date(user.birthdate).toLocaleDateString()}</td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Type de Permis :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.drivingLicenseType}</td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Région :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.ville?.region?.name || 'Non spécifiée'}</td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Ville :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.ville?.name || 'Non spécifiée'}</td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Date de création du compte :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{new Date(user.createdAt).toLocaleDateString() || 'Date invalide'}</td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Auto-ecole :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800"></td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Assistant :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.commercial?.name || 'Non spécifiée'} </td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Numéro de télephone de l'assistant :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800"> {user.commercial?.phoneNumber || 'Non spécifiée'}</td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Nombre de séance restante :</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div>
-            <p className="font-semibold text-red-600">Auto-ecole :</p>
-            <p className="text-gray-800"></p>
-          </div>
-          <div>
-            <p className="font-semibold text-red-600">Assistant :</p>
-            <p className="text-gray-800"></p>
-          </div>
-          <div>
-            <p className="font-semibold text-red-600">Nombre de séance restante :</p>
-            <p className="text-gray-800"></p>
-          </div>
         <div className="mt-6 text-center">
           <Link 
             href={`/edit-profile/${user.id}`} 

@@ -62,6 +62,15 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
       return NextResponse.json({ error: 'Les identifiants de région ou de ville sont invalides.' }, { status: 400 });
     }
 
+    // Trouver le commercial responsable de cette région
+    const commercial = await prisma.commercial.findFirst({
+      where: { regionId: regionIdInt }
+    });
+
+    if (!commercial) {
+      return NextResponse.json({ error: 'Aucun commercial trouvé pour cette région.' }, { status: 404 });
+    }
+
     // Insertion dans la base de données avec le mot de passe haché, type de permis, et relations
     const nouvelEtudiant = await prisma.etudiant.create({
       data: {
@@ -77,6 +86,9 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
         ville: {
           connect: { id: villeIdInt } // Connexion à la ville
         },
+        commercial: {
+          connect: { id: commercial.id } // Connexion au commercial
+        }
       },
     });
 

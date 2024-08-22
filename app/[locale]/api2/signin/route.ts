@@ -26,8 +26,8 @@ export async function POST(request: NextRequest) {
     let passwordMatch = false;
 
     if (commercial) {
-      // Vérifiez le mot de passe pour les commerciaux (mot de passe non haché)
-      passwordMatch = password === user.password;
+      // Vérifiez le mot de passe pour les commerciaux (mot de passe haché)
+      passwordMatch = await bcrypt.compare(password, user.password);
     } else if (etudiant) {
       // Vérifiez le mot de passe pour les étudiants (mot de passe haché)
       passwordMatch = await bcrypt.compare(password, user.password);

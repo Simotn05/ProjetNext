@@ -17,6 +17,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
             region: true, // Inclure la région associée à la ville
           },
         },
+        commercial: true, // Inclure le commercial associé
       },
     });
 
