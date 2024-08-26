@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { Eye, EyeOff } from 'react-feather'; // Assurez-vous d'installer react-feather pour les icônes
 
 const AddCommercial: React.FC = () => {
   const [name, setName] = useState('');
@@ -16,6 +17,7 @@ const AddCommercial: React.FC = () => {
   const [regions, setRegions] = useState<{ id: number; name: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // État pour la visibilité du mot de passe
   const router = useRouter();
 
   useEffect(() => {
@@ -36,6 +38,17 @@ const AddCommercial: React.FC = () => {
     fetchRegions();
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [error]);
+
+  const validatePhoneNumber = (phoneNumber: string) => {
+    const phoneRegex = /^(06|07)[0-9]{8}$/;
+    return phoneRegex.test(phoneNumber);
+  };
+
   const handleRegionChange = (id: number) => {
     setRegionIds((prev) =>
       prev.includes(id) ? prev.filter((regionId) => regionId !== id) : [...prev, id]
@@ -45,6 +58,14 @@ const AddCommercial: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
+    setError(null); // Réinitialiser le message d'erreur au début de la soumission
+
+    // Validation du numéro de téléphone
+    if (!validatePhoneNumber(phoneNumber)) {
+      setError('Le numéro de téléphone doit être au format 06XXXXXXXX ou 07XXXXXXXX.');
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await fetch('/api3/commercials', {
@@ -62,6 +83,7 @@ const AddCommercial: React.FC = () => {
         setPassword('');
         setPhoneNumber('');
         setRegionIds([]);
+        setError(null); // Réinitialiser le message d'erreur après une soumission réussie
 
         router.push('/add-commercial'); // Redirection vers une autre page ou rester sur la page actuelle
       } else {
@@ -103,19 +125,28 @@ const AddCommercial: React.FC = () => {
               placeholder="Email du commercial"
             />
           </div>
-          <div>
+          <div className="relative">
             <Label htmlFor="password" className="block mb-1">Mot de passe</Label>
             <Input
               id="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'} // Changer le type d'entrée selon l'état
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="Mot de passe"
+              className="pr-10" // Ajouter un padding à droite pour laisser de l'espace pour l'icône
             />
+            <button
+              type="button"
+              className="absolute inset-y-9 right-0 flex items-center px-3"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />} {/* Afficher l'icône appropriée */}
+            </button>
           </div>
           <div>
-            <Label htmlFor="phoneNumber" className="block mb-1">Numéro de téléphone</Label>
+            <Label htmlFor="phoneNumber" className="block mb-1">Numéro de téléphone</Label> 
             <Input
               id="phoneNumber"
               type="text"
@@ -126,8 +157,8 @@ const AddCommercial: React.FC = () => {
             />
           </div>
           <div>
-            <Label htmlFor="regions" className="block mb-1">Régions</Label>
-            <div className="space-y-2">
+            <Label htmlFor="regions" className="block mb-1">Régions:</Label> <br />
+            <div className="grid grid-cols-2 gap-4"> {/* Utilisation de la grille pour les régions */}
               {regions.map((region) => (
                 <div key={region.id} className="flex items-center">
                   <input

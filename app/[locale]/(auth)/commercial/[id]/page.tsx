@@ -3,12 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
-import Link from 'next/link';
 
 const CommercialPage: React.FC = () => {
   const router = useRouter();
   const params = useParams();
-  const [commercial, setCommercial] = useState<{ name: string } | null>(null);
+  const [commercial, setCommercial] = useState<{ name: string, clients: any[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +26,7 @@ const CommercialPage: React.FC = () => {
           const authData = await authRes.json();
           const userId = authData.user?.id;
           const userRole = authData.user?.role;
-          const token = authData.token; // Assurez-vous que le token est récupéré correctement
+          const token = authData.token;
 
           if (userRole !== 'commercial') {
             router.push('/errorPage');
@@ -44,14 +43,14 @@ const CommercialPage: React.FC = () => {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Inclure le token pour l'autorisation
+                'Authorization': `Bearer ${token}`,
               },
               credentials: 'include',
             });
 
             if (commercialRes.ok) {
               const commercialData = await commercialRes.json();
-              setCommercial(commercialData);
+              setCommercial(commercialData.commercial);
             } else {
               setError('Commercial non trouvé ou accès non autorisé.');
             }
@@ -112,31 +111,66 @@ const CommercialPage: React.FC = () => {
     );
   }
 
-  if (!commercial) {
-    return (
-      <Card className="w-full max-w-lg mx-auto my-16 shadow-lg rounded-lg">
-        <CardContent className="p-10">
-          <p className="text-center text-xl font-medium text-gray-600">Chargement...</p>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <Card className="w-full max-w-4xl mx-auto my-16 shadow-xl rounded-lg relative bg-white">
-      <button 
-        onClick={handleLogout} 
-        className="absolute top-4 right-4 bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-800 transition duration-200"
-      >
-        Se déconnecter
-      </button>
-      <CardContent className="p-12">
-        <h1 className="text-5xl font-bold mb-8 text-center text-black-800">Bienvenue, {commercial.name} !</h1>
-        <p className="text-center mb-8 text-xl text-red-600">
-          Si vous voulez accéder à votre profil, cliquez sur le bouton ci-dessous :
-        </p>
+    <div className="relative">
+    <button 
+      onClick={handleLogout} 
+      className="fixed top-4 right-4 bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-800 transition duration-200 z-10"
+    >
+      Se déconnecter
+    </button>
+    <Card className="w-full max-w-8xl mx-auto my-16 shadow-xl rounded-lg bg-gray-50">
+      <CardContent className="p-8">
+        <h2 className="text-3xl font-bold text-center text-black mb-6">Liste des Étudiants</h2>
+        {commercial ? (
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white rounded-lg shadow-sm">
+              <thead className="bg-gray-100 text-gray-700">
+                <tr>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">Nom</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">Email</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">Numéro</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">Date de naissance</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">Ville</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">Auto-école</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold">Permis</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {commercial.clients.map((etudiant) => (
+                  <tr key={etudiant.id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                    <td className="py-4 px-4 text-gray-800">{etudiant.username}</td>
+                    <td className="py-4 px-4 text-gray-800">{etudiant.email}</td>
+                    <td className="py-4 px-4 text-gray-800">{etudiant.number}</td>
+                    <td className="py-4 px-4 text-gray-800">{new Date(etudiant.birthdate).toLocaleDateString()}</td>
+                    <td className="py-4 px-4 text-gray-800">{etudiant.ville?.name || 'Non spécifié'}</td>
+                    <td className="py-4 px-4 text-gray-800">'Non spécifié'</td>
+                    <td className="py-4 px-4 text-gray-800">{etudiant.drivingLicenseType}</td>
+                    <td className="py-4 px-4 flex space-x-2">
+                      <button className="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                        Attribuer une école
+                      </button>
+                      <button className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition-colors duration-200">
+                        Ajouter une note
+                      </button>
+                      <button className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-colors duration-200">
+                        Supprimer
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="text-center text-xl font-medium text-gray-600">Aucun étudiant trouvé.</p>
+        )}
       </CardContent>
     </Card>
+  </div>
+  
+  
   );
 };
 
