@@ -124,26 +124,35 @@ model Commercial {
   id        Int       @id @default(autoincrement())
   name      String
   email     String    @unique
-  phoneNumber String   @unique
+  phoneNumber String  @unique
   password  String
-  regionId  Int?       // Rendre cette colonne obligatoire
-  region    Region?    @relation(fields: [regionId], references: [id])
+  regions   CommercialRegion[]
   clients   Etudiant[]
 }
 
 model Region {
-  id       Int      @id @default(autoincrement())
-  name     String   @unique
-  villes   Ville[]
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  villes    Ville[]
   etudiants Etudiant[]
-  commercials Commercial[]  // Ajoute ce champ pour la relation inverse
+  commercials CommercialRegion[]
+}
+
+// This is the join table for the many-to-many relationship
+model CommercialRegion {
+  commercialId Int
+  regionId     Int
+  commercial   Commercial @relation(fields: [commercialId], references: [id])
+  region       Region     @relation(fields: [regionId], references: [id])
+
+  @@id([commercialId, regionId])  // Composite primary key
 }
 
 model Ville {
-  id       Int      @id @default(autoincrement())
-  name     String   @unique
-  region   Region   @relation(fields: [regionId], references: [id])
-  regionId Int
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  region    Region    @relation(fields: [regionId], references: [id])
+  regionId  Int
   etudiants Etudiant[]
 }
 
@@ -162,6 +171,6 @@ model Etudiant {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   isLoggedIn        Boolean   @default(false)
-  commercialId      Int?      // Clé étrangère vers Commercial
+  commercialId      Int?      // Foreign key to Commercial
   commercial        Commercial? @relation(fields: [commercialId], references: [id], onDelete: Cascade)
 }

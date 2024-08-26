@@ -1,13 +1,12 @@
-// pages/api/commercials.ts
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
 export async function POST(request: NextRequest) {
-  const { name, email, password, phoneNumber, regionId } = await request.json();
+  const { name, email, password, phoneNumber, regionIds } = await request.json();
 
   // Validation des champs
-  if (!name || !email || !password || !phoneNumber || !regionId) {
+  if (!name || !email || !password || !phoneNumber || !regionIds || regionIds.length === 0) {
     return NextResponse.json({ error: 'Tous les champs sont requis' }, { status: 400 });
   }
 
@@ -32,14 +31,22 @@ export async function POST(request: NextRequest) {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+    // Création du commercial
     const newCommercial = await prisma.commercial.create({
       data: {
         name,
         email,
         password: hashedPassword,
-        phoneNumber, // Assurez-vous que ce champ existe dans votre modèle Prisma
-        regionId,
+        phoneNumber,
+        regions: {
+          create: regionIds.map((regionId: number) => ({
+            region: {
+              connect: { id: regionId },
+            },
+          })),
+        },
       },
+      include: { regions: true }, // Inclure les régions associées dans la réponse
     });
 
     return NextResponse.json(newCommercial, { status: 201 });

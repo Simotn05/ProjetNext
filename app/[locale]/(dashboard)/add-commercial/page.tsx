@@ -12,7 +12,7 @@ const AddCommercial: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [regionId, setRegionId] = useState<number | null>(null);
+  const [regionIds, setRegionIds] = useState<number[]>([]);
   const [regions, setRegions] = useState<{ id: number; name: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -21,10 +21,10 @@ const AddCommercial: React.FC = () => {
   useEffect(() => {
     const fetchRegions = async () => {
       try {
-        const response = await fetch('/api3/regions'); // Assurez-vous que cette route est correcte
+        const response = await fetch('/api3/regions');
         if (response.ok) {
           const data = await response.json();
-          setRegions(data.regions); // Supposons que la réponse est sous cette forme
+          setRegions(data.regions);
         } else {
           setError('Impossible de charger les régions.');
         }
@@ -36,6 +36,12 @@ const AddCommercial: React.FC = () => {
     fetchRegions();
   }, []);
 
+  const handleRegionChange = (id: number) => {
+    setRegionIds((prev) =>
+      prev.includes(id) ? prev.filter((regionId) => regionId !== id) : [...prev, id]
+    );
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -46,14 +52,21 @@ const AddCommercial: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password, regionId, phoneNumber }), // Inclure le numéro de téléphone
+        body: JSON.stringify({ name, email, password, phoneNumber, regionIds }),
       });
 
       if (response.ok) {
-        router.push('/add-commercial'); // Redirection vers la liste des commerciaux ou autre page
+        // Réinitialiser les champs du formulaire après une soumission réussie
+        setName('');
+        setEmail('');
+        setPassword('');
+        setPhoneNumber('');
+        setRegionIds([]);
+
+        router.push('/add-commercial'); // Redirection vers une autre page ou rester sur la page actuelle
       } else {
         const result = await response.json();
-        setError(result.error || 'Une erreur est survenue lors de l\'ajout du commercial.');
+        setError(result.error || "Une erreur est survenue lors de l'ajout du commercial.");
       }
     } catch (err) {
       setError('Impossible de se connecter au serveur. Veuillez vérifier votre connexion Internet.');
@@ -113,21 +126,22 @@ const AddCommercial: React.FC = () => {
             />
           </div>
           <div>
-            <Label htmlFor="region" className="block mb-1">Région</Label>
-            <select
-              id="region"
-              value={regionId ?? ''}
-              onChange={(e) => setRegionId(Number(e.target.value))}
-              className="w-full border rounded-lg p-2"
-              required
-            >
-              <option value="">Sélectionnez une région</option>
+            <Label htmlFor="regions" className="block mb-1">Régions</Label>
+            <div className="space-y-2">
               {regions.map((region) => (
-                <option key={region.id} value={region.id}>
-                  {region.name}
-                </option>
+                <div key={region.id} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={`region-${region.id}`}
+                    value={region.id}
+                    onChange={() => handleRegionChange(region.id)}
+                    checked={regionIds.includes(region.id)} // Conserve les cases cochées même après soumission
+                    className="mr-2"
+                  />
+                  <label htmlFor={`region-${region.id}`}>{region.name}</label>
+                </div>
               ))}
-            </select>
+            </div>
           </div>
           <Button type="submit" disabled={loading} className="w-full">
             {loading ? 'Enregistrement...' : 'Ajouter Commercial'}

@@ -1,5 +1,5 @@
 'use client'; // Directive pour indiquer que ce composant est côté client
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
@@ -33,6 +33,7 @@ const SignupForm: React.FC = () => {
   const [regions, setRegions] = useState<{ id: number, name: string }[]>([]);
   const [villes, setVilles] = useState<{ id: number, name: string }[]>([]);
   const router = useRouter();
+  const formRef = useRef<HTMLDivElement>(null); // Référence à l'élément du formulaire
 
   useEffect(() => {
     const fetchRegions = async () => {
@@ -57,6 +58,12 @@ const SignupForm: React.FC = () => {
       setVilles([]);
     }
   }, [form.regionId]);
+
+  useEffect(() => {
+    if (error && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [error]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     const { name, value } = e.target;
@@ -113,7 +120,7 @@ const SignupForm: React.FC = () => {
   };
 
   return (
-    <Card className="w-full max-w-lg mx-auto my-8">
+    <Card className="w-full max-w-lg mx-auto my-8" ref={formRef}>
       <CardContent className="p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Inscription</h1>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
@@ -221,9 +228,7 @@ const SignupForm: React.FC = () => {
             >
               <option value="">Sélectionnez une région</option>
               {regions.map((region) => (
-                <option key={region.id} value={region.id}>
-                  {region.name}
-                </option>
+                <option key={region.id} value={region.id}>{region.name}</option>
               ))}
             </select>
           </div>
@@ -236,13 +241,10 @@ const SignupForm: React.FC = () => {
               onChange={handleChange}
               className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               required
-              disabled={villes.length === 0} // Désactive le sélecteur de ville si aucune ville n'est disponible
             >
               <option value="">Sélectionnez une ville</option>
               {villes.map((ville) => (
-                <option key={ville.id} value={ville.id}>
-                  {ville.name}
-                </option>
+                <option key={ville.id} value={ville.id}>{ville.name}</option>
               ))}
             </select>
           </div>

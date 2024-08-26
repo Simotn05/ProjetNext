@@ -19,7 +19,7 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
     const phoneRegex = /^(06|07)\d{8}$/;
     if (!phoneRegex.test(number)) {
       return NextResponse.json({
-        error: 'Le numéro de téléphone doit être au format 06XXXXXXXX ou 07XXXXXXXX.',
+        error: 'Le numéro de téléphone doit être au format 06xxxxxxxx ou 07xxxxxxxx.',
       }, { status: 400 });
     }
 
@@ -62,13 +62,40 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
       return NextResponse.json({ error: 'Les identifiants de région ou de ville sont invalides.' }, { status: 400 });
     }
 
-    // Trouver le commercial responsable de cette région
-    const commercial = await prisma.commercial.findFirst({
-      where: { regionId: regionIdInt }
+    // Récupérer les commerciaux associés à la région
+    const commercials = await prisma.commercialRegion.findMany({
+      where: {
+        regionId: regionIdInt
+      },
+      include: {
+        commercial: true // Inclure les informations sur le commercial
+      },
+      orderBy: {
+        commercialId: 'asc' // Ordre constant basé sur l'ID du commercial
+      }
     });
 
-    if (!commercial) {
-      return NextResponse.json({ error: 'Aucun commercial trouvé pour cette région.' }, { status: 404 });
+    if (commercials.length === 0) {
+      return NextResponse.json({ error: 'La région sélectionnée n\'est pas encore disponible sur notre site. Veuillez vérifier ou contacter notre support.' }, { status: 404 });
+    }
+
+    // Trouver le dernier commercial assigné dans cette région
+    const lastAssignedCommercial = await prisma.etudiant.findFirst({
+      where: {
+        regionId: regionIdInt
+      },
+      orderBy: { id: 'desc' }, // Trouver le dernier étudiant inscrit dans cette région
+      select: { commercialId: true } // Ne sélectionner que l'ID du commercial
+    });
+
+    // Déterminer l'index du prochain commercial à assigner
+    let nextCommercial;
+    if (lastAssignedCommercial) {
+      const lastCommercialIndex = commercials.findIndex(c => c.commercial.id === lastAssignedCommercial.commercialId);
+      nextCommercial = commercials[(lastCommercialIndex + 1) % commercials.length].commercial;
+    } else {
+      // Si aucun commercial n'a encore été assigné, on prend le premier de la liste
+      nextCommercial = commercials[0].commercial;
     }
 
     // Insertion dans la base de données avec le mot de passe haché, type de permis, et relations
@@ -87,7 +114,7 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
           connect: { id: villeIdInt } // Connexion à la ville
         },
         commercial: {
-          connect: { id: commercial.id } // Connexion au commercial
+          connect: { id: nextCommercial.id } // Connexion au commercial suivant
         }
       },
     });
