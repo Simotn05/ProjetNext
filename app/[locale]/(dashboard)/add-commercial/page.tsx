@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Eye, EyeOff } from 'react-feather'; // Assurez-vous d'installer react-feather pour les icônes
+import ChevronLeftIcon from '@heroicons/react/24/solid/ChevronLeftIcon';
 
 const AddCommercial: React.FC = () => {
   const [name, setName] = useState('');
@@ -99,86 +100,98 @@ const AddCommercial: React.FC = () => {
 
   return (
     <Card className="w-full max-w-lg mx-auto my-16 shadow-lg rounded-lg">
-      <CardContent className="p-10">
-        <h1 className="text-2xl font-bold mb-6">Ajouter un Commercial</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="name" className="block mb-1">Nom</Label>
-            <Input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              placeholder="Nom du commercial"
-            />
-          </div>
-          <div>
-            <Label htmlFor="email" className="block mb-1">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="Email du commercial"
-            />
-          </div>
-          <div className="relative">
-            <Label htmlFor="password" className="block mb-1">Mot de passe</Label>
-            <Input
-              id="password"
-              type={showPassword ? 'text' : 'password'} // Changer le type d'entrée selon l'état
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="Mot de passe"
-              className="pr-10" // Ajouter un padding à droite pour laisser de l'espace pour l'icône
-            />
-            <button
-              type="button"
-              className="absolute inset-y-9 right-0 flex items-center px-3"
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />} {/* Afficher l'icône appropriée */}
-            </button>
-          </div>
-          <div>
-            <Label htmlFor="phoneNumber" className="block mb-1">Numéro de téléphone</Label> 
-            <Input
-              id="phoneNumber"
-              type="text"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              required
-              placeholder="Numéro de téléphone du commercial"
-            />
-          </div>
-          <div>
-            <Label htmlFor="regions" className="block mb-1">Régions:</Label> <br />
-            <div className="grid grid-cols-2 gap-4"> {/* Utilisation de la grille pour les régions */}
-              {regions.map((region) => (
-                <div key={region.id} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={`region-${region.id}`}
-                    value={region.id}
-                    onChange={() => handleRegionChange(region.id)}
-                    checked={regionIds.includes(region.id)} // Conserve les cases cochées même après soumission
-                    className="mr-2"
-                  />
-                  <label htmlFor={`region-${region.id}`}>{region.name}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? 'Enregistrement...' : 'Ajouter Commercial'}
+    <CardContent className="p-10">
+      <div className="relative mb-6">
+        {/* Conteneur pour positionner le bouton et le titre */}
+        <div className="absolute top-0 right-0">
+          <Button
+            type="button"
+            onClick={() => router.back()}
+            className="bg-red-600 text-white py-1 px-3 rounded-lg font-semibold hover:bg-red-800 transition duration-200"
+          >
+            <ChevronLeftIcon className="w-4 h-4 group-hover:translate-x-[-4px] transition-transform duration-300 ease-in-out" />
           </Button>
-        </form>
-      </CardContent>
+        </div>
+        <h1 className="text-2xl font-bold mt-8">Ajouter un Commercial</h1> {/* Ajout d'une marge pour éviter le chevauchement */}
+      </div>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Label htmlFor="name" className="block mb-1">Nom</Label>
+          <Input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            placeholder="Nom du commercial"
+          />
+        </div>
+        <div>
+          <Label htmlFor="email" className="block mb-1">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder="Email du commercial"
+          />
+        </div>
+        <div className="relative">
+          <Label htmlFor="password" className="block mb-1">Mot de passe</Label>
+          <Input
+            id="password"
+            type={showPassword ? 'text' : 'password'} // Changer le type d'entrée selon l'état
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder="Mot de passe"
+            className="pr-10" // Ajouter un padding à droite pour laisser de l'espace pour l'icône
+          />
+          <button
+            type="button"
+            className="absolute inset-y-9 right-0 flex items-center px-3"
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />} {/* Afficher l'icône appropriée */}
+          </button>
+        </div>
+        <div>
+          <Label htmlFor="phoneNumber" className="block mb-1">Numéro de téléphone</Label>
+          <Input
+            id="phoneNumber"
+            type="text"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            required
+            placeholder="Numéro de téléphone du commercial"
+          />
+        </div>
+        <div>
+          <Label htmlFor="regions" className="block mb-1">Régions:</Label> <br />
+          <div className="grid grid-cols-2 gap-4"> {/* Utilisation de la grille pour les régions */}
+            {regions.map((region) => (
+              <div key={region.id} className="flex items-center">
+                <input
+                  type="checkbox"
+                  id={`region-${region.id}`}
+                  value={region.id}
+                  onChange={() => handleRegionChange(region.id)}
+                  checked={regionIds.includes(region.id)} // Conserve les cases cochées même après soumission
+                  className="mr-2"
+                />
+                <label htmlFor={`region-${region.id}`}>{region.name}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+        <Button type="submit" disabled={loading} className="w-full">
+          {loading ? 'Enregistrement...' : 'Ajouter Commercial'}
+        </Button>
+      </form>
+    </CardContent>
     </Card>
   );
 };

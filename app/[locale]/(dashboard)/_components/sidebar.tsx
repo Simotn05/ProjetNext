@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 import { usePathname } from "@/lib/navigation";
 import { Badge } from "@/components/ui/badge";
-import { PlusIcon } from "@heroicons/react/24/outline"; // Importez l'icône souhaitée
+import { FaUsers } from 'react-icons/fa'; // Icône d'utilisateurs
 
 export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
     const pathname = usePathname();
@@ -18,9 +18,9 @@ export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
     const updatedNavLinks = [
         ...navLinks,
         {
-            href: '/add-commercial',
-            label: 'Ajouter commercial',
-            icon: <PlusIcon className="h-4 w-4" />, // Icône d'ajout
+            href: '/gestion-commercial',
+            label: 'Gestion des commerciaux',
+            icon: <FaUsers className="h-4 w-4" />, // Icône d'ajout
         },
     ];
 
