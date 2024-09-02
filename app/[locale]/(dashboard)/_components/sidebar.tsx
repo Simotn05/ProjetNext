@@ -1,27 +1,29 @@
 "use client";
 
 import { Link } from "@/lib/navigation";
-
 import Logo from "@/components/logo";
 import { NavLink } from "@/types";
-
 import { cn } from "@/lib/utils";
-
 import { usePathname } from "@/lib/navigation";
 import { Badge } from "@/components/ui/badge";
-import { FaUsers } from 'react-icons/fa'; // Icône d'utilisateurs
+import { FaUsers, FaHandshake } from 'react-icons/fa'; // Icônes d'utilisateurs et de partenariat
 
 export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
     const pathname = usePathname();
 
-    // Ajoutez un nouvel élément "Ajouter commercial" à la liste navLinks
+    // Ajoutez les nouveaux éléments à la liste navLinks
     const updatedNavLinks = [
         ...navLinks,
         {
             href: '/gestion-commercial',
             label: 'Gestion des commerciaux',
-            icon: <FaUsers className="h-4 w-4" />, // Icône d'ajout
+            icon: <FaUsers className="h-4 w-4" />, // Icône d'utilisateurs
         },
+        {
+            href: '/demande-partenariat',
+            label: 'Demandes de Partenariat',
+            icon: <FaHandshake className="h-4 w-4" />, // Icône de partenariat
+        }
     ];
 
     return (
@@ -46,8 +48,6 @@ export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
                             >
                                 {link.icon}
                                 {link.label}
-
-                              
                             </Link>
                         ))}
                     </nav>

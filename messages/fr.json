@@ -9,7 +9,9 @@
         },  
         "LoginButton":{
             "Login": "Se connecter"
-    }
+    },"PartenariatButton":{
+            "Partenariat": "Demander une partenariat"
+        }
     },
     "NotFoundPage": {
         "title": "La page que vous recherchez n'existe pas sur cette plateforme",

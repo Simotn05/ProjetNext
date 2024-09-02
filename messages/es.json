@@ -9,7 +9,9 @@
         },
         "LoginButton":{
             "Login": "Iniciar sesión"
-    }
+    },"PartenariatButton":{
+            "Partenariat": "Solicitar una asociación"
+        }
     },
     "NotFoundPage": {
         "title": "La página que buscas no se encuentra en esta plataforma",

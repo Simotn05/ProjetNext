@@ -174,3 +174,12 @@ model Etudiant {
   commercialId      Int?      // Foreign key to Commercial
   commercial        Commercial? @relation(fields: [commercialId], references: [id], onDelete: Cascade)
 }
+
+model PartnershipRequest {
+  id          Int      @id @default(autoincrement())
+  schoolName  String
+  email       String
+  phone       String
+  message     String
+  createdAt   DateTime @default(now())
+}

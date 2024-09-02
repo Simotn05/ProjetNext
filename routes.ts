@@ -11,3 +11,5 @@ export const LOGIN_ROUTE = "/login";
 export const Inscription_Route = "/inscription";
 
 export const Connexion_Route = "/connexion";
+
+export const Partenariat_Route = "/partenariat";

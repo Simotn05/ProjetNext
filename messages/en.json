@@ -9,7 +9,9 @@
         },
         "LoginButton":{
             "Login": "Login"
-    }
+    },"PartenariatButton":{
+            "Partenariat": "Request a partnership"
+        }
     },
     "NotFoundPage": {
         "title": "The page you are looking for is not found on this platform",

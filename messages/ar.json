@@ -9,7 +9,9 @@
         },
         "LoginButton":{
             "Login": "تسجيل الدخول"
-    }
+    },"PartenariatButton":{
+            "Partenariat": "طلب الشراكة"
+        }
     },
     
     
