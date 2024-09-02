@@ -1,4 +1,4 @@
-'use client'; // Directive pour indiquer que ce composant est côté client
+'use client'; 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
@@ -212,14 +212,14 @@ const SignupForm: React.FC = () => {
               <option value="EB : Véhicule léger avec remorque">EB (Véhicule léger avec remorque)</option>
               <option value="C : Véhicule de plus de 3,5 tonnes">C (Véhicule de plus de 3,5 tonnes)</option>
               <option value="EC : Camion avec remorque">EC (Camion avec remorque)</option>
-              <option value="D : Autobus">D (Autobus)</option>
-              <option value="ED : Autobus avec remorque">ED (Autobus avec remorque)</option>
+              <option value="D : Véhicule transportant des passagers">D (Véhicule transportant des passagers)</option>
+              <option value="ED : Véhicule de transport en commun avec remorque">ED (Véhicule de transport en commun avec remorque)</option>
             </select>
           </div>
           <div>
-            <label htmlFor="region" className="block mb-2 text-sm font-medium">Région</label>
+            <label htmlFor="regionId" className="block mb-2 text-sm font-medium">Région</label>
             <select
-              id="region"
+              id="regionId"
               name="regionId"
               value={form.regionId}
               onChange={handleChange}
@@ -233,13 +233,14 @@ const SignupForm: React.FC = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="ville" className="block mb-2 text-sm font-medium">Ville</label>
+            <label htmlFor="villeId" className="block mb-2 text-sm font-medium">Ville</label>
             <select
-              id="ville"
+              id="villeId"
               name="villeId"
               value={form.villeId}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              disabled={!form.regionId} // Désactiver le champ ville si aucune région n'est sélectionnée
               required
             >
               <option value="">Sélectionnez une ville</option>
@@ -250,13 +251,14 @@ const SignupForm: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium hover:bg-primary-dark transition"
-          >S'inscrire
+            className="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark"
+          >
+            S'inscrire
           </button>
         </form>
-        <div className="mt-4 text-center">
-          <p>Vous avez déjà un compte ? <Link href="/connexion" className="text-primary hover:underline">Connexion</Link></p>
-        </div>
+        <p className="mt-4 text-center">
+          Déjà inscrit? <Link href="/connexion" className="text-primary">Connectez-vous ici</Link>
+        </p>
       </CardContent>
     </Card>
   );

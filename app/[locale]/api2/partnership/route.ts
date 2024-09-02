@@ -12,7 +12,13 @@ export async function POST(request: Request) {
     if (!data.schoolName || !data.email || !data.phone || !data.message) {
       return NextResponse.json({ message: 'Tous les champs sont requis.' }, { status: 400 });
     }
-
+    
+    const phoneRegex = /^(06|07)\d{8}$/;
+    if (!phoneRegex.test(data.phone)) {
+      return NextResponse.json({
+        message: 'Le numéro de téléphone doit être au format 06xxxxxxxx ou 07xxxxxxxx.',
+      }, { status: 400 });
+    }
     // Création de la demande dans la base de données
     await prisma.partnershipRequest.create({
       data: {

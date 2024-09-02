@@ -129,11 +129,11 @@ const ProfilePage: React.FC = () => {
               </tr>
               <tr>
                 <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Région :</td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.ville?.region?.name || 'Non spécifiée'}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.ville?.region?.name || 'Non spécifiée (veuillez contacter le support)'}</td>
               </tr>
               <tr>
                 <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Ville :</td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.ville?.name || 'Non spécifiée'}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{user.ville?.name || 'Non spécifiée (veuillez contacter le support)'}</td>
               </tr>
               <tr>
                 <td className="px-6 py-4 whitespace-nowrap font-semibold text-red-600">Date de création du compte :</td>

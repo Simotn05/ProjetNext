@@ -8,7 +8,8 @@ export default function AuthLayout({
 }) {
     return (
         <main className="flex min-h-screen items-center justify-center p-4 flex-col gap-6">
-            <Logo />
+            {/* {<Logo /> } */}
+        
             {children}
         </main>
     );

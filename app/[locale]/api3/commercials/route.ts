@@ -49,6 +49,25 @@ export async function POST(request: NextRequest) {
       include: { regions: true }, // Inclure les régions associées dans la réponse
     });
 
+    // Réassignation des étudiants sans commercial pour les régions associées à ce nouveau commercial
+    for (const regionId of regionIds) {
+      const etudiantsSansCommercial = await prisma.etudiant.findMany({
+        where: {
+          regionId,
+          commercialId: null, // Seuls les étudiants sans commercial sont concernés
+        },
+      });
+
+      for (const etudiant of etudiantsSansCommercial) {
+        await prisma.etudiant.update({
+          where: { id: etudiant.id },
+          data: {
+            commercialId: newCommercial.id, // Réassignation au nouveau commercial
+          },
+        });
+      }
+    }
+
     return NextResponse.json(newCommercial, { status: 201 });
   } catch (error) {
     console.error('Erreur lors de la création du commercial:', error);

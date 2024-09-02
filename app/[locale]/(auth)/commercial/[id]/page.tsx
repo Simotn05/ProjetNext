@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
+import Sidebar from './components/sidebar'; // Assurez-vous que le chemin est correct
+import { FaChartBar } from 'react-icons/fa'; // Icône pour la section de statistiques
 
 const CommercialPage: React.FC = () => {
   const router = useRouter();
@@ -10,6 +12,15 @@ const CommercialPage: React.FC = () => {
   const [commercial, setCommercial] = useState<{ name: string, clients: any[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Définir les liens de navigation avec l'ID du commercial
+  const navLinks = [
+    { href: '/', label: 'Accueil', icon: <FaChartBar /> },
+    { href: `${params.id}/profile`, label: 'Profile', icon: <FaChartBar /> },
+    { href: `${params.id}/liste-etudiants`, label: 'Liste des étudiants', icon: <FaChartBar /> },
+    { href: `${params.id}/liste-ecoles`, label: 'Liste des auto-écoles', icon: <FaChartBar /> },
+    { href: `${params.id}/stats`, label: 'Statistiques', icon: <FaChartBar /> },
+  ];
 
   useEffect(() => {
     const fetchCommercial = async () => {
@@ -112,65 +123,25 @@ const CommercialPage: React.FC = () => {
   }
 
   return (
-    <div className="relative">
-    <button 
-      onClick={handleLogout} 
-      className="fixed top-4 right-4 bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-800 transition duration-200 z-10"
-    >
-      Se déconnecter
-    </button>
-    <Card className="w-full max-w-8xl mx-auto my-16 shadow-xl rounded-lg bg-gray-50">
-      <CardContent className="p-8">
-        <h2 className="text-3xl font-bold text-center text-black mb-6">Liste des Étudiants</h2>
-        {commercial ? (
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white rounded-lg shadow-sm">
-              <thead className="bg-gray-100 text-gray-700">
-                <tr>
-                  <th className="py-3 px-4 text-left text-sm font-semibold">Nom</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold">Email</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold">Numéro</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold">Date de naissance</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold">Ville</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold">Auto-école</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold">Permis</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {commercial.clients.map((etudiant) => (
-                  <tr key={etudiant.id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-                    <td className="py-4 px-4 text-gray-800">{etudiant.username}</td>
-                    <td className="py-4 px-4 text-gray-800">{etudiant.email}</td>
-                    <td className="py-4 px-4 text-gray-800">{etudiant.number}</td>
-                    <td className="py-4 px-4 text-gray-800">{new Date(etudiant.birthdate).toLocaleDateString()}</td>
-                    <td className="py-4 px-4 text-gray-800">{etudiant.ville?.name || 'Non spécifié'}</td>
-                    <td className="py-4 px-4 text-gray-800">'Non spécifié'</td>
-                    <td className="py-4 px-4 text-gray-800">{etudiant.drivingLicenseType}</td>
-                    <td className="py-4 px-4 flex space-x-2">
-                      <button className="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors duration-200">
-                        Attribuer une école
-                      </button>
-                      <button className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition-colors duration-200">
-                        Ajouter une note
-                      </button>
-                      <button className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-colors duration-200">
-                        Supprimer
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p className="text-center text-xl font-medium text-gray-600">Aucun étudiant trouvé.</p>
-        )}
-      </CardContent>
-    </Card>
-  </div>
-  
-  
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar navLinks={navLinks} /> {/* Passer les liens de navigation ici */}
+      <div className="flex-1 flex flex-col">
+        <header className="flex items-center justify-between p-6 bg-white shadow-md">
+          <h1 className="text-2xl font-bold text-gray-800">Tableau de bord</h1>
+          <button 
+            onClick={handleLogout} 
+            className="bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-800 transition duration-200"
+          >
+            Se déconnecter
+          </button>
+        </header>
+        <main className="flex-1 p-6">
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            {/* Ajoutez vos composants de tableau ici */}
+          </section>
+        </main>
+      </div>
+    </div>
   );
 };
 

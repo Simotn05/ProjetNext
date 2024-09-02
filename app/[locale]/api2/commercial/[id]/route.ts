@@ -6,12 +6,13 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const commercial = await prisma.commercial.findUnique({
       where: { id: parseInt(params.id, 10) },
       include: {
-       clients: {
-        include: {
-        ville: true, // Assurez-vous que la relation avec `ville` est incluse
+        clients: {
+          include: {
+            ville: true, // Inclure la ville des étudiants
+          },
+        },
+        regions: true, // Inclure les régions du commercial
       },
-    },
-  },
     });
 
     if (!commercial) {

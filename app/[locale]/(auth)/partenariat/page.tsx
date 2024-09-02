@@ -14,6 +14,8 @@ const PartnershipForm: React.FC = () => {
     phone: '',
     message: '',
   });
+  
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -25,32 +27,46 @@ const PartnershipForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch('/api2/partnership', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
+    // Validation du numéro de téléphone
+    const phoneRegex = /^(06|07)\d{8}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      setError('Le numéro de téléphone doit être au format 06xxxxxxxx ou 07xxxxxxxx.');
+      return;
+    }
 
-    if (response.ok) {
-      alert('Votre demande a été envoyée avec succès !');
-      setFormData({
-        schoolName: '',
-        email: '',
-        phone: '',
-        message: '',
+    setError(null);
+
+    try {
+      const response = await fetch('/api2/partnership', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-    } else {
+
+      if (response.ok) {
+        alert('Votre demande a été envoyée avec succès !');
+        setFormData({
+          schoolName: '',
+          email: '',
+          phone: '',
+          message: '',
+        });
+      } else {
+        alert('Une erreur s\'est produite. Veuillez réessayer.');
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi de la demande:', error);
       alert('Une erreur s\'est produite. Veuillez réessayer.');
     }
   };
 
   return (
-    
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md font-primary w-full">
-        
       <h2 className="text-2xl font-bold mb-6">Demande de Partenariat</h2>
+      
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="flex items-center border border-input rounded-lg p-2">
