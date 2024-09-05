@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import Sidebar from '../components/sidebar'; // Assurez-vous que le chemin est correct
 import { FaChartBar, FaUser } from 'react-icons/fa'; // Icône pour le profil
 import { MdPhone, MdEmail, MdPerson } from 'react-icons/md'; // Icônes pour téléphone, email et profil
+import DashboardHeader from '../components/dashboardHeader';
 
 const ProfilePage: React.FC = () => {
   const params = useParams();
@@ -62,8 +63,10 @@ const ProfilePage: React.FC = () => {
   ];
 
   return (
+    <>
+    <DashboardHeader/>
     <div className="flex min-h-screen bg-white-100">
-      <Sidebar navLinks={navLinks} /> {/* Passer les liens de navigation ici */}
+      <Sidebar navLinks={navLinks} /> 
       <div className="flex-1 ml-64 flex flex-col">
         {/* <header className="w-full bg-white shadow-md">
           <div className="max-w-5xl mx-auto px-6 py-4">
@@ -112,6 +115,7 @@ const ProfilePage: React.FC = () => {
         </main>
       </div>
     </div>
+    </>
   );
 };
 

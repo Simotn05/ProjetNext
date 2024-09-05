@@ -7,6 +7,7 @@ import Sidebar from '../components/sidebar'; // Assurez-vous que le chemin est c
 import { FaChartBar, FaUser } from 'react-icons/fa'; // Icône pour la liste des étudiants
 import { Menu } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid'; // Icône pour la flèche du dropdown
+import DashboardHeader from '../components/dashboardHeader';
 
 const ListeEtudiantsPage: React.FC = () => {
   const router = useRouter();
@@ -58,6 +59,8 @@ const ListeEtudiantsPage: React.FC = () => {
   ];
 
   return (
+    <>
+    <DashboardHeader/>
     <div className="flex min-h-screen bg-white-100">
       <Sidebar navLinks={navLinks} /> {/* Passer les liens de navigation ici */}
       <div className="flex-1 flex flex-col ml-64"> {/* Marge gauche pour laisser de l'espace pour la Sidebar */}
@@ -144,6 +147,7 @@ const ListeEtudiantsPage: React.FC = () => {
         </main>
       </div>
     </div>
+    </>
   );
 };
 

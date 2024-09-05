@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    console.log('New Ecole Created:', newEcole);
+   // console.log('New Ecole Created:', newEcole);
 
     return NextResponse.json(newEcole);
   } catch (error) {

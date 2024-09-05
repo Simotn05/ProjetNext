@@ -19,7 +19,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       },
     });
 
-    console.log("Données du commercial :", commercial); // Vérifiez les données du commercial dans le log
+    //console.log("Données du commercial :", commercial); // Vérifiez les données du commercial dans le log
 
     if (!commercial) {
       return NextResponse.json({ error: 'Commercial non trouvé' }, { status: 404 });
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     // Extraire les écoles des régions
     const ecoles = commercial.regions.flatMap(region => region.region.ecoles);
 
-    console.log("Ecoles extraites :", ecoles); // Vérifiez les écoles extraites dans le log
+   // console.log("Ecoles extraites :", ecoles); // Vérifiez les écoles extraites dans le log
 
     return NextResponse.json({ ecoles });
   } catch (error) {

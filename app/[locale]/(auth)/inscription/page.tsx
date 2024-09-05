@@ -122,7 +122,7 @@ const SignupForm: React.FC = () => {
 
   return (
     <><Header2/>
-    <Card className="w-full max-w-lg mx-auto my-8" ref={formRef}>
+    <Card className="w-full max-w-lg mx-auto my-8 mt-20" ref={formRef}>
       <CardContent className="p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Inscription</h1>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}

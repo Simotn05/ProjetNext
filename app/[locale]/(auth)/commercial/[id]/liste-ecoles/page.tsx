@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Sidebar from '../components/sidebar'; 
 import { FaChartBar, FaSchool } from 'react-icons/fa';
+import DashboardHeader from '../components/dashboardHeader';
 
 const ListeEcolesPage: React.FC = () => {
   const params = useParams();
@@ -49,6 +50,8 @@ const ListeEcolesPage: React.FC = () => {
   ];
 
   return (
+    <>
+    <DashboardHeader/>
     <div className="flex min-h-screen bg-white-100">
       <Sidebar navLinks={navLinks} /> 
       <div className="flex-1 ml-64 flex flex-col"> 
@@ -97,6 +100,7 @@ const ListeEcolesPage: React.FC = () => {
         </main>
       </div>
     </div>
+    </>
   );
 };
 

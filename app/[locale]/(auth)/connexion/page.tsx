@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'react-feather'; // Assurez-vous d'installer react-feather pour les icônes
+import Header2 from '../../(landing)/_res/header-v2';
 
 const LoginPage: React.FC = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -95,6 +96,8 @@ const LoginPage: React.FC = () => {
   }
 
   return (
+    <>
+      <Header2/>
     <Card className="w-full max-w-lg mx-auto my-8">
       <CardContent className="p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Connexion</h1>
@@ -145,6 +148,7 @@ const LoginPage: React.FC = () => {
         </div>
       </CardContent>
     </Card>
+    </>
   );
 };
 

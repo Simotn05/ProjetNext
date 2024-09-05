@@ -6,6 +6,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import MessageIcon from '@mui/icons-material/Message';
 import Header from '../../(landing)/_res/header';
+import Header2 from '../../(landing)/_res/header-v2';
 
 const PartnershipForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -63,6 +64,8 @@ const PartnershipForm: React.FC = () => {
   };
 
   return (
+    <>
+      <Header2/>
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md font-primary w-full">
       <h2 className="text-2xl font-bold mb-6">Demande de Partenariat</h2>
       
@@ -133,6 +136,7 @@ const PartnershipForm: React.FC = () => {
         </button>
       </form>
     </div>
+    </>
   );
 };
 

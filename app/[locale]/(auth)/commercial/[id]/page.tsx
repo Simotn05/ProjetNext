@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Sidebar from './components/sidebar'; // Assurez-vous que le chemin est correct
 import { FaChartBar,FaUser } from 'react-icons/fa'; // Icône pour la section de statistiques
+import DashboardHeader from './components/dashboardHeader';
 
 const CommercialPage: React.FC = () => {
   const router = useRouter();
@@ -81,28 +82,6 @@ const CommercialPage: React.FC = () => {
     fetchCommercial();
   }, [params.id, router]);
 
-  const handleLogout = async () => {
-    try {
-      const res = await fetch('/api2/signout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-
-      if (res.ok) {
-        router.push('/connexion');
-      } else {
-        const result = await res.json();
-        setError(result.message || 'Une erreur est survenue lors de la déconnexion.');
-      }
-    } catch (err) {
-      setError('Impossible de se déconnecter. Veuillez vérifier votre connexion Internet.');
-    }
-  };
-
-  
 
   if (error) {
     return (
@@ -115,18 +94,11 @@ const CommercialPage: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar navLinks={navLinks} /> {/* Passer les liens de navigation ici */}
+    <>
+    <DashboardHeader/>
+    <div className="flex min-h-screen bg-white-100">
+      <Sidebar navLinks={navLinks} /> 
       <div className="flex-1 flex flex-col">
-        <header className="flex items-center justify-between p-6 bg-white shadow-md">
-          <h1 className="text-2xl font-bold text-gray-800">Tableau de bord</h1>
-          <button 
-            onClick={handleLogout} 
-            className="bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-800 transition duration-200"
-          >
-            Se déconnecter
-          </button>
-        </header>
         <main className="flex-1 p-6">
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             {/* Ajoutez vos composants de tableau ici */}
@@ -134,6 +106,7 @@ const CommercialPage: React.FC = () => {
         </main>
       </div>
     </div>
+    </>
   );
 };
 
