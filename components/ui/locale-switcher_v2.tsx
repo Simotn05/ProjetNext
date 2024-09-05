@@ -14,28 +14,18 @@ import {
 import { Globe } from "lucide-react";
 import { Button } from "./button";
 
-export default function LocaleSwitcher() {
+export default function LocaleSwitcher2() {
     const router = useRouter();
     const pathname = usePathname();
     const locale = useLocale();
 
     const langs = [
-        {
-            label: "العربية",
-            value: "ar",
-        },
+       
         {
             label: "Francais",
             value: "fr",
         },
-        {
-            label: "English",
-            value: "en",
-        },
-        {
-            label: "Spanish",
-            value: "es",
-        },
+      
     ];
 
     function handleSwitch(locale: string) {

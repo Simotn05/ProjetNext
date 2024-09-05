@@ -6,7 +6,7 @@ import { NavLink } from "@/types";
 import { cn } from "@/lib/utils";
 import { usePathname } from "@/lib/navigation";
 import { Badge } from "@/components/ui/badge";
-import { FaUsers, FaHandshake } from 'react-icons/fa'; // Icônes d'utilisateurs et de partenariat
+import { FaUsers, FaHandshake, FaCar } from 'react-icons/fa'; // Icônes d'utilisateurs et de partenariat
 
 export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
     const pathname = usePathname();
@@ -15,14 +15,19 @@ export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
     const updatedNavLinks = [
         ...navLinks,
         {
+            href: '/demande-partenariat',
+            label: 'Demandes de Partenariat',
+            icon: <FaHandshake className="h-4 w-4" />, // Icône de partenariat
+        },
+        {
             href: '/gestion-commercial',
             label: 'Gestion des commerciaux',
             icon: <FaUsers className="h-4 w-4" />, // Icône d'utilisateurs
         },
         {
-            href: '/demande-partenariat',
-            label: 'Demandes de Partenariat',
-            icon: <FaHandshake className="h-4 w-4" />, // Icône de partenariat
+            href: '/gestion-ecoles',
+            label: 'Gestion des auto-écoles',
+            icon: <FaCar className="h-4 w-4" />, // Icône de partenariat
         }
     ];
 

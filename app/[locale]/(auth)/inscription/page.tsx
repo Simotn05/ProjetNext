@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'react-feather'; // Assurez-vous d'installer react-feather pour les icônes
+import Header2 from '../../(landing)/_res/header-v2';
 
 interface FormValues {
   username: string;
@@ -120,6 +121,7 @@ const SignupForm: React.FC = () => {
   };
 
   return (
+    <><Header2/>
     <Card className="w-full max-w-lg mx-auto my-8" ref={formRef}>
       <CardContent className="p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Inscription</h1>
@@ -256,11 +258,13 @@ const SignupForm: React.FC = () => {
             S'inscrire
           </button>
         </form>
-        <p className="mt-4 text-center">
-          Déjà inscrit? <Link href="/connexion" className="text-primary">Connectez-vous ici</Link>
+        <p className="text-sm text-center">
+        <br />
+          Vous avez déjà un compte ? <Link href="/connexion" className="text-primary">Connectez-vous</Link>
         </p>
       </CardContent>
     </Card>
+    </>
   );
 };
 

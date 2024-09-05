@@ -2,6 +2,7 @@
 
 import { useLocale } from "next-intl";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import {
     DropdownMenu,
@@ -20,6 +21,7 @@ type Props = {
 
 export default function Actions({ id }: Props) {
     const locale = useLocale();
+    const router = useRouter();
 
     return (
         <DropdownMenu dir={locale === "ar" ? "rtl" : "ltr"}>
@@ -37,6 +39,7 @@ export default function Actions({ id }: Props) {
                         try {
                             await deletePartnershipRequest(id); // Appel à la fonction appropriée
                             toast("La demande de partenariat a été supprimée avec succès.");
+                            router.refresh(); // Rafraîchir la page après suppression
                         } catch (error) {
                             toast("Échec de la suppression : veuillez réessayer.");
                         }

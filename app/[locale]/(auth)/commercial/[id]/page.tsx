@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Sidebar from './components/sidebar'; // Assurez-vous que le chemin est correct
-import { FaChartBar } from 'react-icons/fa'; // Icône pour la section de statistiques
+import { FaChartBar,FaUser } from 'react-icons/fa'; // Icône pour la section de statistiques
 
 const CommercialPage: React.FC = () => {
   const router = useRouter();
@@ -15,7 +15,7 @@ const CommercialPage: React.FC = () => {
 
   // Définir les liens de navigation avec l'ID du commercial
   const navLinks = [
-    { href: '/', label: 'Accueil', icon: <FaChartBar /> },
+    { href: `/commercial/${params.id}`, label: 'Accueil', icon: <FaUser /> },
     { href: `${params.id}/profile`, label: 'Profile', icon: <FaChartBar /> },
     { href: `${params.id}/liste-etudiants`, label: 'Liste des étudiants', icon: <FaChartBar /> },
     { href: `${params.id}/liste-ecoles`, label: 'Liste des auto-écoles', icon: <FaChartBar /> },
@@ -102,15 +102,7 @@ const CommercialPage: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <Card className="w-full max-w-lg mx-auto my-16 shadow-lg rounded-lg">
-        <CardContent className="p-10">
-          <p className="text-center text-xl font-medium text-gray-600">Chargement...</p>
-        </CardContent>
-      </Card>
-    );
-  }
+  
 
   if (error) {
     return (
