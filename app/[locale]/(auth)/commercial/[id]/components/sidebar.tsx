@@ -1,64 +1,42 @@
-import { FC, useState } from 'react';
-import Link from 'next/link';
-import { FaHome, FaUser, FaChartBar, FaSchool, FaBars, FaTimes } from 'react-icons/fa';
+"use client";
 
-interface NavLink {
-  href: string;
-  label: string;
-  icon: JSX.Element;
+import { Link } from "@/lib/navigation";
+import Logo from "@/components/logo";
+import { NavLink } from "@/types";
+import { cn } from "@/lib/utils";
+import { usePathname } from "@/lib/navigation";
+import { Badge } from "@/components/ui/badge";
+
+export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
+    const pathname = usePathname();
+
+    return (
+        <aside className="hidden sticky top-0 start-0 border-r bg-muted/40 md:block h-screen">
+            <div className="flex h-full max-h-screen flex-col gap-2">
+                <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+                    <Logo className="lg:text-xl" />
+                </div>
+                <div className="flex-1">
+                    <nav className="grid items-start gap-1 px-2 text-sm font-medium lg:px-4">
+                        {navLinks.map((link, i) => (
+                            <Link
+                                key={i}
+                                href={link.href}
+                                className={cn(
+                                    "flex [&>svg]:size-4 items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted",
+                                    {
+                                        "bg-muted text-primary":
+                                            link.href === pathname,
+                                    }
+                                )}
+                            >
+                                {link.icon}
+                                {link.label}
+                            </Link>
+                        ))}
+                    </nav>
+                </div>
+            </div>
+        </aside>
+    );
 }
-
-interface SidebarProps {
-  navLinks: NavLink[];
-}
-
-const Sidebar: FC<SidebarProps> = ({ navLinks }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleSidebar = () => setIsOpen(!isOpen);
-
-  return (
-    <>
-      {/* Button to toggle sidebar on small screens */}
-      <button
-        className="fixed top-4 left-4 z-50 p-2 text-white lg:hidden bg-gray-800 rounded"
-        onClick={toggleSidebar}
-      >
-        {isOpen ? <FaTimes className="w-6 h-6" /> : <FaBars className="w-6 h-6" />}
-      </button>
-
-      {/* Sidebar for small screens */}
-      <aside
-        className={`fixed top-0 left-0 bg-gray-800 text-white w-64 min-h-screen p-6 transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:w-64`}
-      >
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold">Tableau de Bord</h2>
-        </div>
-        <nav>
-          <ul>
-            {navLinks.map((link) => (
-              <li key={link.href} className="mb-6">
-                <Link href={link.href} passHref>
-                  <p className="flex items-center text-lg font-semibold hover:text-gray-300 transition-colors duration-200">
-                    <span className="mr-4 text-xl">{link.icon}</span>
-                    {link.label}
-                  </p>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
-
-      {/* Sidebar overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black opacity-50 z-40 lg:hidden"
-          onClick={toggleSidebar}
-        />
-      )}
-    </>
-  );
-};
-
-export default Sidebar;

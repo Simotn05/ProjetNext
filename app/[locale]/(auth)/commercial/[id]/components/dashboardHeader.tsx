@@ -1,30 +1,80 @@
-import React from 'react';
-import { FaSearch } from 'react-icons/fa'; // Icônes pour la recherche
-import Dropdown from './dropdown'; // Assurez-vous que le chemin est correct
+"use client";
 
-const DashboardHeader: React.FC = () => {
-  return (
-    <header className="relative w-full bg-white shadow-md border-b border-gray-200">
-      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center">
-        {/* Barre de recherche */}
-        <div className="relative flex-1 min-w-[250px] max-w-xs">
-          <input
-            type="text"
-            placeholder="Rechercher..."
-            className="w-full border border-gray-300 rounded-lg py-2 px-4 pl-10 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-            <FaSearch className="text-gray-500" />
-          </div>
-        </div>
+import { Link } from "@/lib/navigation";
+import { Button } from "@/components/ui/button";
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetTrigger,
+} from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { Menu } from "lucide-react";
+import Logo from "@/components/logo";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { NavLink } from "@/types";
+import { usePathname } from "@/lib/navigation";
+import Dropdown from "./dropdown";
 
-        {/* Icônes de notifications et profil */}
-        <div className="absolute right-6 top-1/2 transform -translate-y-1/2 flex items-center space-x-4">
-          <Dropdown />
-        </div>
-      </div>
-    </header>
-  );
-};
+export default function DashboardHeader({ navLinks }: { navLinks: NavLink[] }) {
+    const pathname = usePathname();
 
-export default DashboardHeader;
+    return (
+        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 backdrop-blur top-0 sticky z-40 px-4 lg:h-[60px] lg:px-6">
+            <Sheet>
+                <SheetTrigger asChild>
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="shrink-0 md:hidden"
+                    >
+                        <Menu className="h-5 w-5" />
+                        <span className="sr-only">Toggle navigation menu</span>
+                    </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="flex flex-col">
+                    <nav className="grid gap-2 font-medium">
+                        <Logo className="mb-2" />
+                        {navLinks?.length ? (
+                            navLinks.map((link, i) => (
+                                <SheetClose asChild key={i}>
+                                    <Link
+                                        href={link.href}
+                                        className={cn(
+                                            "mx-[-0.65rem] duration-200 transition-colors [&>svg]:size-4 flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-primary",
+                                            {
+                                                "text-primary":
+                                                    link.href === pathname,
+                                            }
+                                        )}
+                                    >
+                                        {link.icon}
+                                        {link.label}
+                                        {!!link.notifications && (
+                                            <Badge className="ms-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                                                {link.notifications}
+                                            </Badge>
+                                        )}
+                                    </Link>
+                                </SheetClose>
+                            ))
+                        ) : (
+                            <p>No navigation links available</p>
+                        )}
+                    </nav>
+                </SheetContent>
+            </Sheet>
+            <div className="w-full flex-1">
+                <form>
+                    <Input
+                        type="search"
+                        placeholder="Search products..."
+                        className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+                    />
+                </form>
+            </div>
+            <Dropdown />
+        </header>
+    );
+}

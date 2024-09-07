@@ -50,23 +50,10 @@ const ListeEtudiantsPage: React.FC = () => {
     );
   }
 
-  const navLinks = [
-    { href: `/commercial/${params.id}`, label: 'Accueil', icon: <FaUser /> },
-    { href: `/commercial/${params.id}/profile`, label: 'Profile', icon: <FaChartBar /> },
-    { href: `/commercial/${params.id}/liste-etudiants`, label: 'Liste des étudiants', icon: <FaChartBar />, disabled: true }, // Marqué comme désactivé si vous êtes déjà sur cette page
-    { href: `/commercial/${params.id}/liste-ecoles`, label: 'Liste des auto-écoles', icon: <FaChartBar /> },
-    { href: `/commercial/${params.id}/stats`, label: 'Statistiques', icon: <FaChartBar /> },
-  ];
-
   return (
     <>
-    <DashboardHeader/>
     <div className="flex min-h-screen bg-white-100">
-      <Sidebar navLinks={navLinks} /> {/* Passer les liens de navigation ici */}
-      <div className="flex-1 flex flex-col ml-64"> {/* Marge gauche pour laisser de l'espace pour la Sidebar */}
-        {/* <header className="flex items-center justify-between p-6 bg-white shadow-md">
-          <h1 className="text-2xl font-bold text-gray-800">Liste des Étudiants</h1>
-        </header> */}
+     
         <main className="flex-1 p-6">
           <Card className="bg-white shadow-xl rounded-lg">
             <CardContent className="p-8">
@@ -146,7 +133,7 @@ const ListeEtudiantsPage: React.FC = () => {
           </Card>
         </main>
       </div>
-    </div>
+  
     </>
   );
 };

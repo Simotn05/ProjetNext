@@ -64,15 +64,8 @@ const ProfilePage: React.FC = () => {
 
   return (
     <>
-    <DashboardHeader/>
     <div className="flex min-h-screen bg-white-100">
-      <Sidebar navLinks={navLinks} /> 
-      <div className="flex-1 ml-64 flex flex-col">
-        {/* <header className="w-full bg-white shadow-md">
-          <div className="max-w-5xl mx-auto px-6 py-4">
-            <h1 className="text-2xl font-bold text-gray-800">Profile du Commercial</h1>
-          </div>
-        </header> */}
+     
         <main className="flex-1 p-6">
           <Card className="w-full max-w-4xl mx-auto bg-white shadow-lg rounded-lg">
             <CardContent className="p-8">
@@ -114,7 +107,7 @@ const ProfilePage: React.FC = () => {
           </Card>
         </main>
       </div>
-    </div>
+  
     </>
   );
 };

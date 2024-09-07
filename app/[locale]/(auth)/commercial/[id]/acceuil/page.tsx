@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { Card, CardContent } from '@/components/ui/card';
-import Sidebar from './components/sidebar'; // Assurez-vous que le chemin est correct
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Sidebar from '../components/sidebar'; // Assurez-vous que le chemin est correct
 import { FaChartBar,FaUser } from 'react-icons/fa'; // Icône pour la section de statistiques
-import DashboardHeader from './components/dashboardHeader';
+import DashboardHeader from '../components/dashboardHeader';
+import { Building2, Mails, Ticket, UserRoundCheck } from 'lucide-react';
 
 const CommercialPage: React.FC = () => {
   const router = useRouter();
@@ -15,13 +16,7 @@ const CommercialPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   // Définir les liens de navigation avec l'ID du commercial
-  const navLinks = [
-    { href: `/commercial/${params.id}`, label: 'Accueil', icon: <FaUser /> },
-    { href: `${params.id}/profile`, label: 'Profile', icon: <FaChartBar /> },
-    { href: `${params.id}/liste-etudiants`, label: 'Liste des étudiants', icon: <FaChartBar /> },
-    { href: `${params.id}/liste-ecoles`, label: 'Liste des auto-écoles', icon: <FaChartBar /> },
-    { href: `${params.id}/stats`, label: 'Statistiques', icon: <FaChartBar /> },
-  ];
+
 
   useEffect(() => {
     const fetchCommercial = async () => {
@@ -83,30 +78,12 @@ const CommercialPage: React.FC = () => {
   }, [params.id, router]);
 
 
-  if (error) {
-    return (
-      <Card className="w-full max-w-lg mx-auto my-16 shadow-lg rounded-lg">
-        <CardContent className="p-10">
-          <p className="text-red-500 text-center text-lg font-semibold">{error}</p>
-        </CardContent>
-      </Card>
-    );
-  }
 
   return (
     <>
-    <DashboardHeader/>
-    <div className="flex min-h-screen bg-white-100">
-      <Sidebar navLinks={navLinks} /> 
-      <div className="flex-1 flex flex-col">
-        <main className="flex-1 p-6">
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-            {/* Ajoutez vos composants de tableau ici */}
-          </section>
-        </main>
-      </div>
-    </div>
-    </>
+    
+    
+</>
   );
 };
 
