@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
+
+const validatePassword = (password: string): boolean => {
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  return passwordRegex.test(password);
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,12 +62,26 @@ export async function POST(request: NextRequest) {
     ) : [];
     console.log('Valid Vehicles Per Type:', validVehiclesPerType);
 
+    // Si `vehiclesPerType` est `undefined`, nous définissons un tableau vide pour éviter les erreurs
+    const vehiclesToCreate = validVehiclesPerType.length > 0 ? validVehiclesPerType : [];
+
+    // Validation du mot de passe
+    if (!validatePassword(password)) {
+      return NextResponse.json({
+        error: 'Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre.'
+      }, { status: 400 });
+    }
+
+    // Hachage du mot de passe
+    const saltRounds = 10; // Nombre de tours pour le hachage
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     // Création de l'école avec les types de permis, les véhicules associés, et la région
     const newEcole = await prisma.ecole.create({
       data: {
         name,
         email,
-        password, // Assurez-vous de hasher le mot de passe avant de le stocker
+        password: hashedPassword, // Stockez le mot de passe haché
         city,
         phoneNumber,
         regionId, // Utilisez la région associée à la ville
@@ -69,7 +89,7 @@ export async function POST(request: NextRequest) {
           connect: validLicenseTypes.map(id => ({ id }))
         },
         vehiclesPerType: {
-          create: validVehiclesPerType.map(vehicle => ({
+          create: vehiclesToCreate.map(vehicle => ({
             licenseTypeId: vehicle.licenseTypeId,
             count: vehicle.count,
             vehicleType: vehicle.vehicleType,
@@ -79,7 +99,7 @@ export async function POST(request: NextRequest) {
       }
     });
 
-   // console.log('New Ecole Created:', newEcole);
+    console.log('New Ecole Created:', newEcole);
 
     return NextResponse.json(newEcole);
   } catch (error) {

@@ -15,7 +15,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
             region: true, // Inclure la région associée à la ville
           },
         },
-        commercial: true, // Inclure le commercial associé
+        commercial: true,  // Inclure le commercial associé
+        ecole: true,       // Inclure l'auto-école associée
       },
     });
 
@@ -50,6 +51,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
               },
             },
             commercial: true,
+            ecole: true, // Inclure l'auto-école dans la réponse
           },
         });
 

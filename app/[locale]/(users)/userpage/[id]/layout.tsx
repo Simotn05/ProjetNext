@@ -1,41 +1,39 @@
 'use client';
 
-import { Car, Home, Mails, BarChart } from "lucide-react";
-import DashboardHeader from "./components/dashboardHeader";
-import Sidebar from "./components/sidebar";
+import { Car, Home, Mails, BarChart, Contact } from "lucide-react";
+
 import { NavLink } from "@/types";
 import { useParams } from 'next/navigation';
+import DashboardHeader from "../../commercial/[id]/components/dashboardHeader";
+import Sidebar from "../../commercial/[id]/components/sidebar";
+import { Book, Phone } from "react-feather";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const params = useParams();  // Récupère l'ID du commercial
+  
 
   const navLinks: NavLink[] = [
     {
       icon: <Home />,
       label: "Accueil",
-      href: `/commercial/${params.id}/acceuil`,  // URL dynamique
+      href: `/userpage/${params.id}/acceuil`,  
     },
     {
       icon: <Car />,
       label: "Profile",
-      href: `/commercial/${params.id}/profile`,  // URL dynamique
-    },
+      href: `/userpage/${params.id}/profile`,  
+    }, 
     {
-      icon: <Mails />,
-      label: "Liste des étudiants",
-      href: `/commercial/${params.id}/liste-etudiants`,  // URL dynamique
+      icon: <Book />,
+      label: "Code de la route",
+      href: `/userpage/${params.id}/code`,  
+    }, 
+    {
+      icon: <Phone />,
+      label: "Contactez-nous",
+      href: `/userpage/${params.id}/contact`,  
+    }
     
-    },
-    {
-      icon: <Mails />,
-      label: "Liste des auto-écoles",
-      href: `/commercial/${params.id}/liste-ecoles`,  // URL dynamique
-    },
-    {
-      icon: <BarChart />,
-      label: "Statistiques",
-      href: `/commercial/${params.id}/stats`,  // URL dynamique
-    },
   ];
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">

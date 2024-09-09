@@ -39,16 +39,18 @@ const ListeEcoles: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      const response = await fetch(`/api3/list-ecole/${id}`, {
+      const response = await fetch(`/api3/delete-ecole/${id}`, { // Assurez-vous que l'URL correspond à votre API de suppression
         method: 'DELETE',
       });
       if (response.ok) {
         setEcoles(ecoles.filter((ecole) => ecole.id !== id));
       } else {
         console.error('Erreur lors de la suppression de l\'auto-école');
+        setError('Erreur lors de la suppression de l\'auto-école.');
       }
     } catch (err) {
       console.error('Erreur lors de la suppression de l\'auto-école:', err);
+      setError('Erreur lors de la suppression de l\'auto-école.');
     }
   };
 
@@ -109,7 +111,7 @@ const ListeEcoles: React.FC = () => {
             </tbody>
           </table>
         )}
-        <Button className="mt-6" onClick={() => router.push('/gestion-ecole')}>
+        <Button className="mt-6" onClick={() => router.push('/gestion-ecoles')}>
           Retour
         </Button>
       </CardContent>

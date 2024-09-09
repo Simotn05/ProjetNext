@@ -16,7 +16,7 @@ const ProfilePage: React.FC = () => {
   useEffect(() => {
     const fetchCommercial = async () => {
       try {
-        const res = await fetch(`/api2/commercial/${params.id}`, {
+        const res = await fetch(`/api2/profileCommercial/${params.id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -54,13 +54,6 @@ const ProfilePage: React.FC = () => {
   const regions = commercial?.regions.length > 0 ? commercial.regions : [{ name: 'Non spécifié' }];
   const clients = commercial?.clients.length > 0 ? commercial.clients : [];
 
-  const navLinks = [
-    { href: `/commercial/${params.id}`, label: 'Accueil', icon: <FaUser /> },
-    { href: `/commercial/${params.id}/profile`, label: 'Profile', icon: <FaChartBar /> },
-    { href: `/commercial/${params.id}/liste-etudiants`, label: 'Liste des étudiants', icon: <FaChartBar />, disabled: true },
-    { href: `/commercial/${params.id}/liste-ecoles`, label: 'Liste des auto-écoles', icon: <FaChartBar /> },
-    { href: `/commercial/${params.id}/stats`, label: 'Statistiques', icon: <FaChartBar /> },
-  ];
 
   return (
     <>

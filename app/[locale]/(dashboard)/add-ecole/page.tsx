@@ -19,7 +19,7 @@ const cities = [
   "Boujad", "Bouizakarne", "Boulemane", "Boumia", "Bouznika", "Casablanca", "Chefchaouen",
   "Chichaoua", "Chtouka Ait Baha", "Dcheira El Jihadia", "El Ayoun", "El Hajeb",
   "El Jadida", "El Kelaa des Sraghna", "El Kelâa", "El Menzel", "El Ouatia", "El Oued",
-  "Errachidia", "Essaouira", "Fes", "Figuig", "Fquih Ben Salah", "Goulmima", "Guercif",
+  "Errachidia", "Essaouira", "Fès", "Figuig", "Fquih Ben Salah", "Goulmima", "Guercif",
   "Haddada", "Ifrane", "Igli", "Imlil", "Imouzzer Kandar", "Imouzzer Marmoucha",
   "Issaguen", "Jorf El Melha", "Karia", "Khemisset", "Khouribga", "Ksar El Kebir",
   "Ksar el Hadid", "Ksar Ouled Selmane", "Kssiba", "Larache", "Marrakech", "Meknes",
@@ -31,15 +31,15 @@ const cities = [
 ];
 
 const licenseTypesList = [
-  { id: 1, name: "AM (Cyclomoteur)" },
-  { id: 2, name: "A1 (Motocyclette légère)" },
-  { id: 3, name: "A (Motocyclette)" },
-  { id: 4, name: "B (Véhicule léger)" },
-  { id: 5, name: "EB (Véhicule léger avec remorque)" },
-  { id: 6, name: "C (Véhicule de plus de 3,5 tonnes)" },
-  { id: 7, name: "EC (Camion avec remorque)" },
-  { id: 8, name: "D (Véhicule transportant des passagers)" },
-  { id: 9, name: "ED (Véhicule de transport en commun avec remorque)" },
+  { id: 1, name: "AM : Cyclomoteur" },
+  { id: 2, name: "A1 : Motocyclette légère" },
+  { id: 3, name: "A : Motocyclette" },
+  { id: 4, name: "B : Véhicule léger" },
+  { id: 5, name: "EB : Véhicule léger avec remorque" },
+  { id: 6, name: "C : Véhicule de plus de 3,5 tonnes" },
+  { id: 7, name: "EC : Camion avec remorque" },
+  { id: 8, name: "D : Véhicule transportant des passagers" },
+  { id: 9, name: "ED : Véhicule de transport en commun avec remorque" },
 ];
 
 const AddEcole: React.FC = () => {

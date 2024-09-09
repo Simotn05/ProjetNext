@@ -9,6 +9,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         clients: {
           include: {
             ville: true, // Inclure la ville des étudiants
+            ecole: true, // Inclure l'auto-école des étudiants
           },
         },
         regions: true, // Inclure les régions du commercial

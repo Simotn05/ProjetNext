@@ -208,7 +208,7 @@ model Etudiant {
 
 model LicenseType {
   id                Int                @id @default(autoincrement())
-  name              String
+  name              String             @unique
   ecoles            Ecole[]            @relation("EcoleLicenseTypes")
   vehiclesPerType   VehiclePerType[]   @relation("LicenseTypeVehicles")
 }
