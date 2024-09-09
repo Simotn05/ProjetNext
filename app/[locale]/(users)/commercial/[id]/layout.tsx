@@ -1,8 +1,8 @@
 'use client';
 
 import { Car, Home, Mails, BarChart } from 'lucide-react';
-import DashboardHeader from './components/dashboardHeader';
-import Sidebar from './components/sidebar';
+import DashboardHeader from '../../userpage/[id]/components/dashboardHeader';
+import Sidebar from '../../userpage/[id]/components/sidebar';
 import { NavLink } from '@/types';
 import { useParams } from 'next/navigation';
 import { StudentProvider } from '@/contexts/StudentContext'; // Assurez-vous du bon chemin

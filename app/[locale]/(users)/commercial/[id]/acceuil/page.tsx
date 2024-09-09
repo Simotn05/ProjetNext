@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Sidebar from '../components/sidebar'; // Assurez-vous que le chemin est correct
+import Sidebar from '../../../userpage/[id]/components/sidebar'; // Assurez-vous que le chemin est correct
 import { FaChartBar,FaUser } from 'react-icons/fa'; // Icône pour la section de statistiques
-import DashboardHeader from '../components/dashboardHeader';
+import DashboardHeader from '../../../userpage/[id]/components/dashboardHeader';
 import { Building2, Mails, Ticket, UserRoundCheck } from 'lucide-react';
 
 const CommercialPage: React.FC = () => {

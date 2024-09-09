@@ -4,6 +4,7 @@ import DashboardHeader from "./_components/dashboard-header";
 import Sidebar from "./_components/sidebar";
 import { NavLink } from "@/types";
 import { db } from "@/lib/db";
+import { User } from "react-feather";
 
 export default async function DashboardLayout({
     children,
@@ -36,6 +37,11 @@ export default async function DashboardLayout({
             icon: <Car />,
             label: "المدارس",
             href: "/ecoles",
+        },
+        {
+            icon: <User />,
+            label: "Gestion des étudiants",
+            href: "/gestion-etudiants",
         },
     ];
 

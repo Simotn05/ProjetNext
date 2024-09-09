@@ -4,8 +4,8 @@ import { Car, Home, Mails, BarChart, Contact } from "lucide-react";
 
 import { NavLink } from "@/types";
 import { useParams } from 'next/navigation';
-import DashboardHeader from "../../commercial/[id]/components/dashboardHeader";
-import Sidebar from "../../commercial/[id]/components/sidebar";
+import DashboardHeader from "./components/dashboardHeader";
+import Sidebar from "./components/sidebar";
 import { Book, Phone } from "react-feather";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

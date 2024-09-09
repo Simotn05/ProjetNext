@@ -45,7 +45,6 @@ export default function Dropdown() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                {/* <DropdownMenuLabel>Ahmed</DropdownMenuLabel> */}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>

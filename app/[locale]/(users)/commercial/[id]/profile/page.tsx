@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
-import Sidebar from '../components/sidebar'; // Assurez-vous que le chemin est correct
+import Sidebar from '../../../userpage/[id]/components/sidebar'; // Assurez-vous que le chemin est correct
 import { FaChartBar, FaUser } from 'react-icons/fa'; // Icône pour le profil
 import { MdPhone, MdEmail, MdPerson } from 'react-icons/md'; // Icônes pour téléphone, email et profil
-import DashboardHeader from '../components/dashboardHeader';
+import DashboardHeader from '../../../userpage/[id]/components/dashboardHeader';
 
 const ProfilePage: React.FC = () => {
   const params = useParams();
