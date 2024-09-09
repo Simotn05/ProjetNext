@@ -5,6 +5,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Eye, EyeOff } from 'react-feather';
+import { Input } from '@/components/ui/input';
+
 
 const cities = [
   "Aïn Bni Mathar", "Aïn Cheggag", "Aïn El Aouda", "Aïn Erreggada", "Aïn Harrouda", "Aïn Jemaa", 
@@ -150,13 +152,13 @@ const EditEcole: React.FC = () => {
       )}
 
       {ecole ? (
-        <Card className="w-full max-w-4xl mx-auto my-16 shadow-lg rounded-lg">
+        <Card className="w-full max-w-2xl mx-auto my-16 shadow-lg rounded-lg">
           <CardContent className="p-10">
             <h1 className="text-2xl font-bold mb-6">Modifier l'Auto-école</h1>
             <form onSubmit={handleSubmit} className="relative">
               <div className="mb-4">
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nom</label>
-                <input
+                <Input
                   id="name"
                   name="name"
                   type="text"
@@ -168,7 +170,7 @@ const EditEcole: React.FC = () => {
               </div>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                <input
+                <Input
                   id="email"
                   name="email"
                   type="email"
@@ -180,7 +182,7 @@ const EditEcole: React.FC = () => {
               </div>
               <div className="mb-4">
                 <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">Numéro de téléphone</label>
-                <input
+                <Input
                   id="phoneNumber"
                   name="phoneNumber"
                   type="tel"
@@ -198,7 +200,7 @@ const EditEcole: React.FC = () => {
                   id="city"
                   name="city"
                   defaultValue={ecole.city}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                  className="mt-1 block w-full border border-gray-300 rounded-md p-1 shadow-sm"
                   required
                   aria-required="true"
                 >

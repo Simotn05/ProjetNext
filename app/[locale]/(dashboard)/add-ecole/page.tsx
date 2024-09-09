@@ -213,7 +213,7 @@ const AddEcole: React.FC = () => {
               id="city"
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              className="block w-full border-gray-300 rounded-lg"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-1 shadow-sm"
               required
             >
               <option value="">Sélectionner une ville</option>
