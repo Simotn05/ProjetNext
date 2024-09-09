@@ -14,21 +14,7 @@ export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
     // Ajoutez les nouveaux éléments à la liste navLinks
     const updatedNavLinks = [
         ...navLinks,
-        {
-            href: '/demande-partenariat',
-            label: 'Demandes de Partenariat',
-            icon: <FaHandshake className="h-4 w-4" />, // Icône de partenariat
-        },
-        {
-            href: '/gestion-commercial',
-            label: 'Gestion des commerciaux',
-            icon: <FaUsers className="h-4 w-4" />, // Icône d'utilisateurs
-        },
-        {
-            href: '/gestion-ecoles',
-            label: 'Gestion des auto-écoles',
-            icon: <FaCar className="h-4 w-4" />, // Icône de partenariat
-        }
+   
     ];
 
     return (

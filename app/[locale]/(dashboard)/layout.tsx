@@ -5,6 +5,7 @@ import Sidebar from "./_components/sidebar";
 import { NavLink } from "@/types";
 import { db } from "@/lib/db";
 import { User } from "react-feather";
+import { FaHandshake, FaUsers, FaCar, FaUser } from "react-icons/fa";
 
 export default async function DashboardLayout({
     children,
@@ -39,10 +40,25 @@ export default async function DashboardLayout({
             href: "/ecoles",
         },
         {
-            icon: <User />,
+            href: '/demande-partenariat',
+            label: 'Demandes de Partenariat',
+            icon: <FaHandshake className="h-4 w-4" />, 
+        },
+        {
+            icon: <FaUser />,
             label: "Gestion des étudiants",
             href: "/gestion-etudiants",
         },
+        {
+            href: '/gestion-commercial',
+            label: 'Gestion des commerciaux',
+            icon: <FaUsers className="h-4 w-4" />, 
+        },
+        {
+            href: '/gestion-ecoles',
+            label: 'Gestion des auto-écoles',
+            icon: <FaCar className="h-4 w-4" />, 
+        }
     ];
 
     return (
