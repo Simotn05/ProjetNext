@@ -15,9 +15,14 @@ export async function GET(request: NextRequest) {
     const decoded = verify(token, JWT_SECRET) as { userId: string; role: string };
 
     // Recherchez l'utilisateur dans la base de données en fonction du rôle
-    const user = decoded.role === 'commercial'
-      ? await prisma.commercial.findUnique({ where: { id: parseInt(decoded.userId) } })
-      : await prisma.etudiant.findUnique({ where: { id: parseInt(decoded.userId) } });
+    let user;
+    if (decoded.role === 'commercial') {
+      user = await prisma.commercial.findUnique({ where: { id: parseInt(decoded.userId) } });
+    } else if (decoded.role === 'etudiant') {
+      user = await prisma.etudiant.findUnique({ where: { id: parseInt(decoded.userId) } });
+    } else if (decoded.role === 'ecole') {
+      user = await prisma.ecole.findUnique({ where: { id: parseInt(decoded.userId) } });
+    }
 
     if (!user) {
       return NextResponse.json({ user: null }, { status: 200 });
@@ -31,6 +36,7 @@ export async function GET(request: NextRequest) {
       },
     }, { status: 200 });
   } catch (error) {
+    console.error('Erreur lors de la vérification de l’authentification:', error);
     return NextResponse.json({ user: null }, { status: 200 });
   }
 }

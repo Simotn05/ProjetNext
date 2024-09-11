@@ -1,17 +1,16 @@
-// app/api2/commercial/[id]/etudiants/[etudiantId]/route.ts
-
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-export async function GET(request: Request) {
+// Extraction des params depuis l'URL
+export async function GET(request: Request, { params }: { params: { id: string, etudiantId: string } }) {
   try {
-    const url = new URL(request.url);
-    const etudiantId = parseInt(url.pathname.split('/')[4]); // Assurez-vous que l'extraction de l'ID est correcte
+    const etudiantId = parseInt(params.etudiantId); // Récupération de l'ID de l'étudiant depuis params
 
     if (isNaN(etudiantId)) {
       return NextResponse.json({ error: 'Invalid student ID' }, { status: 400 });
     }
 
+    // Recherche de l'étudiant dans la base de données
     const etudiant = await prisma.etudiant.findUnique({
       where: { id: etudiantId },
       select: {
@@ -22,7 +21,7 @@ export async function GET(request: Request) {
         birthdate: true,
         drivingLicenseType: true,
         region: { select: { name: true } },
-        ville: { select: { name: true } }
+        ville: { select: { name: true } },
       }
     });
 

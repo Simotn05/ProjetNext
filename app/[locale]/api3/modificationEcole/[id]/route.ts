@@ -32,7 +32,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params;
-  const { name, email, phoneNumber, city, licenseTypes, regionId } = await req.json();
+  const { name, email, phoneNumber, licenseTypes, regionId } = await req.json();
 
   // Valider le numéro de téléphone
   if (!validatePhoneNumber(phoneNumber)) {
@@ -47,7 +47,6 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
         name,
         email,
         phoneNumber,
-        city,
         regionId: regionId ? parseInt(regionId) : undefined, // Si la région est facultative
       },
     });

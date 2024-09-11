@@ -113,12 +113,13 @@ INSERT INTO Ville (name, regionId) VALUES
   -- Rabat-Salé-Kénitra
   ('Rabat', 11),
   ('Salé', 11),
-  ('Skhirate-Témara', 11),
+  ('Skhirate', 11),
   ('Kénitra', 11),
   ('Khémisset', 11),
   ('Sidi Kacem', 11),
   ('Sidi Slimane', 11),
   ('Tamesna', 11),
+  ('Témara',11)
 
   -- Laâyoune-Sakia Al Hamra
   ('Laâyoune', 12),

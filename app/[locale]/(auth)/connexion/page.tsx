@@ -29,7 +29,11 @@ const LoginPage: React.FC = () => {
           const data = await res.json();
           if (data.user) {
             // Redirigez vers la page appropriée en fonction du rôle de l'utilisateur
-            const redirectPath = data.user.role === 'commercial' ? `/commercial/${data.user.id}/acceuil` : `/userpage/${data.user.id}/acceuil`;
+            const redirectPath = data.user.role === 'commercial'
+              ? `/commercial/${data.user.id}/acceuil`
+              : data.user.role === 'ecole'
+              ? `/ecole/${data.user.id}/acceuil`
+              : `/userpage/${data.user.id}/acceuil`; // Fallback pour les étudiants
             router.push(redirectPath);
           }
         }
@@ -75,7 +79,11 @@ const LoginPage: React.FC = () => {
         const user = result.user; // Supposons que l'API renvoie l'objet utilisateur avec un champ "user"
         
         // Redirection vers la page appropriée en fonction du rôle de l'utilisateur après connexion réussie
-        const redirectPath = user.role === 'commercial' ? `/commercial/${user.id}/acceuil` : `/userpage/${user.id}/acceuil`;
+        const redirectPath = user.role === 'commercial'
+          ? `/commercial/${user.id}/acceuil`
+          : user.role === 'ecole'
+          ? `/ecole/${user.id}/acceuil`
+          : `/userpage/${user.id}/acceuil`; // Fallback pour les étudiants
         router.push(redirectPath);
       } else {
         setError(result.error || 'Une erreur est survenue lors de la connexion.');

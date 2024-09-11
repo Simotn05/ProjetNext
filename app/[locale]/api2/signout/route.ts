@@ -33,6 +33,10 @@ export async function POST(request: NextRequest) {
       user = await prisma.commercial.findUnique({
         where: { id: parseInt(decoded.userId, 10) },
       });
+    } else if (decoded.role === 'ecole') {
+      user = await prisma.ecole.findUnique({
+        where: { id: parseInt(decoded.userId, 10) },
+      });
     }
 
     if (!user) {
@@ -47,7 +51,15 @@ export async function POST(request: NextRequest) {
         data: { isLoggedIn: false },
       });
     } else if (decoded.role === 'commercial') {
-      // Si nécessaire, ajoutez une mise à jour spécifique pour les commerciaux ici
+      await prisma.commercial.update({
+        where: { id: parseInt(decoded.userId, 10) },
+        data: { isLoggedIn: false }, // Assurez-vous que ce champ existe dans votre modèle Commercial
+      });
+    } else if (decoded.role === 'ecole') {
+      await prisma.ecole.update({
+        where: { id: parseInt(decoded.userId, 10) },
+        data: { isLoggedIn: false }, // Assurez-vous que ce champ existe dans votre modèle Ecole
+      });
     }
 
     // Préparer la réponse de déconnexion réussie

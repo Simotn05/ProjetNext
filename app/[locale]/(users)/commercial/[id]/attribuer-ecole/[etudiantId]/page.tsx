@@ -10,15 +10,19 @@ const AttribuerEcolePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedEcole, setSelectedEcole] = useState<number | null>(null);
   const [etudiantPermisType, setEtudiantPermisType] = useState<string | null>(null);
-  
+  const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true); // Démarre le chargement
       try {
         if (!params.id || !params.etudiantId) {
           setError('Les paramètres de la requête sont manquants.');
+          setLoading(false); // Arrête le chargement
           return;
         }
-  
+
+        // Fetch étudiant data
         const etudiantRes = await fetch(`/api2/commercial/${params.id}/etudiants/${params.etudiantId}`, {
           method: 'GET',
           headers: {
@@ -26,16 +30,21 @@ const AttribuerEcolePage: React.FC = () => {
           },
           credentials: 'include',
         });
-  
+
         if (etudiantRes.ok) {
           const etudiantData = await etudiantRes.json();
           console.log('Données de l\'étudiant:', etudiantData);
           setEtudiantPermisType(etudiantData.drivingLicenseType);
+          
+          // Vérifiez ici si `etudiantPermisType` est correct
+          console.log('Type de permis de l\'étudiant:', etudiantData.drivingLicenseType);
         } else {
           setError('Erreur lors de la récupération des informations de l\'étudiant.');
+          setLoading(false); // Arrête le chargement
           return;
         }
-  
+
+        // Fetch auto-écoles data
         const ecolesRes = await fetch(`/api2/auto-ecoles?commercialId=${params.id}&etudiantId=${params.etudiantId}`, {
           method: 'GET',
           headers: {
@@ -43,16 +52,24 @@ const AttribuerEcolePage: React.FC = () => {
           },
           credentials: 'include',
         });
-  
+
         if (ecolesRes.ok) {
           const data = await ecolesRes.json();
           console.log('Données des auto-écoles:', data);
-          console.log('Type de permis de l\'étudiant:', etudiantPermisType);
-  
+
           const filteredEcoles = data.filter((ecole: any) => {
-            console.log('Types de permis de l\'école:', ecole.licenseTypes);
-            return ecole.licenseTypes.some((licenseType: any) => licenseType.name === etudiantPermisType);
+            console.log('Types de permis de l\'école avant filtrage:', JSON.stringify(ecole.licenseTypes, null, 2));
+
+            // Comparaison avec le type de permis de l'étudiant
+            return ecole.licenseTypes.some((licenseType: any) => {
+              console.log('Comparaison avec le type de permis de l\'étudiant:', {
+                licenseTypeName: licenseType.name,
+                etudiantPermisType
+              });
+              return licenseType.name === etudiantPermisType;
+            });
           });
+
           console.log('Auto-écoles filtrées:', filteredEcoles);
           setEcoles(filteredEcoles);
         } else {
@@ -60,12 +77,13 @@ const AttribuerEcolePage: React.FC = () => {
         }
       } catch (err) {
         setError('Impossible de récupérer les données. Veuillez vérifier votre connexion Internet.');
+      } finally {
+        setLoading(false); // Arrête le chargement dans tous les cas
       }
     };
-  
+
     fetchData();
   }, [params.id, params.etudiantId, etudiantPermisType]);
-  
 
   const handleAttribuerEcole = async () => {
     if (selectedEcole === null || !params.etudiantId) return;
@@ -87,12 +105,14 @@ const AttribuerEcolePage: React.FC = () => {
         router.push(`/fr/commercial/${params.id}/liste-etudiants`);
       } else {
         const errorData = await res.json();
-        setError(`Erreur lors de l'attribution de l'auto-école: ${errorData.error || 'Unknown error'}`);
+        setError(`Erreur lors de l'attribution de l'auto-école: ${errorData.error || 'Erreur inconnue'}`);
       }
     } catch (err) {
       setError('Impossible d\'attribuer l\'auto-école. Veuillez vérifier votre connexion Internet.');
     }
   };
+
+  if (loading) return <p>Chargement des étudiants...</p>;
 
   if (error) {
     return (
@@ -131,7 +151,7 @@ const AttribuerEcolePage: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <p className="text-center text-xl font-medium text-gray-600">Aucune auto-école disponible pour le cas de cet étudiant.</p>
+              <p className="text-center text-xl font-medium text-gray-600">Aucune auto-école disponible pour cet étudiant.</p>
             )}
           </CardContent>
         </Card>

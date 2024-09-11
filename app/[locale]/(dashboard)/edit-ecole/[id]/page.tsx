@@ -8,21 +8,6 @@ import { Eye, EyeOff } from 'react-feather';
 import { Input } from '@/components/ui/input';
 
 
-const cities = [
-  "Aïn Bni Mathar", "Aïn Cheggag", "Aïn El Aouda", "Aïn Erreggada", "Aïn Harrouda", "Aïn Jemaa", 
-  "Aïn Karma", "Aïn Taoujdate", "Agadir", "Aït Baha", "Ait Benhaddou", "Ait Melloul", "Ait Ourir", 
-  "Ait Tamlil", "Amizmiz", "Assa-Zag", "Azilal", "Bouarfa", "Bouarfa (partiellement)", "Boujdour", 
-  "Boulemane", "Boumia", "Berkane", "Béni Mellal", "Berrechid", "Benslimane", "Casablanca", 
-  "Chefchaouen", "Chichaoua", "Chtouka-Aït Baha", "Dakhla", "Demnate", "Dcheira El Jihadia", 
-  "El Hajeb", "El Jadida", "El Kelâa", "El Menzel", "Errachidia", "Es-Semara", "Fahs-Anjra", 
-  "Fès", "Figuig", "Goulmima", "Guelmim", "Guercif", "Ifrane", "Jerada", "Kénitra", "Khémisset", 
-  "Khouribga", "Laâyoune", "Larache", "Marrakech", "M'diq-Fnideq", "Médiouna", "Meknès", "Midelt", 
-  "Mohammedia", "Nouaceur", "Ouarzazate", "Oujda", "Oued Eddahab", "Oued Zem", "Safi", "Salé", 
-  "Sidi Bennour", "Sidi Ifni", "Sidi Kacem", "Sidi Slimane", "Skhirate-Témara", "Tafraout", 
-  "Tan-Tan", "Tamesna", "Taroudant", "Tariouine", "Tata", "Tiznit", "Tétouan", "Zagora", "Taourirt", 
-  "Taza", "Tafraout", "Youssoufia"
-];
-
 const licenseTypesList = [
   { id: 1, name: "AM : Cyclomoteur" },
   { id: 2, name: "A1 : Motocyclette légère" },
@@ -43,7 +28,6 @@ const EditEcole: React.FC = () => {
     name: string;
     email: string;
     phoneNumber: string;
-    city: string;
     licenseTypes: { name: string }[];
     regionId?: number;
   } | null>(null);
@@ -112,7 +96,6 @@ const EditEcole: React.FC = () => {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
       phoneNumber: formData.get('phoneNumber') as string,
-      city: formData.get('city') as string,
       licenseTypes: licenseTypesList.filter(type => selectedLicenseTypes.includes(type.name)).map(type => ({ name: type.name })),
       regionId: formData.get('regionId') ? parseInt(formData.get('regionId') as string) : undefined,
       password: newPassword || undefined, // Envoyer le mot de passe uniquement s'il est défini
@@ -194,21 +177,7 @@ const EditEcole: React.FC = () => {
                 />
                 <p className="text-xs text-gray-500">Format : 06xxxxxxxx ou 07xxxxxxxx</p>
               </div>
-              <div className="mb-4">
-                <label htmlFor="city" className="block text-sm font-medium text-gray-700">Ville</label>
-                <select
-                  id="city"
-                  name="city"
-                  defaultValue={ecole.city}
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-1 shadow-sm"
-                  required
-                  aria-required="true"
-                >
-                  {cities.map(city => (
-                    <option key={city} value={city}>{city}</option>
-                  ))}
-                </select>
-              </div>
+      
               <fieldset className="mb-4">
                 <legend className="block text-sm font-medium text-gray-700">Type de permis</legend>
                 <div className="mt-1">

@@ -25,7 +25,7 @@ const cities = [
   "Ksar el Hadid", "Ksar Ouled Selmane", "Kssiba", "Larache", "Marrakech", "Meknes",
   "Midelt", "Moulay Bousselham", "Nador", "Ouarzazate", "Oujda", "Oulad Teima",
   "Oulad Zem", "Rabat", "Rissani", "Safi", "Salé", "Sefrou", "Sidi Kacem",
-  "Sidi Slimane", "Tafraout", "Taza", "Temara", "Tiznit", "Tizi Ouzou", "Taroudant",
+  "Sidi Slimane", "Skhirate" ,"Tafraout", "Taza","Témara", "Tiznit", "Tizi Ouzou", "Taroudant",
   "Tantan", "Taounate", "Taourirt", "Tétouan", "Tinejdad", "Tineghir", "Youssoufia",
   "Zagora", "Zenata", "Zerhoun", "Zagora", "Zouagha", "Zouitat", "Zour", "Zrarda"
 ];

@@ -128,6 +128,7 @@ model Commercial {
   password  String
   regions   CommercialRegion[]
   clients   Etudiant[]
+  isLoggedIn        Boolean            @default(false)
 }
 
 model Region {
@@ -181,6 +182,7 @@ model Ecole {
   students          Etudiant[]         @relation("EcoleStudents")
   region            Region?            @relation(fields: [regionId], references: [id]) // Relation ajoutée
   regionId          Int?               // Clé étrangère vers Region
+  isLoggedIn        Boolean            @default(false)
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
 }

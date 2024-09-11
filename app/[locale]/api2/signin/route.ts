@@ -13,11 +13,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email et mot de passe requis' }, { status: 400 });
     }
 
-    // Recherchez l'utilisateur dans les deux tables Commercial et Etudiant
+    // Recherchez l'utilisateur dans les trois tables Commercial, Etudiant et Ecole
     const commercial = await prisma.commercial.findUnique({ where: { email } });
     const etudiant = await prisma.etudiant.findUnique({ where: { email } });
+    const ecole = await prisma.ecole.findUnique({ where: { email } });
 
-    const user = commercial || etudiant;
+    const user = commercial || etudiant || ecole;
 
     if (!user) {
       return NextResponse.json({ error: 'Email ou mot de passe incorrect' }, { status: 401 });
@@ -26,27 +27,20 @@ export async function POST(request: NextRequest) {
     let passwordMatch = false;
 
     if (commercial) {
-      // Vérifiez le mot de passe pour les commerciaux (mot de passe haché)
-      passwordMatch = await bcrypt.compare(password, user.password);
+      passwordMatch = await bcrypt.compare(password, commercial.password);
     } else if (etudiant) {
-      // Vérifiez le mot de passe pour les étudiants (mot de passe haché)
-      passwordMatch = await bcrypt.compare(password, user.password);
+      passwordMatch = await bcrypt.compare(password, etudiant.password);
+    } else if (ecole) {
+      passwordMatch = await bcrypt.compare(password, ecole.password);
     }
 
     if (!passwordMatch) {
       return NextResponse.json({ error: 'Email ou mot de passe incorrect' }, { status: 401 });
     }
 
-    if (etudiant) {
-      await prisma.etudiant.update({
-        where: { id: etudiant.id },
-        data: { isLoggedIn: true },
-      });
-    }
+    const token = sign({ userId: user.id, role: commercial ? 'commercial' : etudiant ? 'etudiant' : 'ecole' }, JWT_SECRET, { expiresIn: '1h' });
 
-    const token = sign({ userId: user.id, role: commercial ? 'commercial' : 'etudiant' }, JWT_SECRET, { expiresIn: '1h' });
-
-    const response = NextResponse.json({ user: { id: user.id, email: user.email, role: commercial ? 'commercial' : 'etudiant' } });
+    const response = NextResponse.json({ user: { id: user.id, email: user.email, role: commercial ? 'commercial' : etudiant ? 'etudiant' : 'ecole' } });
     response.cookies.set('authToken', token, { httpOnly: true, maxAge: 3600 });
 
     return response;
