@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import {
   Table,
   TableBody,
@@ -17,6 +18,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"; // Import the Input component
+import { Search } from 'react-feather'; // Using an icon from react-feather
 import { useRouter } from 'next/navigation';
 
 type Region = {
@@ -51,6 +54,7 @@ type Etudiant = {
 
 const EtudiantsPage = () => {
   const [etudiants, setEtudiants] = useState<Etudiant[]>([]);
+  const [searchQuery, setSearchQuery] = useState(''); // Search query state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -75,8 +79,23 @@ const EtudiantsPage = () => {
     fetchEtudiants();
   }, []);
 
+  const handleSearch = () => {
+    // This function will handle the search based on the searchQuery
+    return etudiants.filter(etudiant =>
+      etudiant.username.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+      etudiant.number.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+      etudiant.email.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+      etudiant.drivingLicenseType.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+      etudiant.ville.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+      etudiant.commercial?.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+      etudiant.ecole?.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+    );
+  };
+
   if (loading) return <p>Chargement des étudiants...</p>;
   if (error) return <p>{error}</p>;
+
+  const filteredEtudiants = handleSearch();
 
   return (
     <Card>
@@ -85,6 +104,20 @@ const EtudiantsPage = () => {
         <CardDescription>Liste des étudiants inscrits sur la plateforme.</CardDescription>
       </CardHeader>
       <CardContent>
+      <div className="relative w-full pb-5">
+  <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none pb-5">
+    <Search size={18} className="text-muted-foreground" />
+  </span>
+  <Input
+    type="text"
+    placeholder="Recherche..."
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    className="pl-10 w-full" // Ajout de padding pour éviter le chevauchement avec l'icône
+  />
+</div>
+
+
         <Table>
           <TableHeader>
             <TableRow>
@@ -101,16 +134,16 @@ const EtudiantsPage = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {etudiants.length === 0 && (
+            {filteredEtudiants.length === 0 && (
               <TableRow>
                 <TableCell colSpan={10}>
                   <div className="flex flex-col gap-1.5 text-muted-foreground items-center justify-center text-center">
-                    <p className="font-medium text-sm">Aucun étudiant pour le moment</p>
+                    <p className="font-medium text-sm">Aucun étudiant trouvé</p>
                   </div>
                 </TableCell>
               </TableRow>
             )}
-            {etudiants.map((etudiant) => (
+            {filteredEtudiants.map((etudiant) => (
               <TableRow key={etudiant.id}>
                 <TableCell>{etudiant.username}</TableCell>
                 <TableCell className="hidden md:table-cell">{etudiant.email}</TableCell>
@@ -122,7 +155,7 @@ const EtudiantsPage = () => {
                 <TableCell className="hidden xl:table-cell">{etudiant.ecole?.name || 'Aucune'}</TableCell>
                 <TableCell className="hidden 2xl:table-cell">{new Date(etudiant.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell>
-                <Button
+                  <Button
                     variant="outline"
                     size="sm"
                     onClick={() => router.push(`/edit-mdp/${etudiant.id}`)} // Redirection avec l'ID de l'étudiant
@@ -138,6 +171,5 @@ const EtudiantsPage = () => {
     </Card>
   );
 };
-
 
 export default EtudiantsPage;

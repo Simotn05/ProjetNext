@@ -143,10 +143,10 @@ const ProfilePage: React.FC = () => {
         </div>
         <div className="mt-6 text-center">
           <Link 
-            href={`/edit-profile/${user?.id}`} 
+            href={`/userpage/${user?.id}/profile/edit-mdp`} 
             className="bg-red-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-red-700 transition duration-200"
           >
-            Modifier le profil
+            Changer le mot de passe
           </Link>
         </div>
       </CardContent>

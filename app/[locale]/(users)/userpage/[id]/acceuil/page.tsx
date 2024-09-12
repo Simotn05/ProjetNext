@@ -121,7 +121,7 @@ const UserPage: React.FC = () => {
       <Card x-chunk="dashboard-01-chunk-3" className="flex flex-col items-center max-w-md w-60 h-45">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
           <CardTitle className="text-lg font-medium">
-            Auto-ecole :
+            Auto-école :
           </CardTitle>
           <div className="ml-auto">
             <Car className="h-6 w-6 text-muted-foreground" />
@@ -130,10 +130,11 @@ const UserPage: React.FC = () => {
         <CardContent className="flex flex-col items-center justify-center text-center h-full">
           <div className="text-3xl font-bold"></div>
           <p className="text-base text-muted-foreground mt-2">
-            Sa3aaada
+            {user?.ecole?.name || 'En attente'}
           </p>
         </CardContent>
       </Card>
+
       <Card x-chunk="dashboard-01-chunk-1" className="flex flex-col items-center max-w-md w-60 h-45">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 w-full">
           <CardTitle className="text-lg font-medium">

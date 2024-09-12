@@ -5,7 +5,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   try {
     const user = await prisma.etudiant.findUnique({
       where: { id: parseInt(params.id, 10) }, // Assurez-vous que l'ID est bien un nombre
-      include: { ville: true } // Inclure les informations sur la ville
+      include: { ville: true ,  ecole: true,  } // Inclure les informations sur la ville
     });
 
     if (!user) {

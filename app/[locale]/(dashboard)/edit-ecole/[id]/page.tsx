@@ -121,9 +121,7 @@ const EditEcole: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return <p className="text-center mt-10">Chargement...</p>;
-  }
+ 
 
   return (
     <div className="container mx-auto px-4">
@@ -135,7 +133,7 @@ const EditEcole: React.FC = () => {
       )}
 
       {ecole ? (
-        <Card className="w-full max-w-2xl mx-auto my-16 shadow-lg rounded-lg">
+        <Card className="w-full max-w-2xl mx-auto my-16 shadow-lg rounded-lg mt-4">
           <CardContent className="p-10">
             <h1 className="text-2xl font-bold mb-6">Modifier l'Auto-école</h1>
             <form onSubmit={handleSubmit} className="relative">

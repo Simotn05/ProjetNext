@@ -8,8 +8,8 @@ export const IS_ADMIN_LOGGED_IN_REDIRECT = "/dashboard";
 
 export const LOGIN_ROUTE = "/login";
 
-export const Inscription_Route = "/inscription";
+export const Inscription_Route = "/fr/inscription";
 
-export const Connexion_Route = "/connexion";
+export const Connexion_Route = "/fr/connexion";
 
-export const Partenariat_Route = "/partenariat";
+export const Partenariat_Route = "/fr/partenariat";

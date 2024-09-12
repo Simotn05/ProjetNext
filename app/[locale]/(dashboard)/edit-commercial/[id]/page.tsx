@@ -111,7 +111,7 @@ const EditCommercial: React.FC = () => {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto my-16 shadow-lg rounded-lg" ref={cardRef}>
+    <Card className="w-full max-w-2xl mx-auto my-16 shadow-lg rounded-lg mt-4" ref={cardRef}>
       <CardContent className="p-10">
         <h1 className="text-2xl font-bold mb-6">Modifier Commercial</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}

@@ -1,6 +1,6 @@
 'use client';
 
-import { Car, Home, Mails, BarChart } from 'lucide-react';
+import { Car, Home, Mails, BarChart, User, Menu } from 'lucide-react';
 import DashboardHeader from '../../userpage/[id]/components/dashboardHeader';
 import Sidebar from '../../userpage/[id]/components/sidebar';
 import { NavLink } from '@/types';
@@ -17,17 +17,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       href: `/commercial/${params.id}/acceuil`,  // URL dynamique
     },
     {
-      icon: <Car />,
+      icon: <Menu />,
       label: 'Profile',
       href: `/commercial/${params.id}/profile`,  // URL dynamique
     },
     {
-      icon: <Mails />,
+      icon: <User />,
       label: 'Liste des étudiants',
       href: `/commercial/${params.id}/liste-etudiants`,  // URL dynamique
     },
     {
-      icon: <Mails />,
+      icon: <Car />,
       label: 'Liste des auto-écoles',
       href: `/commercial/${params.id}/liste-ecoles`,  // URL dynamique
     },

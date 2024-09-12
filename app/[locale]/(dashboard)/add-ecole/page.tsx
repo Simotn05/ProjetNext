@@ -149,7 +149,7 @@ const AddEcole: React.FC = () => {
 
 
   return (
-    <Card className="w-full max-w-lg mx-auto my-16 shadow-lg rounded-lg">
+    <Card className="w-full max-w-lg mx-auto my-16 shadow-lg rounded-lg mt-4">
       <CardContent className="p-10">
         <div className="relative mb-6">
           <div className="absolute top-0 right-0">

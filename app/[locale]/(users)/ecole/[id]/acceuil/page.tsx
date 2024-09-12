@@ -1,28 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useParams } from 'next/navigation'; // Utiliser useParams
+import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { number } from 'yup';
-
-// type LicenseType = {
-//   id: number;
-//   name: string;
-// };
-
-// type VehiclePerType = {
-//   id: number;
-//   vehicleType: string;
-//   count: number;
-// };
 
 type Etudiant = {
   id: number;
   username: string;
   email: string;
-  number: number;
+  number: string; // Assurez-vous que cela correspond à votre schéma
 };
 
 type Ecole = {
@@ -31,8 +19,6 @@ type Ecole = {
   email: string;
   city: string;
   phoneNumber: string;
-  // licenseTypes: LicenseType[];
-  // vehiclesPerType: VehiclePerType[];
   students: Etudiant[];
 };
 
@@ -40,10 +26,10 @@ const AutoEcoleDashboard = () => {
   const [ecole, setEcole] = useState<Ecole | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showAllStudents, setShowAllStudents] = useState(false);
 
   const router = useRouter();
   const { id } = useParams(); // Utiliser useParams pour obtenir l'ID
-  const params = useParams();
 
   useEffect(() => {
     if (!id) return; // Assurez-vous que l'ID est disponible
@@ -67,11 +53,14 @@ const AutoEcoleDashboard = () => {
     fetchEcoleData();
   }, [id]);
 
-//   if (loading) return <p>Chargement des données...</p>;
   if (error) return <p>{error}</p>;
 
+  // Définir une valeur par défaut pour les étudiants
+  const students = ecole?.students || [];
+  const displayedStudents = showAllStudents ? students : students.slice(0, 3);
+
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 pt-4">
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>Bienvenue, {ecole?.name}</CardTitle>
@@ -91,64 +80,42 @@ const AutoEcoleDashboard = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Nom de l'étudiant</TableHead>
+                <TableHead>Email</TableHead>
                 <TableHead>Numéro de téléphone</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {ecole?.students.length === 0 ? (
+              {displayedStudents.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={2}>Aucun étudiant inscrit pour le moment.</TableCell>
                 </TableRow>
               ) : (
-                ecole?.students.map((etudiant) => (
+                displayedStudents.map((etudiant) => (
                   <TableRow key={etudiant.id}>
                     <TableCell>{etudiant.username}</TableCell>
+                    <TableCell>{etudiant.email}</TableCell>
                     <TableCell>{etudiant.number}</TableCell>
                   </TableRow>
                 ))
               )}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
-      <div className="mt-8 flex gap-4 mb-8">
-        <Button onClick={() => router.push(`/ecole/${params.id}/liste-etudiants`)}>Gérer les étudiants</Button>
-      </div>
-      {/* Liste des véhicules */}
-      {/* <Card>
-        <CardHeader>
-          <CardTitle>Véhicules disponibles par type de permis</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Type de véhicule</TableHead>
-                <TableHead>Nombre</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {ecole?.vehiclesPerType.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={2}>Aucun véhicule disponible pour le moment.</TableCell>
-                </TableRow>
-              ) : (
-                ecole?.vehiclesPerType.map((vehicle) => (
-                  <TableRow key={vehicle.id}>
-                    <TableCell>{vehicle.vehicleType}</TableCell>
-                    <TableCell>{vehicle.count}</TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+          {students.length > 3 && !showAllStudents && (
+            <div className="mt-4 text-center">
+              <Button onClick={() => setShowAllStudents(true)}>Voir plus...</Button>
+            </div>
+          )}
+          {showAllStudents && students.length > 3 && (
+            <div className="mt-4 text-center">
+              <Button onClick={() => setShowAllStudents(false)}>Voir moins</Button>
+            </div>
+          )}
         </CardContent>
       </Card>
 
-      {/* Bouton pour gérer les véhicules ou étudiants /}
-      <div className="mt-8 flex gap-4">
-        <Button onClick={() => router.push('/gestion-vehicules')}>Gérer les véhicules</Button>
-      </div> */}
+      <div className="mt-8 flex gap-4 mb-8">
+        <Button onClick={() => router.push(`/ecole/${id}/liste-etudiants`)}>Gérer les étudiants</Button>
+      </div>
     </div>
   );
 };
