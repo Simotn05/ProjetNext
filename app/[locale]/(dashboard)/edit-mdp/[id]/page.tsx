@@ -2,6 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Eye, EyeOff } from 'react-feather'; // Import des icônes pour afficher/cacher le mot de passe
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -15,6 +16,8 @@ const EditMdpPage = () => {
   const [success, setSuccess] = useState('');
   const [etudiantName, setEtudiantName] = useState(''); // Pour stocker le nom de l'étudiant
   const [loading, setLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(false); // État pour gérer la visibilité du mot de passe
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // État pour gérer la visibilité du mot de passe de confirmation
 
   // Récupérer les informations de l'étudiant
   useEffect(() => {
@@ -81,20 +84,40 @@ const EditMdpPage = () => {
         {success && <p className="text-green-500 mb-4">{success}</p>}
 
         <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
-          <Input
-            type="password"
-            placeholder="Nouveau mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <Input
-            type="password"
-            placeholder="Confirmer le mot de passe"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
+          <div className="relative">
+            <Input
+              type={showPassword ? "text" : "password"}
+              placeholder="Nouveau mot de passe"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-2 top-2 text-black-500 focus:outline-none p-1"
+            >
+              {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+            </button>
+          </div>
+
+          <div className="relative">
+            <Input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirmer le mot de passe"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-2 top-2 text-black-500 focus:outline-none p-1"
+            >
+              {showConfirmPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+            </button>
+          </div>
+
           <Button type="submit" className="w-full">
             Modifier
           </Button>

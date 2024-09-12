@@ -36,6 +36,7 @@ const EditCommercial: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Pour le champ de confirmation
   const router = useRouter();
   const cardRef = useRef<HTMLDivElement>(null);
+  const [showPasswordFields, setShowPasswordFields] = useState<boolean>(false); 
 
   useEffect(() => {
     if (!id) {
@@ -140,50 +141,15 @@ const EditCommercial: React.FC = () => {
             onChange={(e) => setPhoneNumber(e.target.value)}
             className="mt-1"
           />
-        </div>
-        {/* Nouveau mot de passe */}
-<div className="mb-4 relative">
-  <label className="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
-  <Input
-    type={showPassword ? 'text' : 'password'} // Afficher en texte ou masquer
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-    className="mt-1 w-full"
-  />
-  <button
-    type="button"
-    className="absolute inset-y-11 right-0 flex items-center px-3"
-    onClick={() => setShowPassword(!showPassword)}
-    aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
-  >
-    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />} {/* Afficher l'icône appropriée */}
-  </button>
-</div>
 
-{/* Confirmation du mot de passe */}
-<div className="mb-4 relative">
-  <label className="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
-  <Input
-    type={showConfirmPassword ? 'text' : 'password'} // Afficher en texte ou masquer
-    value={confirmPassword}
-    onChange={(e) => setConfirmPassword(e.target.value)}
-    className="mt-1 w-full"
-  />
-  <button
-    type="button"
-    className="absolute inset-y-11 right-0 flex items-center px-3"
-    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-    aria-label={showConfirmPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
-  >
-    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />} {/* Afficher l'icône appropriée */}
-  </button>
-</div>
+        </div>
+
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Régions</label>
-          <div className="mt-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Régions</label>
+          <div className="grid grid-cols-2 gap-4">
             {allRegions.map((region) => (
-              <div key={region.id} className="flex items-center mb-2">
+              <div key={region.id} className="flex items-center">
                 <input
                   type="checkbox"
                   id={`region-${region.id}`}
@@ -198,6 +164,52 @@ const EditCommercial: React.FC = () => {
             ))}
           </div>
         </div>
+
+
+                {/* Nouveau mot de passe */}
+          {showPasswordFields && (
+              <>
+          <div className="mb-4 relative">
+            <label className="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
+            <Input
+              type={showPassword ? 'text' : 'password'} // Afficher en texte ou masquer
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 w-full"
+            />
+            <button
+              type="button"
+              className="absolute inset-y-11 right-0 flex items-center px-3"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />} {/* Afficher l'icône appropriée */}
+            </button>
+          </div>
+
+          {/* Confirmation du mot de passe */}
+          <div className="mb-4 relative">
+            <label className="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
+            <Input
+              type={showConfirmPassword ? 'text' : 'password'} // Afficher en texte ou masquer
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="mt-1 w-full"
+            />
+            <button
+              type="button"
+              className="absolute inset-y-11 right-0 flex items-center px-3"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              aria-label={showConfirmPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+            >
+              {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />} {/* Afficher l'icône appropriée */}
+            </button>
+          </div>
+          </>
+       )}
+              <button className='underline md:hover:no-underline text-red-700 pb-3' type="button" onClick={() => setShowPasswordFields(!showPasswordFields)}>
+                {showPasswordFields ? 'Masquer les champs de mot de passe' : 'Changer le mot de passe'}
+              </button> 
         <Button onClick={handleSave} className="bg-red-500 text-white w-full py-2">
           Sauvegarder
         </Button>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Eye, EyeOff } from 'react-feather';
+import { AlertTriangle, Eye, EyeOff } from 'react-feather';
 import { Input } from '@/components/ui/input';
 
 
@@ -133,7 +133,7 @@ const EditEcole: React.FC = () => {
       )}
 
       {ecole ? (
-        <Card className="w-full max-w-2xl mx-auto my-16 shadow-lg rounded-lg mt-4">
+        <Card className="w-full max-w-4xl mx-auto my-16 shadow-lg rounded-lg mt-4">
           <CardContent className="p-10">
             <h1 className="text-2xl font-bold mb-6">Modifier l'Auto-école</h1>
             <form onSubmit={handleSubmit} className="relative">
@@ -177,23 +177,31 @@ const EditEcole: React.FC = () => {
               </div>
       
               <fieldset className="mb-4">
-                <legend className="block text-sm font-medium text-gray-700">Type de permis</legend>
-                <div className="mt-1">
-                  {licenseTypesList.map(type => (
-                    <div key={type.id} className="flex items-center mb-2">
-                      <input
-                        type="checkbox"
-                        id={`licenseType-${type.id}`}
-                        value={type.name}
-                        checked={selectedLicenseTypes.includes(type.name)}
-                        onChange={handleCheckboxChange}
-                        className="mr-2"
-                      />
-                      <label htmlFor={`licenseType-${type.id}`} className="text-sm text-gray-700">{type.name}</label>
-                    </div>
-                  ))}
-                </div>
-              </fieldset>
+  <legend className="block text-sm font-medium text-gray-700">Type de permis</legend>
+  <div className="mt-1">
+    {licenseTypesList.map(type => (
+      <div key={type.id} className="flex items-center mb-2">
+        <input
+          type="checkbox"
+          id={`licenseType-${type.id}`}
+          value={type.name}
+          checked={selectedLicenseTypes.includes(type.name)}
+          onChange={handleCheckboxChange}
+          className="mr-2"
+        />
+        <label htmlFor={`licenseType-${type.id}`} className="text-sm text-gray-700">{type.name}</label>
+
+        {/* Icône et message uniquement pour les cases cochées */}
+        {selectedLicenseTypes.includes(type.name) && (
+          <div className="flex items-center text-red-600 text-sm ml-2">
+            <AlertTriangle size={16} className="mr-1" />
+            <span>(Attention : La suppression de ce type pourrait affecter les étudiants.)</span>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</fieldset>
               {showPasswordFields && (
                 <>
                   <div className="mb-4">
@@ -205,7 +213,7 @@ const EditEcole: React.FC = () => {
                         type={showNewPassword ? "text" : "password"}
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                         minLength={8}
                         required
                         aria-required="true"
@@ -215,12 +223,12 @@ const EditEcole: React.FC = () => {
                         onClick={() => setShowNewPassword(!showNewPassword)}
                         className="absolute inset-y-0 right-0 flex items-center pr-3"
                       >
-                        {showNewPassword ? <EyeOff className="h-5 w-5 text-gray-400" /> : <Eye className="h-5 w-5 text-gray-400" />}
+                        {showNewPassword ? <EyeOff className="h-5 w-5 text-black-400" /> : <Eye className="h-5 w-5 text-black-400" />}
                       </button>
                     </div>
                   </div>
                   <div className="mb-4">
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 ">Confirmer le mot de passe</label>
                     <div className="relative">
                       <input
                         id="confirmPassword"
@@ -228,7 +236,7 @@ const EditEcole: React.FC = () => {
                         type={showConfirmPassword ? "text" : "password"}
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                         minLength={8}
                         required
                         aria-required="true"
@@ -238,17 +246,17 @@ const EditEcole: React.FC = () => {
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         className="absolute inset-y-0 right-0 flex items-center pr-3"
                       >
-                        {showConfirmPassword ? <EyeOff className="h-5 w-5 text-gray-400" /> : <Eye className="h-5 w-5 text-gray-400" />}
+                        {showConfirmPassword ? <EyeOff className="h-5 w-5 text-black-400" /> : <Eye className="h-5 w-5 text-black-400" />}
                       </button>
                     </div>
                   </div>
                 </>
               )}
-              <Button type="button" onClick={() => setShowPasswordFields(!showPasswordFields)}>
-                {showPasswordFields ? 'Masquer les champs de mot de passe' : 'Afficher les champs de mot de passe'}
-              </Button>
+              <button className='underline md:hover:no-underline text-red-700' type="button" onClick={() => setShowPasswordFields(!showPasswordFields)}>
+                {showPasswordFields ? 'Masquer les champs de mot de passe' : 'Changer le mot de passe'}
+              </button>
               <br />
-              <Button type="submit" className="mt-4" disabled={loading}>
+              <Button type="submit" className="mt-4 w-full" disabled={loading}>
                 {loading ? 'Enregistrement...' : 'Enregistrer'}
               </Button>
             </form>

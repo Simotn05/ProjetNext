@@ -102,7 +102,7 @@ const ListeEtudiantsPage = () => {
           type="text"
           value={searchTerm}
           onChange={handleSearch}
-          placeholder="Rechercher (par nom, numéro, ville, email) ..."
+          placeholder="Rechercher (par nom, numéro, ville, email, permis) ..."
           className="pl-10 w-full" // Ajoute un padding à gauche pour éviter que le texte chevauche l'icône
         />
       </div>
