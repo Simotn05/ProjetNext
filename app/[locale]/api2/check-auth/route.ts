@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
 
     const decoded = verify(token, JWT_SECRET) as { userId: string; role: string };
 
-    // Recherchez l'utilisateur dans la base de données en fonction du rôle
     let user;
     if (decoded.role === 'commercial') {
       user = await prisma.commercial.findUnique({ where: { id: parseInt(decoded.userId) } });

@@ -16,24 +16,7 @@ const UserPage: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const authRes = await fetch('/api2/check-auth', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-
-        if (authRes.ok) {
-          const authData = await authRes.json();
-          const userId = authData.user?.id;
-
-          if (userId) {
-            if (userId.toString() !== params.id) {
-              router.push('/errorPage');
-              return;
-            }
-
+       
             const userRes = await fetch(`/api2/user/${params.id}`, {
               method: 'GET',
               headers: {
@@ -48,12 +31,7 @@ const UserPage: React.FC = () => {
             } else {
               setError('Utilisateur non trouvé ou accès non autorisé.');
             }
-          } else {
-            router.push('/connexion');
-          }
-        } else {
-          router.push('/connexion');
-        }
+          
       } catch (err) {
         setError('Impossible de vérifier l’authentification. Veuillez vérifier votre connexion Internet.');
       }

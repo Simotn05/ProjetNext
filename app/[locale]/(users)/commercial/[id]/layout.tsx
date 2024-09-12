@@ -4,11 +4,66 @@ import { Car, Home, Mails, BarChart, User, Menu } from 'lucide-react';
 import DashboardHeader from '../../userpage/[id]/components/dashboardHeader';
 import Sidebar from '../../userpage/[id]/components/sidebar';
 import { NavLink } from '@/types';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { StudentProvider } from '@/contexts/StudentContext'; // Assurez-vous du bon chemin
+import { useEffect, useState } from 'react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const params = useParams();  // Récupère l'ID du commercial
+  const router = useRouter();
+  const params = useParams();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api2/check-auth', { method: 'GET' });
+        const data = await res.json();
+
+        if (!data.user) {
+          // Redirige si non authentifié
+          router.push('/connexion');
+        } else if (data.user.role !== 'commercial') {
+          // Redirige si l'utilisateur n'est pas du rôle "ecole"
+          router.push('/errorPage');
+        } else {
+          setIsAuthenticated(true);
+          setUserId(data.user.id); // Stocke l'ID de l'utilisateur authentifié
+        }
+      } catch (error) {
+        console.error('Erreur lors de la vérification de l’authentification:', error);
+        router.push('/connexion');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [router]);
+
+  useEffect(() => {
+    if (userId !== null && params.id) {
+      let idFromParams: string;
+  
+      // Vérifie si params.id est un tableau ou une simple chaîne
+      if (Array.isArray(params.id)) {
+        idFromParams = params.id[0]; // Utilise la première valeur si c'est un tableau
+      } else {
+        idFromParams = params.id; // Utilise la valeur directement si c'est une chaîne
+      }
+  
+      // Compare l'ID dans l'URL avec l'ID de l'utilisateur connecté
+      if (parseInt(idFromParams) !== userId) {
+        router.push('/errorPage'); // Redirige si l'ID ne correspond pas
+      }
+    }
+  }, [userId, params.id, router]);
+  
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const navLinks: NavLink[] = [
     {
