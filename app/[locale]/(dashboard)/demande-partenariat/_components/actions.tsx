@@ -1,3 +1,4 @@
+"use client"
 import { useLocale } from "next-intl";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -12,6 +13,7 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { deletePartnershipRequest } from "@/actions/partnershipRequests"; // Modifiez selon le chemin réel
+import { Trash2 } from "react-feather";
 
 type Props = {
     id: number;
@@ -50,7 +52,7 @@ export default function Actions({ id }: Props) {
                     className="text-red-500 cursor-pointer"
                     onClick={handleDelete}
                 >
-                    Supprimer la demande
+                    <Trash2 className="mr-2 h-4 w-4" />Supprimer
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
