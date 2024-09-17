@@ -5,7 +5,11 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const regions = await prisma.region.findMany();
+    const regions = await prisma.region.findMany({
+      orderBy:{
+        id:"asc"
+      }
+    });
     return NextResponse.json(regions);
   } catch (error) {
     console.error('Erreur lors de la récupération des régions:', error);

@@ -112,7 +112,7 @@ const AttribuerEcolePage: React.FC = () => {
     }
   };
 
-  if (loading) return <p>Chargement des étudiants...</p>;
+  if (loading) return <p>Chargement...</p>;
 
   if (error) {
     return (

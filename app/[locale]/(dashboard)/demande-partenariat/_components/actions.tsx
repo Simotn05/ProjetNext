@@ -1,5 +1,3 @@
-"use client";
-
 import { useLocale } from "next-intl";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -23,6 +21,21 @@ export default function Actions({ id }: Props) {
     const locale = useLocale();
     const router = useRouter();
 
+    const handleDelete = async () => {
+        // Afficher une boîte de dialogue de confirmation avant de procéder à la suppression
+        const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cette demande de partenariat ?');
+
+        if (confirmed) {
+            try {
+                await deletePartnershipRequest(id); // Appel à la fonction appropriée
+                toast("La demande de partenariat a été supprimée avec succès.");
+                router.refresh(); // Rafraîchir la page après suppression
+            } catch (error) {
+                toast("Échec de la suppression : veuillez réessayer.");
+            }
+        }
+    };
+
     return (
         <DropdownMenu dir={locale === "ar" ? "rtl" : "ltr"}>
             <DropdownMenuTrigger asChild>
@@ -35,15 +48,7 @@ export default function Actions({ id }: Props) {
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
                     className="text-red-500 cursor-pointer"
-                    onClick={async () => {
-                        try {
-                            await deletePartnershipRequest(id); // Appel à la fonction appropriée
-                            toast("La demande de partenariat a été supprimée avec succès.");
-                            router.refresh(); // Rafraîchir la page après suppression
-                        } catch (error) {
-                            toast("Échec de la suppression : veuillez réessayer.");
-                        }
-                    }}
+                    onClick={handleDelete}
                 >
                     Supprimer la demande
                 </DropdownMenuItem>

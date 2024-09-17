@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Eye, EyeOff } from 'react-feather'; // Import des icônes
 import { useRouter, useParams } from 'next/navigation';
+import { ChevronLeftIcon } from 'lucide-react';
 
 // Utility function for phone number validation
 const validatePhoneNumber = (phoneNumber: string) => {
@@ -84,37 +85,52 @@ const EditCommercial: React.FC = () => {
       setError('Le numéro de téléphone doit être au format 06xxxxxxxx ou 07xxxxxxxx.');
       return;
     }
-
+  
     if (password && !validatePassword(password)) {
       setError('Le mot de passe doit contenir au moins 8 caractères, dont une majuscule, une minuscule et un chiffre.');
       return;
     }
-
+  
     if (password !== confirmPassword) {
       setError('Les mots de passe ne correspondent pas.');
       return;
     }
-
+  
     try {
-      await axios.post(`/api3/modificationCommercial/${id}`, {
+      const response = await axios.post(`/api3/modificationCommercial/${id}`, {
         name,
         email,
         phoneNumber,
         regions: selectedRegions,
         password: password ? password : undefined,
       });
+      
       setSuccess(true);
       setError(null);
       router.push('/gestion-commercial');
     } catch (error) {
-      setError('Une erreur est survenue lors de la mise à jour du commercial. Veuillez réessayer.');
+      console.error('Error:', error);  // Debugging: Affichez l'erreur pour comprendre le problème
+      setError('Veuillez réessayer (Email peut etre déjà utilisé).');
     }
   };
+  
 
   return (
-    <Card className="w-full max-w-2xl mx-auto my-16 shadow-lg rounded-lg mt-4" ref={cardRef}>
+    <Card className="w-full max-w-xl mx-auto my-16 shadow-lg rounded-lg mt-4" ref={cardRef}>
       <CardContent className="p-10">
-        <h1 className="text-2xl font-bold mb-6">Modifier Commercial</h1>
+      <div className="relative mb-6">
+        {/* Conteneur pour positionner le bouton et le titre */}
+        <div className="absolute top-0 right-0">
+          <Button
+            type="button"
+            onClick={() => router.back()}
+            className="bg-red-600 text-white py-1 px-3 rounded-lg font-semibold hover:bg-red-800 transition duration-200"
+          >
+            <ChevronLeftIcon className="w-4 h-4 group-hover:translate-x-[-4px] transition-transform duration-300 ease-in-out" />
+          </Button>
+        </div>
+        <h1 className="text-2xl font-bold mt-8">Modifier un Commercial</h1> {/* Ajout d'une marge pour éviter le chevauchement */}
+      </div>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {success && <p className="text-green-500 mb-4">Commercial mis à jour avec succès!</p>}
         <div className="mb-4">
@@ -125,7 +141,7 @@ const EditCommercial: React.FC = () => {
             className="mt-1"
           />
         </div>
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Email</label>
           <Input
             type="email"
@@ -133,7 +149,7 @@ const EditCommercial: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             className="mt-1"
           />
-        </div>
+        </div> */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Numéro de Téléphone</label>
           <Input

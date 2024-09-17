@@ -1,22 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { string } from 'yup';
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest) {
-  const url = new URL(req.url);
-  const regionId = parseInt(url.searchParams.get('regionId') || '0');
+export async function GET() {
 
   try {
-    if (!regionId) {
-      return NextResponse.json({ error: 'Region ID manquant' }, { status: 400 });
-    }
-
     const villes = await prisma.ville.findMany({
-      where: {
-        regionId
-      },
       orderBy: {
         name: 'asc' 
       }

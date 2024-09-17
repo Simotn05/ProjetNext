@@ -189,7 +189,7 @@ model Ecole {
 
 model Etudiant {
   id                Int       @id @default(autoincrement())
-  username          String    @unique
+  username          String    
   email             String    @unique
   number            String
   password          String
@@ -206,6 +206,7 @@ model Etudiant {
   commercial        Commercial? @relation(fields: [commercialId], references: [id], onDelete: Cascade)
   ecoleId           Int?
   ecole             Ecole?    @relation("EcoleStudents", fields: [ecoleId], references: [id], onDelete: Cascade)
+  seancesPratique   Int       @default(0)
 }
 
 model LicenseType {

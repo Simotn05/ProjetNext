@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Eye, EyeOff } from 'react-feather';
 import { Input } from '@/components/ui/input';
+import { ChevronLeftIcon } from 'lucide-react';
 
 
 const licenseTypesList = [
@@ -26,11 +27,12 @@ const EditEcole: React.FC = () => {
   const { id } = useParams();
   const [ecole, setEcole] = useState<{
     name: string;
-    email: string;
+    // email: string;
     phoneNumber: string;
     licenseTypes: { name: string }[];
     regionId?: number;
   } | null>(null);
+  const [initialCheckedLicenseTypes, setInitialCheckedLicenseTypes] = useState<string[]>([]);
   const [selectedLicenseTypes, setSelectedLicenseTypes] = useState<string[]>([]);
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
@@ -63,7 +65,9 @@ const EditEcole: React.FC = () => {
         }
 
         setEcole(data.ecole);
-        setSelectedLicenseTypes(data.ecole.licenseTypes.map((type: { name: string }) => type.name));
+        const initialChecked = data.ecole.licenseTypes.map((type: { name: string }) => type.name);
+        setInitialCheckedLicenseTypes(initialChecked);
+        setSelectedLicenseTypes(initialChecked);
       } catch (err) {
         console.error('Erreur lors du chargement de l\'école:', err);
         setError('Erreur lors du chargement de l\'école.');
@@ -88,7 +92,7 @@ const EditEcole: React.FC = () => {
 
     // Validation des mots de passe
     if (newPassword && (newPassword !== confirmPassword || !passwordRegex.test(newPassword))) {
-      setError('Le mot de passe ne correspond pas au format requis ou les mots de passe ne correspondent pas.');
+      setError('Le mot de passe ne correspond pas au format requis.');
       return;
     }
 
@@ -113,7 +117,8 @@ const EditEcole: React.FC = () => {
       if (response.ok) {
         router.push('/liste-ecoles');
       } else {
-        throw new Error('Erreur lors de la mise à jour de l\'école');
+        const result = await response.json();
+        setError(result.error ||'Erreur')
       }
     } catch (err) {
       console.error('Erreur lors de la mise à jour de l\'école:', err);
@@ -122,20 +127,34 @@ const EditEcole: React.FC = () => {
   };
 
  
+  useEffect(() => {
+    if (error) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [error]);
 
   return (
     <div className="container mx-auto px-4">
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
-          <strong className="font-bold">Erreur :</strong>
-          <span className="block sm:inline">{error}</span>
-        </div>
-      )}
-
       {ecole ? (
         <Card className="w-full max-w-4xl mx-auto my-16 shadow-lg rounded-lg mt-4">
           <CardContent className="p-10">
-            <h1 className="text-2xl font-bold mb-6">Modifier l'Auto-école</h1>
+          <div className="relative mb-6">
+          <div className="absolute top-0 right-0">
+            <Button
+              type="button"
+              onClick={() => router.back()}
+              className="bg-red-600 text-white py-1 px-3 rounded-lg font-semibold hover:bg-red-800 transition duration-200"
+            >
+              <ChevronLeftIcon className="w-4 h-4 group-hover:translate-x-[-4px] transition-transform duration-300 ease-in-out" />
+            </Button>
+          </div>
+          <h1 className="text-2xl font-bold mt-8">Modifier l'auto-École</h1>
+        </div>
+            {error && (
+            <div className="text-red-700 rounded relative mb-6" role="alert">
+              <span >{error}</span>
+            </div>
+              )}
             <form onSubmit={handleSubmit} className="relative">
               <div className="mb-4">
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nom</label>
@@ -149,7 +168,7 @@ const EditEcole: React.FC = () => {
                   aria-required="true"
                 />
               </div>
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                 <Input
                   id="email"
@@ -160,7 +179,7 @@ const EditEcole: React.FC = () => {
                   required
                   aria-required="true"
                 />
-              </div>
+              </div> */}
               <div className="mb-4">
                 <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">Numéro de téléphone</label>
                 <Input
@@ -177,31 +196,31 @@ const EditEcole: React.FC = () => {
               </div>
       
               <fieldset className="mb-4">
-  <legend className="block text-sm font-medium text-gray-700">Type de permis</legend>
-  <div className="mt-1">
-    {licenseTypesList.map(type => (
-      <div key={type.id} className="flex items-center mb-2">
-        <input
-          type="checkbox"
-          id={`licenseType-${type.id}`}
-          value={type.name}
-          checked={selectedLicenseTypes.includes(type.name)}
-          onChange={handleCheckboxChange}
-          className="mr-2"
-        />
-        <label htmlFor={`licenseType-${type.id}`} className="text-sm text-gray-700">{type.name}</label>
+              <legend className="block text-sm font-medium text-gray-700">Type de permis</legend>
+              <div className="mt-1">
+                {licenseTypesList.map(type => (
+                  <div key={type.id} className="flex items-center mb-2">
+                    <input
+                      type="checkbox"
+                      id={`licenseType-${type.id}`}
+                      value={type.name}
+                      checked={selectedLicenseTypes.includes(type.name)}
+                      onChange={handleCheckboxChange}
+                      className="mr-2"
+                    />
+                    <label htmlFor={`licenseType-${type.id}`} className="text-sm text-gray-700">{type.name}</label>
 
-        {/* Icône et message uniquement pour les cases cochées */}
-        {selectedLicenseTypes.includes(type.name) && (
-          <div className="flex items-center text-red-600 text-sm ml-2">
-            <AlertTriangle size={16} className="mr-1" />
-            <span>(Attention : La suppression de ce type pourrait affecter les étudiants.)</span>
-          </div>
-        )}
-      </div>
-    ))}
-  </div>
-</fieldset>
+                    {/* Icône et message uniquement pour les cases initialement cochées */}
+                    {initialCheckedLicenseTypes.includes(type.name) && selectedLicenseTypes.includes(type.name) && (
+                      <div className="flex items-center text-red-500 ml-4">
+                        <AlertTriangle className="w-4 h-4 mr-2" />
+                        <span className="text-sm">Attention : La suppression de ce type pourrait affecter les étudiants.</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </fieldset>
               {showPasswordFields && (
                 <>
                   <div className="mb-4">
@@ -263,7 +282,7 @@ const EditEcole: React.FC = () => {
           </CardContent>
         </Card>
       ) : (
-        <p className="text-center mt-10">Aucune donnée trouvée pour cette école.</p>
+        <p className="text-center mt-10"></p>
       )}
     </div>
   );

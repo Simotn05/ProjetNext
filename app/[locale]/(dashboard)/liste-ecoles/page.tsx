@@ -59,22 +59,28 @@ const ListeEcoles: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-    try {
-      const response = await fetch(`/api3/delete-ecole/${id}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        setEcoles(ecoles.filter((ecole) => ecole.id !== id));
-        setFilteredEcoles(filteredEcoles.filter((ecole) => ecole.id !== id)); // Mettre à jour la liste filtrée
-      } else {
-        console.error('Erreur lors de la suppression de l\'auto-école');
+    // Afficher une boîte de dialogue de confirmation avant de procéder à la suppression
+    const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cette auto-école ?');
+  
+    if (confirmed) {
+      try {
+        const response = await fetch(`/api3/delete-ecole/${id}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          setEcoles(ecoles.filter((ecole) => ecole.id !== id));
+          setFilteredEcoles(filteredEcoles.filter((ecole) => ecole.id !== id)); // Mettre à jour la liste filtrée
+        } else {
+          console.error('Erreur lors de la suppression de l\'auto-école');
+          setError('Erreur lors de la suppression de l\'auto-école.');
+        }
+      } catch (err) {
+        console.error('Erreur lors de la suppression de l\'auto-école:', err);
         setError('Erreur lors de la suppression de l\'auto-école.');
       }
-    } catch (err) {
-      console.error('Erreur lors de la suppression de l\'auto-école:', err);
-      setError('Erreur lors de la suppression de l\'auto-école.');
     }
   };
+  
 
   return (
     <Card className="w-full max-w-4xl mx-auto my-16 shadow-lg rounded-lg mt-4">

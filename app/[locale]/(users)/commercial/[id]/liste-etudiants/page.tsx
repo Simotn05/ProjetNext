@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Menu } from '@headlessui/react';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
-import { Button, TextField, InputAdornment } from '@mui/material';
+import { Button, TextField, InputAdornment, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Search } from 'react-feather';
 import { Input } from '@/components/ui/input';
 
@@ -17,6 +17,8 @@ const ListeEtudiantsPage: React.FC = () => {
   const [filteredStudents, setFilteredStudents] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
+  const [studentToDelete, setStudentToDelete] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -56,24 +58,32 @@ const ListeEtudiantsPage: React.FC = () => {
     setFilteredStudents(results);
   }, [searchTerm, students]);
 
-  const handleDelete = async (etudiantId: number) => {
-    try {
-      const res = await fetch(`/api2/deleteEtudiant/${params.id}/${etudiantId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  const handleDelete = async () => {
+    if (studentToDelete !== null) {
+      try {
+        const res = await fetch(`/api2/deleteEtudiant/${params.id}/${studentToDelete}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-      if (res.ok) {
-        setStudents(students.filter(student => student.id !== etudiantId));
-        setFilteredStudents(filteredStudents.filter(student => student.id !== etudiantId));
-      } else {
-        setError('Erreur lors de la suppression de l\'étudiant.');
+        if (res.ok) {
+          setStudents(students.filter(student => student.id !== studentToDelete));
+          setFilteredStudents(filteredStudents.filter(student => student.id !== studentToDelete));
+          setOpenConfirmDialog(false); // Close the dialog
+        } else {
+          setError('Erreur lors de la suppression de l\'étudiant.');
+        }
+      } catch (err) {
+        setError('Impossible de supprimer l\'étudiant. Veuillez vérifier votre connexion Internet.');
       }
-    } catch (err) {
-      setError('Impossible de supprimer l\'étudiant. Veuillez vérifier votre connexion Internet.');
     }
+  };
+
+  const openConfirmationDialog = (id: number) => {
+    setStudentToDelete(id);
+    setOpenConfirmDialog(true);
   };
 
   if (error) {
@@ -94,18 +104,18 @@ const ListeEtudiantsPage: React.FC = () => {
             <h2 className="text-3xl font-bold text-center text-black mb-6">Liste des Étudiants</h2>
             
             <div className="relative w-full mb-6">
-        <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <Search className="h-5 w-5 text-muted-foreground" />
-        </span>
-        <Input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Rechercher (par nom, email, numéro, ville, auto-ecole, type de permis) ..."
-          className="pl-10 w-full" // Ajoute un padding à gauche pour éviter que le texte chevauche l'icône
-        />
-      </div>
-      
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Search className="h-5 w-5 text-muted-foreground" />
+              </span>
+              <Input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Rechercher (par nom, email, numéro, ville, auto-ecole, type de permis) ..."
+                className="pl-10 w-full" // Ajoute un padding à gauche pour éviter que le texte chevauche l'icône
+              />
+            </div>
+            
             {filteredStudents.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="min-w-full bg-white rounded-lg shadow-sm">
@@ -123,7 +133,7 @@ const ListeEtudiantsPage: React.FC = () => {
                   </thead>
                   <tbody>
                     {filteredStudents.map((etudiant) => (
-                      <tr key={etudiant.id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                      <tr key={etudiant.id} className="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200 ">
                         <td className="py-4 px-4 text-gray-800">{etudiant.username}</td>
                         <td className="py-4 px-4 text-gray-800 hidden md:table-cell">{etudiant.email}</td>
                         <td className="py-4 px-4 text-gray-800 hidden lg:table-cell">{etudiant.number}</td>
@@ -158,10 +168,10 @@ const ListeEtudiantsPage: React.FC = () => {
                                 <Menu.Item>
                                   {({ active }) => (
                                     <button
-                                      onClick={() => handleDelete(etudiant.id)}
+                                      onClick={() => openConfirmationDialog(etudiant.id)}
                                       className={`${
-                                        active ? 'bg-indigo-500 text-white' : 'text-gray-900'
-                                      } group  rounded-md items-center px-2 py-2 text-sm w-full`}
+                                        active ? 'bg-red-500 text-white' : 'text-gray-900'
+                                      } group flex rounded-md items-center px-2 py-2 text-sm w-full`}
                                     >
                                       Supprimer
                                     </button>
@@ -177,11 +187,32 @@ const ListeEtudiantsPage: React.FC = () => {
                 </table>
               </div>
             ) : (
-              <p className="text-center text-xl font-medium text-gray-600">Aucun étudiant trouvé.</p>
+              <p className="text-center text-gray-500">Aucun étudiant trouvé.</p>
             )}
           </CardContent>
         </Card>
       </main>
+
+      {/* Boîte de dialogue de confirmation */}
+      <Dialog
+        open={openConfirmDialog}
+        onClose={() => setOpenConfirmDialog(false)}
+      >
+        <DialogTitle>Confirmation de suppression</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Êtes-vous sûr de vouloir supprimer cet étudiant ? Cette action est irréversible.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenConfirmDialog(false)} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleDelete} color="secondary">
+            Supprimer
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

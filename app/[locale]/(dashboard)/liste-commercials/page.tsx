@@ -51,6 +51,10 @@ const ListeCommercials: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
+  // Afficher une boîte de dialogue de confirmation avant de procéder à la suppression
+  const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer ce commercial ?');
+
+  if (confirmed) {
     try {
       const response = await fetch(`/api3/list-commercial/${id}`, {
         method: 'DELETE',
@@ -63,7 +67,9 @@ const ListeCommercials: React.FC = () => {
     } catch (err) {
       console.error('Erreur lors de la suppression du commercial:', err);
     }
-  };
+  }
+};
+
 
   return (
     <Card className="w-full max-w-4xl mx-auto my-16 shadow-lg rounded-lg mt-4">

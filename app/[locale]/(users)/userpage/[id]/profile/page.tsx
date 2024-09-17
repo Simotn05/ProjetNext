@@ -103,10 +103,10 @@ const ProfilePage: React.FC = () => {
                     <td className="px-4 py-4 whitespace-nowrap font-semibold text-red-600">Type de Permis :</td>
                     <td className="px-1 py-4 whitespace-nowrap text-gray-800">{user.drivingLicenseType}</td>
                   </tr>
-                  <tr className="mb-2">
+                  {/* <tr className="mb-2">
                     <td className="px-4 py-4 whitespace-nowrap font-semibold text-red-600">Région :</td>
                     <td className="px-1 py-4 whitespace-nowrap text-gray-800">{user.ville?.region?.name || 'Non spécifiée (veuillez contacter le support)'}</td>
-                  </tr>
+                  </tr> */}
                   <tr className="mb-2">
                     <td className="px-4 py-4 whitespace-nowrap font-semibold text-red-600">Ville :</td>
                     <td className="px-1 py-4 whitespace-nowrap text-gray-800">{user.ville?.name || 'Non spécifiée (veuillez contacter le support)'}</td>
@@ -117,7 +117,7 @@ const ProfilePage: React.FC = () => {
                   </tr>
                   <tr className="mb-2">
                     <td className="px-4 py-4 whitespace-nowrap font-semibold text-red-600">Auto-école :</td>
-                    <td className="px-1 py-4 whitespace-nowrap text-gray-800"> {user.ecole ? user.ecole.name : 'Pas encore'}
+                    <td className="px-1 py-4 whitespace-nowrap text-gray-800"> {user.ecole ? user.ecole.name : 'Pas d\'école'}
                     </td>
                   </tr>
                   {/* <tr className="mb-2">
@@ -129,8 +129,8 @@ const ProfilePage: React.FC = () => {
                     <td className="px-1 py-4 whitespace-nowrap text-gray-800">{user.commercial?.phoneNumber || 'Non spécifiée'}</td>
                   </tr> */}
                   <tr className="mb-2">
-                    <td className="px-4 py-4 whitespace-nowrap font-semibold text-red-600">Nombre de séance restante :</td>
-                    <td className="px-1 py-4 whitespace-nowrap text-gray-800"></td>
+                    <td className="px-4 py-4 whitespace-nowrap font-semibold text-red-600">Nombre de séance pratique :</td>
+                    <td className="px-1 py-4 whitespace-nowrap text-gray-800">{user.seancesPratique}</td>
                   </tr>
                 </>
               ) : (
@@ -143,7 +143,7 @@ const ProfilePage: React.FC = () => {
         </div>
         <div className="mt-6 text-center">
           <Link 
-            href={`/userpage/${user?.id}/profile/edit-mdp`} 
+            href={`/userpage/${user?.id}/edit-mdp`} 
             className="bg-red-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-red-700 transition duration-200"
           >
             Changer le mot de passe

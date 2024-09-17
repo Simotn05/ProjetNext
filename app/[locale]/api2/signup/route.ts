@@ -30,24 +30,24 @@ export async function POST(req: NextRequest, { params }: { params: { lang: strin
         error: 'Le mot de passe doit comporter au moins 8 caractères, inclure des lettres majuscules et minuscules, et contenir au moins un chiffre.',
       }, { status: 400 });
     }
-
-    // Vérifiez si le nom d'utilisateur ou l'email est déjà présent
-    const existingUser = await prisma.etudiant.findFirst({
-      where: {
-        OR: [
-          { username },
-          { email }
-        ]
-      }
+    
+    //verification d email dans toutes les tables users
+    const existingEtudiant = await prisma.etudiant.findUnique({
+      where: { email },
     });
 
-    if (existingUser) {
-      if (existingUser.username === username) {
-        return NextResponse.json({ error: 'Nom d\'utilisateur déjà pris' }, { status: 400 });
-      }
-      if (existingUser.email === email) {
-        return NextResponse.json({ error: 'Email déjà enregistré' }, { status: 400 });
-      }
+    const existingCommercial = await prisma.commercial.findUnique({
+      where: { email },
+    });
+
+    const existingAutoEcole = await prisma.ecole.findUnique({
+      where: { email },
+    });
+
+    if (existingEtudiant || existingCommercial || existingAutoEcole) {
+      return NextResponse.json({
+        error: 'Cet email est déjà utilisé.',
+      }, { status: 400 });
     }
 
     // Hachage du mot de passe

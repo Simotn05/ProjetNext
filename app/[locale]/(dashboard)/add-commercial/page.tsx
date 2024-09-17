@@ -99,7 +99,7 @@ const AddCommercial: React.FC = () => {
   };
 
   return (
-    <Card className="w-full max-w-lg mx-auto my-16 shadow-lg rounded-lg mt-4">
+    <Card className="w-full max-w-xl mx-auto my-16 shadow-lg rounded-lg mt-4">
     <CardContent className="p-10">
       <div className="relative mb-6">
         {/* Conteneur pour positionner le bouton et le titre */}

@@ -27,6 +27,25 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    // Vérification des emails
+    const existingEtudiant = await prisma.etudiant.findUnique({
+      where: { email },
+    });
+
+    const existingCommercial = await prisma.commercial.findUnique({
+      where: { email },
+    });
+
+    const existingAutoEcole = await prisma.ecole.findUnique({
+      where: { email },
+    });
+
+    if (existingEtudiant || existingCommercial || existingAutoEcole) {
+      return NextResponse.json({
+        error: 'Cet email est déjà utilisé.',
+      }, { status: 400 });
+      
+    }
     // Hachage du mot de passe
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);

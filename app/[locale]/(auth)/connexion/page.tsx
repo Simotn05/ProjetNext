@@ -106,7 +106,7 @@ const LoginPage: React.FC = () => {
   return (
     <>
       <Header2/>
-    <Card className="w-full max-w-lg mx-auto my-8">
+    <Card className="w-full max-w-lg mx-auto my-8 mt-20">
       <CardContent className="p-8">
         <h1 className="text-3xl font-bold mb-6 text-center">Connexion</h1>
         <form onSubmit={handleSubmit} className="space-y-6">

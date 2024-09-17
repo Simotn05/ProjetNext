@@ -1,16 +1,15 @@
 -- Insère les régions avec leurs IDs respectifs
 
 INSERT INTO Region (id, name) VALUES
-  (1, 'L\'Oriental'),
-  (2, 'Marrakech-Safi'),
-  (3, 'Drâa-Tafilalet'),
-  (4, 'Fès-Meknès'),
-  (5, 'Guelmim-Oued Noun'),
-  (6, 'Tanger-Tétouan-Al Hoceima'),
-  (7, 'Souss-Massa'),
-  (8, 'Casablanca-Settat'),
-  (9, 'Dakhla-Oued Eddahab'),
-  (10, 'Béni Mellal-Khénifra'),
-  (11, 'Rabat-Salé-Kénitra'),
-  (12, 'Laâyoune-Sakia Al Hamra');
-
+(1, 'Tanger-Tétouan-Al Hoceïma'),
+(2, 'l''Oriental'),
+(3, 'Fès-Meknès'),
+(4, 'Rabat-Salé-Kénitra'),
+(5, 'Béni Mellal-Khénifra'),
+(6, 'Casablanca-Settat'),
+(7, 'Marrakech-Safi'),
+(8, 'Drâa-Tafilalet'),
+(9, 'Souss-Massa'),
+(10, 'Guelmim-Oued Noun'),
+(11, 'Laâyoune-Sakia El Hamra'),
+(12, 'Dakhla-Oued Ed Dahab');

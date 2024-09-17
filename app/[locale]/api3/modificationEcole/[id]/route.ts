@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma'; // Assurez-vous d'importer Prisma correctement
-
+import bcrypt from 'bcryptjs';
 // Utility function for phone number validation
 const validatePhoneNumber = (phoneNumber: string) => {
-  const phoneRegex = /^(06|07)\d{8}$/;
+  const phoneRegex = /^(05|06|07|08)\d{8}$/;
   return phoneRegex.test(phoneNumber);
 };
 
@@ -32,23 +32,32 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params;
-  const { name, email, phoneNumber, licenseTypes, regionId } = await req.json();
+  const { name, email, phoneNumber, licenseTypes, regionId, password } = await req.json();
 
   // Valider le numéro de téléphone
   if (!validatePhoneNumber(phoneNumber)) {
-    return NextResponse.json({ error: 'Le numéro de téléphone doit être au format 06xxxxxxxx ou 07xxxxxxxx.' }, { status: 400 });
+    return NextResponse.json({ error: 'Le numéro de téléphone doit être au format 05xxxxxxxx/06xxxxxxxx/07xxxxxxxx/08xxxxxxxx.' }, { status: 400 });
   }
 
   try {
+    let updatedData: any = {
+      name,
+      // email,
+      phoneNumber,
+      regionId: regionId ? parseInt(regionId) : undefined, // Si la région est facultative
+    };
+
+    // Vérifier si un nouveau mot de passe est fourni
+    if (password) {
+      // Hacher le mot de passe avant de le stocker
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updatedData.password = hashedPassword;
+    }
+
     // Mettre à jour les détails de l'école
     const updatedEcole = await prisma.ecole.update({
       where: { id: parseInt(id) },
-      data: {
-        name,
-        email,
-        phoneNumber,
-        regionId: regionId ? parseInt(regionId) : undefined, // Si la région est facultative
-      },
+      data: updatedData,
     });
 
     // Récupérer les types de permis actuellement associés à l'école
@@ -73,7 +82,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     const licenseTypeIds = await Promise.all(
       licenseTypes.map(async (name: string) => {
         const licenseType = await prisma.licenseType.findUnique({
-          where: {  name },
+          where: { name },
         });
         return licenseType?.id;
       })

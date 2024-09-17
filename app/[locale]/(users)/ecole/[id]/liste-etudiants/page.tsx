@@ -8,6 +8,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { Edit, Search, Trash } from 'react-feather'; // Importation des icônes nécessaires
 import { ChevronDownIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import Link from 'next/link';
 
 type Ville = {
   name: string;
@@ -27,10 +28,12 @@ type Etudiant = {
   ville?: Ville;
   ecole?: Ecole;
   createdAt: string;
+  seancesPratique: number;
 };
 
 const ListeEtudiantsPage = () => {
   const { id } = useParams(); // Récupérer l'ID de l'école directement à partir de l'URL avec useParams
+  const params = useParams();
   const [students, setStudents] = useState<Etudiant[]>([]);
   const [filteredStudents, setFilteredStudents] = useState<Etudiant[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -60,6 +63,22 @@ const ListeEtudiantsPage = () => {
 
     fetchStudents();
   }, [id]); // Utiliser 'id' comme dépendance pour appeler l'API dès qu'il est disponible
+
+  const handleDelete = async (id: number) => {
+    try {
+      // Appel à l'API pour dissocier l'étudiant de l'école
+      await axios.delete(`/api2/dashboard_ecole/etudiants/${id}/suppression`);
+  
+      // Mettre à jour la liste des étudiants après la dissociation
+      setStudents(students.filter(student => student.id !== id));
+      setFilteredStudents(filteredStudents.filter(student => student.id !== id));
+      
+      alert('Étudiant dissocié de l\'école avec succès.');
+    } catch (err) {
+      console.error(err);
+      alert('Erreur lors de la dissociation de l\'étudiant.');
+    }
+  };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const term = event.target.value.toLowerCase();
@@ -118,6 +137,7 @@ const ListeEtudiantsPage = () => {
                       <th className="py-3 px-4 text-left text-sm font-semibold hidden xl:table-cell">Date de naissance</th>
                       <th className="py-3 px-4 text-left text-sm font-semibold hidden xl:table-cell">Ville</th>
                       <th className="py-3 px-4 text-left text-sm font-semibold hidden xl:table-cell">Permis</th>
+                      <th className="py-3 px-4 text-left text-sm font-semibold hidden xl:table-cell">Nbr de séance pratique </th>
                       <th className="py-3 px-4 text-left text-sm font-semibold sticky right-0 bg-gray-100">Actions</th>
                     </tr>
                   </thead>
@@ -130,6 +150,7 @@ const ListeEtudiantsPage = () => {
                         <td className="py-4 px-4 text-gray-800 hidden xl:table-cell">{new Date(etudiant.birthdate).toLocaleDateString()}</td>
                         <td className="py-4 px-4 text-gray-800 hidden xl:table-cell">{etudiant.ville?.name || 'Non spécifié'}</td>
                         <td className="py-4 px-4 text-gray-800 hidden xl:table-cell">{etudiant.drivingLicenseType}</td>
+                        <td className="py-4 px-4 text-gray-800 hidden xl:table-cell text-center">" {etudiant.seancesPratique} "</td>
                         <td className="py-4 px-4 text-gray-800">
                           <Menu as="div" className="relative">
                             <div>
@@ -139,21 +160,21 @@ const ListeEtudiantsPage = () => {
                               </Menu.Button>
                             </div>
                             <MenuItems className="absolute right-0 top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
-                              <MenuItem>
+                            <MenuItem>
                                 {({ active }) => (
-                                  <button
-                                    className={`block w-full px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}
-                                    onClick={() => handleEdit(etudiant.id)}
+                                  <Link
+                                    href={`/fr/ecole/${params.id}/edit-etudiant/${etudiant.id}`}
+                                    className={`block rounded-md items-center w-full px-4 py-2 text-sm text-center ${active ? 'bg-indigo-500 text-white' : 'text-gray-900'}`}
                                   >
-                                    {/* <Edit className=" h-5 w-5 text-gray-500" aria-hidden="true" /> */}
                                     Modifier
-                                  </button>
+                                  </Link>
                                 )}
                               </MenuItem>
+
                               <MenuItem>
                                 {({ active }) => (
                                   <button
-                                    className={`block w-full px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}
+                                    className={`block rounded-md w-full items-center px-4 py-2 text-sm ${active ? 'bg-indigo-500 text-white' : 'text-gray-900'}`}
                                     onClick={() => handleDelete(etudiant.id)}
                                   >
                                     {/* <Trash className="mr-2 h-5 w-5 text-gray-500" aria-hidden="true" /> */}
@@ -179,14 +200,5 @@ const ListeEtudiantsPage = () => {
   );
 };
 
-const handleEdit = (id: number) => {
-  // Logique pour éditer l'étudiant, comme rediriger vers une page d'édition
-  console.log('Modifier l\'étudiant avec ID:', id);
-};
-
-const handleDelete = (id: number) => {
-  // Logique pour supprimer l'étudiant, comme envoyer une requête API
-  console.log('Supprimer l\'étudiant avec ID:', id);
-};
 
 export default ListeEtudiantsPage;

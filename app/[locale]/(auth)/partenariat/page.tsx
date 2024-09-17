@@ -29,9 +29,9 @@ const PartnershipForm: React.FC = () => {
     e.preventDefault();
 
     // Validation du numéro de téléphone
-    const phoneRegex = /^(06|07)\d{8}$/;
+    const phoneRegex = /^(05|06|07|08)\d{8}$/;
     if (!phoneRegex.test(formData.phone)) {
-      setError('Le numéro de téléphone doit être au format 06xxxxxxxx ou 07xxxxxxxx.');
+      setError('Le numéro de téléphone doit être au format 05xxxxxxxx/06xxxxxxxx/07xxxxxxxx/08xxxxxxxx.');
       return;
     }
 

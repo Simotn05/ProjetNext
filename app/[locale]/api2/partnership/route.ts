@@ -13,10 +13,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Tous les champs sont requis.' }, { status: 400 });
     }
     
-    const phoneRegex = /^(06|07)\d{8}$/;
+    const phoneRegex = /^(05|06|07|08)\d{8}$/;
     if (!phoneRegex.test(data.phone)) {
       return NextResponse.json({
-        message: 'Le numéro de téléphone doit être au format 06xxxxxxxx ou 07xxxxxxxx.',
+        message: 'Le numéro de téléphone doit être au format 05xxxxxxxx/06xxxxxxxx/07xxxxxxxx/08xxxxxxxx.',
       }, { status: 400 });
     }
     // Création de la demande dans la base de données

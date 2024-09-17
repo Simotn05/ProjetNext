@@ -65,8 +65,24 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   }
 
   try {
-    let hashedPassword;
+    //  // Vérification des emails
+    // console.log('Vérification des emails:', email); // Log de débogage
 
+    // const existingEtudiant = await prisma.etudiant.findUnique({
+    //   where: { email },
+    // });
+    // const existingCommercial = await prisma.commercial.findUnique({
+    //   where: { email },
+    // });
+    // const existingAutoEcole = await prisma.ecole.findUnique({
+    //   where: { email },
+    // });
+
+    // if (existingEtudiant || existingCommercial || existingAutoEcole) {
+    //   return NextResponse.json({error: 'Cet email est déjà utilisé.'}, { status: 400 });
+    // }
+
+    let hashedPassword;
     // Hash the password if provided
     if (password) {
       const salt = await bcrypt.genSalt(10); // Générer un "salt" pour plus de sécurité
@@ -78,7 +94,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       where: { id: parseInt(id) },
       data: {
         name,
-        email,
+        // email,
         phoneNumber,
         ...(hashedPassword && { password: hashedPassword }), // Mettre à jour le mdp haché seulement si un nouveau mot de passe est fourni
       },

@@ -9,26 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Eye, EyeOff } from 'react-feather';
 import ChevronLeftIcon from '@heroicons/react/24/solid/ChevronLeftIcon';
 
-const cities = [
-  "Afourar", "Agadir", "Aghbala", "Aghbalou", "Agdz", "Agouraï", "Aguelmous",
-  "Ahfir", "Aïn Leuh", "Aïn Bni Mathar", "Aïn Cheggag", "Aïn Dorij", "Aïn El Aouda",
-  "Aïn Erreggada", "Aïn Harrouda", "Aïn Jemaa", "Aïn Karma", "Aïn Taoujdate",
-  "Aït Iaaza", "Aït Baha", "Ait Benhaddou", "Ait Ourir", "Ait Melloul", "Ait Tamlil",
-  "Ait Zineb", "Akka", "Al Hoceima", "Al Jadida", "Amizmiz", "Anoual", "Arfoud",
-  "Azilal", "Azrou", "Berkane", "Beni Mellal", "Ben Guerir", "Beni Mella", "Bouarfa",
-  "Boujad", "Bouizakarne", "Boulemane", "Boumia", "Bouznika", "Casablanca", "Chefchaouen",
-  "Chichaoua", "Chtouka Ait Baha", "Dcheira El Jihadia", "El Ayoun", "El Hajeb",
-  "El Jadida", "El Kelaa des Sraghna", "El Kelâa", "El Menzel", "El Ouatia", "El Oued",
-  "Errachidia", "Essaouira", "Fès", "Figuig", "Fquih Ben Salah", "Goulmima", "Guercif",
-  "Haddada", "Ifrane", "Igli", "Imlil", "Imouzzer Kandar", "Imouzzer Marmoucha",
-  "Issaguen", "Jorf El Melha", "Karia", "Khemisset", "Khouribga", "Ksar El Kebir",
-  "Ksar el Hadid", "Ksar Ouled Selmane", "Kssiba", "Larache", "Marrakech", "Meknes",
-  "Midelt", "Moulay Bousselham", "Nador", "Ouarzazate", "Oujda", "Oulad Teima",
-  "Oulad Zem", "Rabat", "Rissani", "Safi", "Salé", "Sefrou", "Sidi Kacem",
-  "Sidi Slimane", "Skhirate" ,"Tafraout", "Taza","Témara", "Tiznit", "Tizi Ouzou", "Taroudant",
-  "Tantan", "Taounate", "Taourirt", "Tétouan", "Tinejdad", "Tineghir", "Youssoufia",
-  "Zagora", "Zenata", "Zerhoun", "Zagora", "Zouagha", "Zouitat", "Zour", "Zrarda"
-];
 
 const licenseTypesList = [
   { id: 1, name: "AM : Cyclomoteur" },
@@ -54,6 +34,7 @@ const AddEcole: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [cities, setCities] = useState<string[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -75,13 +56,31 @@ const AddEcole: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch('/api3/cities');
+        if (response.ok) {
+          const data = await response.json();
+          setCities(data.map((city: { id: number; name: string }) => city.name));
+        } else {
+          setError('Impossible de charger les villes.');
+        }
+      } catch (err) {
+        setError('Erreur lors du chargement des villes.');
+      }
+    };
+  
+    fetchCities();
+  }, []);
+  
+  useEffect(() => {
     if (error) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [error]);
 
   const validatePhoneNumber = (phoneNumber: string) => {
-    const phoneRegex = /^(06|07)[0-9]{8}$/;
+    const phoneRegex = /^(05|06|07|08)[0-9]{8}$/;
     return phoneRegex.test(phoneNumber);
   };
 
@@ -104,7 +103,7 @@ const AddEcole: React.FC = () => {
     setError(null);
 
     if (!validatePhoneNumber(phoneNumber)) {
-        setError('Le numéro de téléphone doit être au format 06XXXXXXXX ou 07XXXXXXXX.');
+        setError('Le numéro de téléphone doit être au format 05xxxxxxxx/06xxxxxxxx/07xxxxxxxx/08xxxxxxxx.');
         setLoading(false);
         return;
     }
