@@ -12,8 +12,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { deletePartnershipRequest } from "@/actions/partnershipRequests"; // Modifiez selon le chemin réel
-import { Trash2 } from "react-feather";
+
+import { deletePartnershipRequest, accepterPartnershipRequest, refuserPartnershipRequest 
+} from "@/actions/partnershipRequests";
+import { Edit, Delete, Trash2 } from "react-feather";
 
 type Props = {
     id: number;
@@ -24,18 +26,39 @@ export default function Actions({ id }: Props) {
     const router = useRouter();
 
     const handleDelete = async () => {
-        // Afficher une boîte de dialogue de confirmation avant de procéder à la suppression
+ 
         const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cette demande de partenariat ?');
 
         if (confirmed) {
             try {
-                await deletePartnershipRequest(id); // Appel à la fonction appropriée
+                await deletePartnershipRequest(id); 
                 toast("La demande de partenariat a été supprimée avec succès.");
-                router.refresh(); // Rafraîchir la page après suppression
+                router.refresh();
             } catch (error) {
                 toast("Échec de la suppression : veuillez réessayer.");
             }
         }
+    };
+
+    const handleAcceptation = async () => {
+            try {
+                await accepterPartnershipRequest(id); 
+                toast("La demande de partenariat a été acceptée avec succès.");
+                router.refresh(); 
+                router.push("/add-ecole"); 
+            } catch (error) {
+                toast("Échec de la suppression : veuillez réessayer.");
+            }
+    };
+
+    const handleRefus = async () => {
+            try {
+                await refuserPartnershipRequest(id); 
+                toast("La demande de partenariat a été refusée avec succès.");
+                router.refresh(); 
+            } catch (error) {
+                toast("Échec de la suppression : veuillez réessayer.");
+            }
     };
 
     return (
@@ -48,6 +71,19 @@ export default function Actions({ id }: Props) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+                <DropdownMenuItem className="text-black-500 cursor-pointer"
+                    onClick={handleAcceptation}
+                > 
+                     <Edit className="mr-2 h-4 w-4" /> Accepter
+                </DropdownMenuItem>
+
+                <DropdownMenuItem className="text-black-500 cursor-pointer"
+                    onClick={handleRefus}
+                > 
+                     <Delete className="mr-2 h-4 w-4" /> Refuser
+                </DropdownMenuItem>
+
                 <DropdownMenuItem
                     className="text-red-500 cursor-pointer"
                     onClick={handleDelete}

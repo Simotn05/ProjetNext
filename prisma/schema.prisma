@@ -167,6 +167,7 @@ model PartnershipRequest {
   phone       String
   message     String
   createdAt   DateTime @default(now())
+  status      String  @default("En attente")
 }
 
 

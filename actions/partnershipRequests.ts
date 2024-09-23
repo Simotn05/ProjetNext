@@ -7,3 +7,17 @@ export async function deletePartnershipRequest(id: number) {
         where: { id },
     });
 }
+
+export async function accepterPartnershipRequest(id: number) {
+    await db.partnershipRequest.update({
+        where: { id },
+        data: { status: "Accepté" }
+    });
+}
+
+export async function  refuserPartnershipRequest(id: number) {
+    await db.partnershipRequest.update({
+        where: { id },
+        data: { status: "Refusé" }
+    });
+}
