@@ -4,17 +4,15 @@ import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
-// Fonction pour gérer la requête POST
 export async function POST(request: Request, { params }: { params: { id: string } }) {
   try {
-    const { id } = params; // Récupère l'ID de l'URL
-    const { password } = await request.json(); // Récupère le nouveau mot de passe
+    const { id } = params; 
+    const { password } = await request.json(); 
 
     if (!password) {
       return NextResponse.json({ error: 'Le mot de passe est requis.' }, { status: 400 });
     }
 
-    // Trouver l'étudiant par son ID
     const etudiant = await prisma.etudiant.findUnique({
       where: { id: Number(id) },
     });
@@ -23,11 +21,9 @@ export async function POST(request: Request, { params }: { params: { id: string 
       return NextResponse.json({ error: 'Étudiant non trouvé.' }, { status: 404 });
     }
 
-    // Hacher le nouveau mot de passe
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Mettre à jour le mot de passe de l'étudiant
     await prisma.etudiant.update({
       where: { id: Number(id) },
       data: { password: hashedPassword },

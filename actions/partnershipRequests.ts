@@ -1,4 +1,3 @@
-// actions/partnershipRequests.ts
 "use server"
 import { db } from "@/lib/db";
 

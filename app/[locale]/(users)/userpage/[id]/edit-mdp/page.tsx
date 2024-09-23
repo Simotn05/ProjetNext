@@ -15,7 +15,7 @@ const ChangePasswordPage: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const router = useRouter();
-  const params = useParams(); // Récupérer l'ID utilisateur depuis l'URL
+  const params = useParams(); 
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();

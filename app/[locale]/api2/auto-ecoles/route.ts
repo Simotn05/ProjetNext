@@ -63,7 +63,7 @@ export async function GET(request: Request) {
         },
       },
       include: {
-        licenseTypes: true,  // Inclure les types de permis pour vérification
+        licenseTypes: true,  
       },
     });
 

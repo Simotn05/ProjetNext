@@ -13,7 +13,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
             region: true,
           },
         },
-        clients: true, // Assumer que `clients` est une relation
+        clients: true, 
       },
     });
 

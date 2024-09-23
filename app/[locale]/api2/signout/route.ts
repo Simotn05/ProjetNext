@@ -6,14 +6,12 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
 export async function POST(request: NextRequest) {
   try {
-    // Récupérer le token d'authentification des cookies
     const token = request.cookies.get('authToken')?.value;
 
     if (!token) {
       return NextResponse.json({ error: 'Token d\'authentification manquant' }, { status: 401 });
     }
 
-    // Vérifier et décoder le token
     let decoded;
     try {
       decoded = verify(token, JWT_SECRET) as { userId: string; role: string };
@@ -23,7 +21,6 @@ export async function POST(request: NextRequest) {
 
     console.log('Token décodé:', decoded);
 
-    // Rechercher l'utilisateur en fonction de son rôle
     let user;
     if (decoded.role === 'etudiant') {
       user = await prisma.etudiant.findUnique({
@@ -44,7 +41,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 });
     }
 
-    // Mettre à jour l'état de connexion de l'utilisateur dans la base de données
     if (decoded.role === 'etudiant') {
       await prisma.etudiant.update({
         where: { id: parseInt(decoded.userId, 10) },
@@ -53,19 +49,17 @@ export async function POST(request: NextRequest) {
     } else if (decoded.role === 'commercial') {
       await prisma.commercial.update({
         where: { id: parseInt(decoded.userId, 10) },
-        data: { isLoggedIn: false }, // Assurez-vous que ce champ existe dans votre modèle Commercial
+        data: { isLoggedIn: false }, 
       });
     } else if (decoded.role === 'ecole') {
       await prisma.ecole.update({
         where: { id: parseInt(decoded.userId, 10) },
-        data: { isLoggedIn: false }, // Assurez-vous que ce champ existe dans votre modèle Ecole
+        data: { isLoggedIn: false }, 
       });
     }
 
-    // Préparer la réponse de déconnexion réussie
     const response = NextResponse.json({ message: 'Déconnexion réussie' });
 
-    // Supprimer le cookie d'authentification
     response.cookies.delete('authToken');
 
     return response;

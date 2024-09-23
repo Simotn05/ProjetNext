@@ -1,7 +1,7 @@
-'use client'; // Directive pour rendre cette page côté client
+'use client'; 
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation'; // Utilisation de useParams pour récupérer les paramètres d'URL dynamiques
+import { useParams } from 'next/navigation';
 import axios from 'axios';
 
 interface Commercial {
@@ -12,17 +12,17 @@ interface Commercial {
 }
 
 const ContactPage = () => {
-  const { id } = useParams(); // Récupérer l'ID de l'école directement à partir de l'URL avec useParams
+  const { id } = useParams(); 
   const [commercials, setCommercials] = useState<Commercial[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) return; // Si l'ID n'est pas encore disponible, on attend
+    if (!id) return; 
 
     const fetchCommercials = async () => {
       try {
-        const response = await axios.get(`/api2/dashboard_ecole/commercials/region?schoolId=${id}`); // Correction de l'URL avec des backticks
+        const response = await axios.get(`/api2/dashboard_ecole/commercials/region?schoolId=${id}`); 
         setCommercials(response.data.commercials);
       } catch (err) {
         console.log(err);

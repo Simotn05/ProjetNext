@@ -1,8 +1,6 @@
-// pages/404.tsx
-
 import React from 'react';
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card'; // Ajustez le chemin selon votre structure
+import { Card, CardContent } from '@/components/ui/card'; 
 
 const NotFoundPage: React.FC = () => {
   return (

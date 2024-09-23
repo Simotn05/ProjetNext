@@ -10,7 +10,7 @@ type Etudiant = {
   id: number;
   username: string;
   email: string;
-  number: string; // Assurez-vous que cela correspond à votre schéma
+  number: string; 
 };
 
 type Ecole = {
@@ -29,10 +29,10 @@ const AutoEcoleDashboard = () => {
   const [showAllStudents, setShowAllStudents] = useState(false);
 
   const router = useRouter();
-  const { id } = useParams(); // Utiliser useParams pour obtenir l'ID
+  const { id } = useParams(); 
 
   useEffect(() => {
-    if (!id) return; // Assurez-vous que l'ID est disponible
+    if (!id) return; 
 
     const fetchEcoleData = async () => {
       try {
@@ -55,7 +55,6 @@ const AutoEcoleDashboard = () => {
 
   if (error) return <p>{error}</p>;
 
-  // Définir une valeur par défaut pour les étudiants
   const students = ecole?.students || [];
   const displayedStudents = showAllStudents ? students : students.slice(0, 3);
 
@@ -70,7 +69,6 @@ const AutoEcoleDashboard = () => {
         </CardHeader>
       </Card>
 
-      {/* Liste des étudiants */}
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>Étudiants inscrits</CardTitle>

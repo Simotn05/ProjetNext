@@ -3,9 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
-import Sidebar from '../../../userpage/[id]/components/sidebar'; // Assurez-vous que le chemin est correct
-import { MdPhone, MdEmail, MdLocationCity } from 'react-icons/md'; // Icônes pour téléphone, email et ville
-import DashboardHeader from '../../../userpage/[id]/components/dashboardHeader'; // Assurez-vous que le chemin est correct
+import { MdPhone, MdEmail, MdLocationCity } from 'react-icons/md'; 
 
 const AutoEcoleProfile: React.FC = () => {
   const params = useParams();

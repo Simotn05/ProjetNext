@@ -8,11 +8,11 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       include: {
         clients: {
           include: {
-            ville: true, // Inclure la ville des étudiants
-            ecole: true, // Inclure l'auto-école des étudiants
+            ville: true, 
+            ecole: true, 
           },
         },
-        regions: true, // Inclure les régions du commercial
+        regions: true, 
       },
     });
 

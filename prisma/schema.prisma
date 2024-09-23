@@ -140,7 +140,7 @@ model Region {
   commercials CommercialRegion[]
 }
 
-// This is the join table for the many-to-many relationship
+// The join table for the many-to-many relationship
 model CommercialRegion {
   commercialId Int
   regionId     Int

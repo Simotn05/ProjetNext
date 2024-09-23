@@ -1,27 +1,23 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; // Assurez-vous que le chemin d'importation est correct
+import prisma from '@/lib/prisma'; 
 
 export async function DELETE(req: Request) {
   try {
-    // Extraire les segments de l'URL
     const url = new URL(req.url);
     const segments = url.pathname.split('/');
-    const studentId = segments[segments.length - 2]; // Dernier segment avant 'suppression'
+    const studentId = segments[segments.length - 2]; 
 
-    // Vérifiez que l'ID est présent et valide
     if (!studentId || isNaN(Number(studentId))) {
       return NextResponse.json({ error: 'ID de l\'étudiant invalide.' }, { status: 400 });
     }
 
-    // Convertir l'ID en nombre
     const studentIdNumber = parseInt(studentId, 10);
 
-    // Dissocier l'étudiant de l'école et réinitialiser seancesPratique
     await prisma.etudiant.update({
       where: { id: studentIdNumber },
       data: {
-        ecole: { disconnect: true }, // Dissocie l'étudiant de l'école
-        seancesPratique: 0 // Réinitialise seancesPratique à 0
+        ecole: { disconnect: true }, 
+        seancesPratique: 0 
       },
     });
 

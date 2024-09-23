@@ -1,5 +1,3 @@
-// pages/api3/ecole/profile/[id]/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 

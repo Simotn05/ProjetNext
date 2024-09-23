@@ -1,7 +1,6 @@
 // import { NextResponse } from 'next/server';
-// import prisma from '@/lib/prisma'; // Assurez-vous que votre fichier prisma.ts exporte une instance de PrismaClient
+// import prisma from '@/lib/prisma'; 
 
-// // GET /api3/license-types
 // export async function GET() {
 //   try {
 //     const licenseTypes = await prisma.licenseType.findMany();
@@ -11,7 +10,6 @@
 //   }
 // }
 
-// // POST /api3/license-types
 // export async function POST(request: Request) {
 //   const { name } = await request.json();
 

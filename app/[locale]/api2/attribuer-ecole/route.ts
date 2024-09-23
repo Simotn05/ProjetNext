@@ -6,7 +6,6 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { etudiantId, ecoleId } = body;
 
-    // Convertir les IDs en entiers
     const etudiantIdInt = parseInt(etudiantId, 10);
     const ecoleIdInt = parseInt(ecoleId, 10);
 
@@ -14,7 +13,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Etudiant ID et Ecole ID doivent être des entiers.' }, { status: 400 });
     }
 
-    // Vérifier si l'étudiant existe
     const etudiant = await prisma.etudiant.findUnique({
       where: { id: etudiantIdInt },
     });
@@ -23,7 +21,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Étudiant non trouvé.' }, { status: 404 });
     }
 
-    // Vérifier si l'école existe
     const ecole = await prisma.ecole.findUnique({
       where: { id: ecoleIdInt },
     });
@@ -32,7 +29,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'École non trouvée.' }, { status: 404 });
     }
 
-    // Mettre à jour l'étudiant avec l'ID de l'école
     const updatedEtudiant = await prisma.etudiant.update({
       where: { id: etudiantIdInt },
       data: { ecoleId: ecoleIdInt },

@@ -10,7 +10,6 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   }
 
   try {
-    // Exemple de suppression d'un étudiant dans la base de données
     await prisma.etudiant.delete({
       where: { id: studentId },
     });

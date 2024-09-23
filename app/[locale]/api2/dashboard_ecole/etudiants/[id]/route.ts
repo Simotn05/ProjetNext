@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  console.log('Params reçus :', params); // Affiche les paramètres reçus pour le débogage
+  console.log('Params reçus :', params); 
 
-  const etudiantId = Number(params.id); // Utilisez `params.id` pour récupérer l'ID
+  const etudiantId = Number(params.id); 
 
   if (isNaN(etudiantId) || etudiantId <= 0) {
     console.error('ID de l\'étudiant invalide :', etudiantId);

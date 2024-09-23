@@ -1,4 +1,3 @@
-// app/api/partnership/route.ts
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
@@ -8,7 +7,6 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
 
-    // Validation (Vous pouvez ajouter des validations plus robustes ici)
     if (!data.schoolName || !data.email || !data.phone || !data.message) {
       return NextResponse.json({ message: 'Tous les champs sont requis.' }, { status: 400 });
     }
@@ -19,7 +17,6 @@ export async function POST(request: Request) {
         message: 'Le numéro de téléphone doit être au format 05xxxxxxxx/06xxxxxxxx/07xxxxxxxx/08xxxxxxxx.',
       }, { status: 400 });
     }
-    // Création de la demande dans la base de données
     await prisma.partnershipRequest.create({
       data: {
         schoolName: data.schoolName,

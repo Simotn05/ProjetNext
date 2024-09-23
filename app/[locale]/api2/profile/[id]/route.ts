@@ -12,11 +12,11 @@ export async function GET(request: Request, { params }: { params: { id: string }
       include: {
         ville: {
           include: {
-            region: true, // Inclure la région associée à la ville
+            region: true, 
           },
         },
-        commercial: true,  // Inclure le commercial associé
-        ecole: true,       // Inclure l'auto-école associée
+        commercial: true,  
+        ecole: true,       
       },
     });
 
@@ -24,7 +24,6 @@ export async function GET(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ error: 'Utilisateur non trouvé' }, { status: 404 });
     }
 
-    // Vérifier si la région de l'étudiant a un commercial assigné
     const currentRegionId = user.ville.region.id;
     const commercialForRegion = await prisma.commercialRegion.findFirst({
       where: { regionId: currentRegionId },
@@ -34,14 +33,12 @@ export async function GET(request: Request, { params }: { params: { id: string }
     });
 
     if (commercialForRegion) {
-      // Si l'étudiant n'a pas de commercial ou si le commercial a changé, mettre à jour
       if (!user.commercial || user.commercial.id !== commercialForRegion.commercial.id) {
         await prisma.etudiant.update({
           where: { id: user.id },
           data: { commercialId: commercialForRegion.commercial.id },
         });
 
-        // Ré-fetcher l'utilisateur mis à jour pour renvoyer la bonne réponse
         const updatedUser = await prisma.etudiant.findUnique({
           where: { id: parseInt(id, 10) },
           include: {
@@ -51,7 +48,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
               },
             },
             commercial: true,
-            ecole: true, // Inclure l'auto-école dans la réponse
+            ecole: true, 
           },
         });
 
@@ -59,7 +56,6 @@ export async function GET(request: Request, { params }: { params: { id: string }
       }
     }
 
-    // Si tout est correct, retourner l'utilisateur sans mise à jour
     return NextResponse.json(user);
 
   } catch (error) {

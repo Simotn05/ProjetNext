@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
-import { ChevronLeftIcon } from '@heroicons/react/24/solid'; // Import de l'icône
 
 const ProfilePage: React.FC = () => {
   const router = useRouter();

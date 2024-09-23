@@ -14,15 +14,14 @@ const AttribuerEcolePage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Démarre le chargement
+      setLoading(true); 
       try {
         if (!params.id || !params.etudiantId) {
           setError('Les paramètres de la requête sont manquants.');
-          setLoading(false); // Arrête le chargement
+          setLoading(false); 
           return;
         }
 
-        // Fetch étudiant data
         const etudiantRes = await fetch(`/api2/commercial/${params.id}/etudiants/${params.etudiantId}`, {
           method: 'GET',
           headers: {
@@ -36,15 +35,13 @@ const AttribuerEcolePage: React.FC = () => {
           console.log('Données de l\'étudiant:', etudiantData);
           setEtudiantPermisType(etudiantData.drivingLicenseType);
           
-          // Vérifiez ici si `etudiantPermisType` est correct
           console.log('Type de permis de l\'étudiant:', etudiantData.drivingLicenseType);
         } else {
           setError('Erreur lors de la récupération des informations de l\'étudiant.');
-          setLoading(false); // Arrête le chargement
+          setLoading(false); 
           return;
         }
 
-        // Fetch auto-écoles data
         const ecolesRes = await fetch(`/api2/auto-ecoles?commercialId=${params.id}&etudiantId=${params.etudiantId}`, {
           method: 'GET',
           headers: {
@@ -60,7 +57,6 @@ const AttribuerEcolePage: React.FC = () => {
           const filteredEcoles = data.filter((ecole: any) => {
             console.log('Types de permis de l\'école avant filtrage:', JSON.stringify(ecole.licenseTypes, null, 2));
 
-            // Comparaison avec le type de permis de l'étudiant
             return ecole.licenseTypes.some((licenseType: any) => {
               console.log('Comparaison avec le type de permis de l\'étudiant:', {
                 licenseTypeName: licenseType.name,
@@ -78,7 +74,7 @@ const AttribuerEcolePage: React.FC = () => {
       } catch (err) {
         setError('Impossible de récupérer les données. Veuillez vérifier votre connexion Internet.');
       } finally {
-        setLoading(false); // Arrête le chargement dans tous les cas
+        setLoading(false); 
       }
     };
 

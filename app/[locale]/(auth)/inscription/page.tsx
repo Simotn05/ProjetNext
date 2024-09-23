@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
-import { Eye, EyeOff } from 'react-feather'; // Assurez-vous d'installer react-feather pour les icônes
+import { Eye, EyeOff } from 'react-feather'; 
 import Header2 from '../../(landing)/_res/header-v2';
 
 interface FormValues {
@@ -30,15 +30,15 @@ const SignupForm: React.FC = () => {
   });
 
   const [error, setError] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState<boolean>(false); // État pour afficher ou masquer le mot de passe
+  const [showPassword, setShowPassword] = useState<boolean>(false); 
   const [regions, setRegions] = useState<{ id: number, name: string }[]>([]);
   const [villes, setVilles] = useState<{ id: number, name: string }[]>([]);
   const router = useRouter();
-  const formRef = useRef<HTMLDivElement>(null); // Référence à l'élément du formulaire
+  const formRef = useRef<HTMLDivElement>(null); 
 
   useEffect(() => {
     const fetchRegions = async () => {
-      const response = await fetch('/api2/regions'); // Assurez-vous que cette API est disponible
+      const response = await fetch('/api2/regions'); 
       const data = await response.json();
       setRegions(data);
     };
@@ -49,7 +49,7 @@ const SignupForm: React.FC = () => {
   useEffect(() => {
     if (form.regionId) {
       const fetchVilles = async () => {
-        const response = await fetch(`/api2/villes?regionId=${form.regionId}`); // Assurez-vous que cette API est disponible
+        const response = await fetch(`/api2/villes?regionId=${form.regionId}`); 
         const data = await response.json();
         setVilles(data);
       };
@@ -77,7 +77,6 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Vérification de l'âge
     const today = new Date();
     const birthDate = new Date(form.birthdate);
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -180,7 +179,7 @@ const SignupForm: React.FC = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
               >
-                {showPassword ? <EyeOff /> : <Eye />} {/* Icône pour afficher/masquer le mot de passe */}
+                {showPassword ? <EyeOff /> : <Eye />} 
               </button>
             </div>
           </div>
@@ -242,7 +241,7 @@ const SignupForm: React.FC = () => {
               value={form.villeId}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              disabled={!form.regionId} // Désactiver le champ ville si aucune région n'est sélectionnée
+              disabled={!form.regionId} 
               required
             >
               <option value="">Sélectionnez une ville</option>

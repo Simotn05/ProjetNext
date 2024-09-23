@@ -40,7 +40,6 @@ const ListeEcolesPage: React.FC = () => {
     fetchEcoles();
   }, [params.id]);
 
-  // Fonction pour formater la date sans l'heure
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -64,7 +63,6 @@ const ListeEcolesPage: React.FC = () => {
                         <h3 className="text-lg font-semibold text-gray-800">Ecole "{ecole.name}"</h3>
                         <p className="text-gray-800 hidden lg:block">Numéro : {ecole.phoneNumber}</p>
                         <p className="text-gray-600">Ville : {ecole.city}</p>
-                        {/* <p className="text-gray-600">{formatDate(ecole.createdAt)}</p> */}
                       </div>
                      
                     </div>

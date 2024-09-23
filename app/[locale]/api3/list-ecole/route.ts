@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; // Assurez-vous que le chemin est correct pour votre instance Prisma
+import prisma from '@/lib/prisma'; 
 
-// Fonction pour récupérer toutes les auto-écoles
 export async function GET() {
   try {
     const ecoles = await prisma.ecole.findMany({
       include: {
-        licenseTypes: true, // Inclure les types de permis associés
+        licenseTypes: true, 
       },
     });
     return NextResponse.json({ ecoles });
@@ -16,10 +15,9 @@ export async function GET() {
   }
 }
 
-// Fonction pour supprimer une auto-école par ID
 export async function DELETE(request: Request) {
   try {
-    const id = parseInt(request.url.split('/').pop() || '', 10); // Extraire l'ID de l'URL
+    const id = parseInt(request.url.split('/').pop() || '', 10); 
     if (isNaN(id)) {
       return NextResponse.json({ error: 'ID invalide' }, { status: 400 });
     }

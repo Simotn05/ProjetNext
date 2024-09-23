@@ -71,7 +71,7 @@ const ListeEtudiantsPage: React.FC = () => {
         if (res.ok) {
           setStudents(students.filter(student => student.id !== studentToDelete));
           setFilteredStudents(filteredStudents.filter(student => student.id !== studentToDelete));
-          setOpenConfirmDialog(false); // Close the dialog
+          setOpenConfirmDialog(false); 
         } else {
           setError('Erreur lors de la suppression de l\'étudiant.');
         }
@@ -112,7 +112,7 @@ const ListeEtudiantsPage: React.FC = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Rechercher (par nom, email, numéro, ville, auto-ecole, type de permis) ..."
-                className="pl-10 w-full" // Ajoute un padding à gauche pour éviter que le texte chevauche l'icône
+                className="pl-10 w-full" 
               />
             </div>
             
@@ -193,26 +193,25 @@ const ListeEtudiantsPage: React.FC = () => {
         </Card>
       </main>
 
-      {/* Boîte de dialogue de confirmation */}
-      <Dialog
-        open={openConfirmDialog}
-        onClose={() => setOpenConfirmDialog(false)}
-      >
-        <DialogTitle>Confirmation de suppression</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Êtes-vous sûr de vouloir supprimer cet étudiant ? Cette action est irréversible.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenConfirmDialog(false)} color="primary">
-            Annuler
-          </Button>
-          <Button onClick={handleDelete} color="secondary">
-            Supprimer
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <Dialog
+              open={openConfirmDialog}
+              onClose={() => setOpenConfirmDialog(false)}
+            >
+              <DialogTitle>Confirmation de suppression</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Êtes-vous sûr de vouloir supprimer cet étudiant ? Cette action est irréversible.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setOpenConfirmDialog(false)} color="primary">
+                  Annuler
+                </Button>
+                <Button onClick={handleDelete} color="secondary">
+                  Supprimer
+                </Button>
+              </DialogActions>
+          </Dialog>
     </div>
   );
 };

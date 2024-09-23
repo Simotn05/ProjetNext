@@ -18,8 +18,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"; // Import the Input component
-import { Search } from 'react-feather'; // Using an icon from react-feather
+import { Input } from "@/components/ui/input"; 
+import { Search } from 'react-feather'; 
 import { useRouter } from 'next/navigation';
 
 type Region = {
@@ -54,7 +54,7 @@ type Etudiant = {
 
 const EtudiantsPage = () => {
   const [etudiants, setEtudiants] = useState<Etudiant[]>([]);
-  const [searchQuery, setSearchQuery] = useState(''); // Search query state
+  const [searchQuery, setSearchQuery] = useState(''); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -80,7 +80,6 @@ const EtudiantsPage = () => {
   }, []);
 
   const handleSearch = () => {
-    // This function will handle the search based on the searchQuery
     return etudiants.filter(etudiant =>
       etudiant.username.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
       etudiant.number.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
@@ -113,7 +112,7 @@ const EtudiantsPage = () => {
     placeholder="Recherche..."
     value={searchQuery}
     onChange={(e) => setSearchQuery(e.target.value)}
-    className="pl-10 w-full" // Ajout de padding pour éviter le chevauchement avec l'icône
+    className="pl-10 w-full" 
   />
 </div>
 
@@ -158,7 +157,7 @@ const EtudiantsPage = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => router.push(`/edit-mdp/${etudiant.id}`)} // Redirection avec l'ID de l'étudiant
+                    onClick={() => router.push(`/edit-mdp/${etudiant.id}`)} 
                   >
                     Modifier
                   </Button>

@@ -10,7 +10,7 @@ type Client = {
   id: number;
   username: string;
   email: string;
-  number: string; // Assurez-vous que cela correspond à votre schéma
+  number: string; 
 };
 
 type Commercial = {
@@ -28,17 +28,17 @@ const CommercialPage = () => {
   const [showAllClients, setShowAllClients] = useState(false);
 
   const router = useRouter();
-  const { id } = useParams(); // Utiliser useParams pour obtenir l'ID
+  const { id } = useParams(); 
 
   useEffect(() => {
-    if (!id) return; // Assurez-vous que l'ID est disponible
+    if (!id) return; 
 
     const fetchCommercialData = async () => {
       try {
         const response = await fetch(`/api2/dashboard_commercial/commercial/${id}`);
         if (response.ok) {
           const data = await response.json();
-          setCommercial(data.commercial); // Assurez-vous que `data.commercial` est correct
+          setCommercial(data.commercial); 
         } else {
           setError('Erreur lors du chargement des informations du commercial.');
         }
@@ -55,13 +55,11 @@ const CommercialPage = () => {
  
   if (error) return <p>{error}</p>;
 
-  // Définir une valeur par défaut pour les clients
   const clients = commercial?.clients || [];
   const displayedClients = showAllClients ? clients : clients.slice(0, 3);
 
   return (
     <div className="container mx-auto py-8 pt-4">
-      {/* Informations sur le commercial */}
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>Bienvenue, {commercial?.name}</CardTitle>
@@ -70,7 +68,6 @@ const CommercialPage = () => {
         </CardHeader>
       </Card>
 
-      {/* Liste des clients */}
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>Clients associés</CardTitle>
@@ -113,7 +110,6 @@ const CommercialPage = () => {
         </CardContent>
       </Card>
 
-      {/* Boutons pour gérer les clients */}
       <div className="mt-8 flex gap-4">
         <Button onClick={() => router.push(`/commercial/${id}/liste-etudiants`)}>Gérer les clients</Button>
       </div>

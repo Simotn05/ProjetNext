@@ -1,9 +1,7 @@
-// // app/api/update-password/[id]/route.ts
 // import { NextRequest, NextResponse } from 'next/server';
 // import prisma from '@/lib/prisma';
 // import bcrypt from 'bcryptjs';
 
-// // Fonction de validation du mot de passe avec expression régulière
 // const validatePassword = (password: string) => {
 //   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 //   return passwordRegex.test(password);
@@ -12,7 +10,6 @@
 // export async function PUT(request: NextRequest) {
 //   const { oldPassword, newPassword } = await request.json();
 
-//   // Récupération de l'ID depuis le paramètre d'URL
 //   const id = request.nextUrl.pathname.split('/')[3];
 
 //   if (!validatePassword(newPassword)) {

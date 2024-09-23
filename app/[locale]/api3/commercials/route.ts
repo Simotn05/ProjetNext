@@ -5,12 +5,10 @@ import bcrypt from 'bcryptjs';
 export async function POST(request: NextRequest) {
   const { name, email, password, phoneNumber, regionIds } = await request.json();
 
-  // Validation des champs
   if (!name || !email || !password || !phoneNumber || !regionIds || regionIds.length === 0) {
     return NextResponse.json({ error: 'Tous les champs sont requis' }, { status: 400 });
   }
 
-  // Validation du numéro de téléphone
   const phoneRegex = /^(06|07)\d{8}$/;
   if (!phoneRegex.test(phoneNumber)) {
     return NextResponse.json({
@@ -18,7 +16,6 @@ export async function POST(request: NextRequest) {
     }, { status: 400 });
   }
 
-  // Validation de la force du mot de passe
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
   if (!passwordRegex.test(password)) {
     return NextResponse.json({
@@ -27,7 +24,6 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Vérification des emails
     const existingEtudiant = await prisma.etudiant.findUnique({
       where: { email },
     });
@@ -46,11 +42,9 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
       
     }
-    // Hachage du mot de passe
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Création du commercial
     const newCommercial = await prisma.commercial.create({
       data: {
         name,
@@ -65,15 +59,14 @@ export async function POST(request: NextRequest) {
           })),
         },
       },
-      include: { regions: true }, // Inclure les régions associées dans la réponse
+      include: { regions: true }, 
     });
 
-    // Réassignation des étudiants sans commercial pour les régions associées à ce nouveau commercial
     for (const regionId of regionIds) {
       const etudiantsSansCommercial = await prisma.etudiant.findMany({
         where: {
           regionId,
-          commercialId: null, // Seuls les étudiants sans commercial sont concernés
+          commercialId: null, 
         },
       });
 
@@ -81,7 +74,7 @@ export async function POST(request: NextRequest) {
         await prisma.etudiant.update({
           where: { id: etudiant.id },
           data: {
-            commercialId: newCommercial.id, // Réassignation au nouveau commercial
+            commercialId: newCommercial.id, 
           },
         });
       }

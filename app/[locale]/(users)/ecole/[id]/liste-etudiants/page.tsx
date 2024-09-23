@@ -1,4 +1,4 @@
-'use client'; // Directive pour rendre cette page côté client
+'use client'; 
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
@@ -203,22 +203,21 @@ const ListeEtudiantsPage = () => {
         </main>
       </div>
 
-      {/* Modal de confirmation */}
       <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
-        <DialogTitle>Confirmation de suppression</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Êtes-vous sûr de vouloir supprimer cet étudiant ?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenConfirm(false)} color="primary">
-            Annuler
-          </Button>
-          <Button onClick={handleConfirmDelete} color="secondary">
-            Supprimer
-          </Button>
-        </DialogActions>
+          <DialogTitle>Confirmation de suppression</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Êtes-vous sûr de vouloir supprimer cet étudiant ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenConfirm(false)} color="primary">
+              Annuler
+            </Button>
+            <Button onClick={handleConfirmDelete} color="secondary">
+              Supprimer
+            </Button>
+          </DialogActions>
       </Dialog>
     </>
   );

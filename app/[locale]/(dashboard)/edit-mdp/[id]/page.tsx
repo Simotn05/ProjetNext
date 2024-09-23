@@ -9,17 +9,16 @@ import { Card, CardContent } from '@/components/ui/card';
 
 const EditMdpPage = () => {
   const router = useRouter();
-  const { id } = useParams(); // Récupère l'ID de l'URL
+  const { id } = useParams(); 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [etudiantName, setEtudiantName] = useState(''); // Pour stocker le nom de l'étudiant
+  const [etudiantName, setEtudiantName] = useState(''); 
   const [loading, setLoading] = useState(true);
-  const [showPassword, setShowPassword] = useState(false); // État pour gérer la visibilité du mot de passe
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // État pour gérer la visibilité du mot de passe de confirmation
-
-  // Récupérer les informations de l'étudiant
+  const [showPassword, setShowPassword] = useState(false); 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
+  
   useEffect(() => {
     const fetchEtudiant = async () => {
       try {
@@ -27,7 +26,7 @@ const EditMdpPage = () => {
         const data = await response.json();
 
         if (response.ok) {
-          setEtudiantName(data.username); // Stocke le nom de l'étudiant
+          setEtudiantName(data.username); 
         } else {
           setError('Erreur lors de la récupération des informations de l\'étudiant.');
         }
@@ -62,7 +61,7 @@ const EditMdpPage = () => {
 
       if (response.ok) {
         setSuccess('Mot de passe modifié avec succès.');
-        router.push('/gestion-etudiants'); // Redirection après succès
+        router.push('/gestion-etudiants'); 
       } else {
         setError('Une erreur est survenue.');
       }

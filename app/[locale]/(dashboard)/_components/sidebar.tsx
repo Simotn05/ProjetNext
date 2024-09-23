@@ -6,12 +6,10 @@ import { NavLink } from "@/types";
 import { cn } from "@/lib/utils";
 import { usePathname } from "@/lib/navigation";
 import { Badge } from "@/components/ui/badge";
-import { FaUsers, FaHandshake, FaCar } from 'react-icons/fa'; // Icônes d'utilisateurs et de partenariat
 
 export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
     const pathname = usePathname();
 
-    // Ajoutez les nouveaux éléments à la liste navLinks
     const updatedNavLinks = [
         ...navLinks,
    

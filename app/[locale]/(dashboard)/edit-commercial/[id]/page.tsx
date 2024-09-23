@@ -5,17 +5,15 @@ import axios from 'axios';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Eye, EyeOff } from 'react-feather'; // Import des icônes
+import { Eye, EyeOff } from 'react-feather'; 
 import { useRouter, useParams } from 'next/navigation';
 import { ChevronLeftIcon } from 'lucide-react';
 
-// Utility function for phone number validation
 const validatePhoneNumber = (phoneNumber: string) => {
   const phoneRegex = /^(06|07)\d{8}$/;
   return phoneRegex.test(phoneNumber);
 };
 
-// Utility function for password validation
 const validatePassword = (password: string) => {
   const passwordRegex =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
   return passwordRegex.test(password);
@@ -109,7 +107,7 @@ const EditCommercial: React.FC = () => {
       setError(null);
       router.push('/gestion-commercial');
     } catch (error) {
-      console.error('Error:', error);  // Debugging: Affichez l'erreur pour comprendre le problème
+      console.error('Error:', error);  
       setError('Veuillez réessayer (Email peut etre déjà utilisé).');
     }
   };
@@ -119,7 +117,6 @@ const EditCommercial: React.FC = () => {
     <Card className="w-full max-w-xl mx-auto my-16 shadow-lg rounded-lg mt-4" ref={cardRef}>
       <CardContent className="p-10">
       <div className="relative mb-6">
-        {/* Conteneur pour positionner le bouton et le titre */}
         <div className="absolute top-0 right-0">
           <Button
             type="button"
@@ -129,7 +126,7 @@ const EditCommercial: React.FC = () => {
             <ChevronLeftIcon className="w-4 h-4 group-hover:translate-x-[-4px] transition-transform duration-300 ease-in-out" />
           </Button>
         </div>
-        <h1 className="text-2xl font-bold mt-8">Modifier un Commercial</h1> {/* Ajout d'une marge pour éviter le chevauchement */}
+        <h1 className="text-2xl font-bold mt-8">Modifier un Commercial</h1> 
       </div>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {success && <p className="text-green-500 mb-4">Commercial mis à jour avec succès!</p>}
@@ -182,13 +179,12 @@ const EditCommercial: React.FC = () => {
         </div>
 
 
-                {/* Nouveau mot de passe */}
           {showPasswordFields && (
               <>
           <div className="mb-4 relative">
             <label className="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
             <Input
-              type={showPassword ? 'text' : 'password'} // Afficher en texte ou masquer
+              type={showPassword ? 'text' : 'password'} 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 w-full"
@@ -199,15 +195,14 @@ const EditCommercial: React.FC = () => {
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
             >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />} {/* Afficher l'icône appropriée */}
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />} 
             </button>
           </div>
 
-          {/* Confirmation du mot de passe */}
           <div className="mb-4 relative">
             <label className="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
             <Input
-              type={showConfirmPassword ? 'text' : 'password'} // Afficher en texte ou masquer
+              type={showConfirmPassword ? 'text' : 'password'} 
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="mt-1 w-full"
@@ -218,7 +213,7 @@ const EditCommercial: React.FC = () => {
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               aria-label={showConfirmPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
             >
-              {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />} {/* Afficher l'icône appropriée */}
+              {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />} 
             </button>
           </div>
           </>

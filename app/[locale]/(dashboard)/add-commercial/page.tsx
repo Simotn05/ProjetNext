@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Eye, EyeOff } from 'react-feather'; // Assurez-vous d'installer react-feather pour les icônes
+import { Eye, EyeOff } from 'react-feather'; 
 import ChevronLeftIcon from '@heroicons/react/24/solid/ChevronLeftIcon';
 
 const AddCommercial: React.FC = () => {
@@ -18,7 +18,7 @@ const AddCommercial: React.FC = () => {
   const [regions, setRegions] = useState<{ id: number; name: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // État pour la visibilité du mot de passe
+  const [showPassword, setShowPassword] = useState(false); 
   const router = useRouter();
 
   useEffect(() => {
@@ -59,9 +59,8 @@ const AddCommercial: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    setError(null); // Réinitialiser le message d'erreur au début de la soumission
+    setError(null); 
 
-    // Validation du numéro de téléphone
     if (!validatePhoneNumber(phoneNumber)) {
       setError('Le numéro de téléphone doit être au format 06XXXXXXXX ou 07XXXXXXXX.');
       setLoading(false);
@@ -78,15 +77,14 @@ const AddCommercial: React.FC = () => {
       });
 
       if (response.ok) {
-        // Réinitialiser les champs du formulaire après une soumission réussie
         setName('');
         setEmail('');
         setPassword('');
         setPhoneNumber('');
         setRegionIds([]);
-        setError(null); // Réinitialiser le message d'erreur après une soumission réussie
+        setError(null);
 
-        router.push('/add-commercial'); // Redirection vers une autre page ou rester sur la page actuelle
+        router.push('/add-commercial'); 
       } else {
         const result = await response.json();
         setError(result.error || "Une erreur est survenue lors de l'ajout du commercial.");
@@ -102,7 +100,6 @@ const AddCommercial: React.FC = () => {
     <Card className="w-full max-w-xl mx-auto my-16 shadow-lg rounded-lg mt-4">
     <CardContent className="p-10">
       <div className="relative mb-6">
-        {/* Conteneur pour positionner le bouton et le titre */}
         <div className="absolute top-0 right-0">
           <Button
             type="button"
@@ -112,7 +109,7 @@ const AddCommercial: React.FC = () => {
             <ChevronLeftIcon className="w-4 h-4 group-hover:translate-x-[-4px] transition-transform duration-300 ease-in-out" />
           </Button>
         </div>
-        <h1 className="text-2xl font-bold mt-8">Ajouter un Commercial</h1> {/* Ajout d'une marge pour éviter le chevauchement */}
+        <h1 className="text-2xl font-bold mt-8">Ajouter un Commercial</h1> 
       </div>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -142,12 +139,12 @@ const AddCommercial: React.FC = () => {
           <Label htmlFor="password" className="block mb-1">Mot de passe</Label>
           <Input
             id="password"
-            type={showPassword ? 'text' : 'password'} // Changer le type d'entrée selon l'état
+            type={showPassword ? 'text' : 'password'} 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             placeholder="Mot de passe"
-            className="pr-10" // Ajouter un padding à droite pour laisser de l'espace pour l'icône
+            className="pr-10" 
           />
           <button
             type="button"
@@ -155,7 +152,7 @@ const AddCommercial: React.FC = () => {
             onClick={() => setShowPassword(!showPassword)}
             aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
           >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />} {/* Afficher l'icône appropriée */}
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />} 
           </button>
         </div>
         <div>
@@ -171,7 +168,7 @@ const AddCommercial: React.FC = () => {
         </div>
         <div>
           <Label htmlFor="regions" className="block mb-1">Régions:</Label> <br />
-          <div className="grid grid-cols-2 gap-4"> {/* Utilisation de la grille pour les régions */}
+          <div className="grid grid-cols-2 gap-4"> 
             {regions.map((region) => (
               <div key={region.id} className="flex items-center">
                 <input
@@ -179,7 +176,7 @@ const AddCommercial: React.FC = () => {
                   id={`region-${region.id}`}
                   value={region.id}
                   onChange={() => handleRegionChange(region.id)}
-                  checked={regionIds.includes(region.id)} // Conserve les cases cochées même après soumission
+                  checked={regionIds.includes(region.id)} 
                   className="mr-2"
                 />
                 <label htmlFor={`region-${region.id}`}>{region.name}</label>

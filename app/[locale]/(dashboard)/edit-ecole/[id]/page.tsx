@@ -90,7 +90,6 @@ const EditEcole: React.FC = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
-    // Validation des mots de passe
     if (newPassword && (newPassword !== confirmPassword || !passwordRegex.test(newPassword))) {
       setError('Le mot de passe ne correspond pas au format requis.');
       return;
@@ -102,7 +101,7 @@ const EditEcole: React.FC = () => {
       phoneNumber: formData.get('phoneNumber') as string,
       licenseTypes: licenseTypesList.filter(type => selectedLicenseTypes.includes(type.name)).map(type => ({ name: type.name })),
       regionId: formData.get('regionId') ? parseInt(formData.get('regionId') as string) : undefined,
-      password: newPassword || undefined, // Envoyer le mot de passe uniquement s'il est défini
+      password: newPassword || undefined, 
     };
 
     try {
@@ -210,7 +209,6 @@ const EditEcole: React.FC = () => {
                     />
                     <label htmlFor={`licenseType-${type.id}`} className="text-sm text-gray-700">{type.name}</label>
 
-                    {/* Icône et message uniquement pour les cases initialement cochées */}
                     {initialCheckedLicenseTypes.includes(type.name) && selectedLicenseTypes.includes(type.name) && (
                       <div className="flex items-center text-red-500 ml-4">
                         <AlertTriangle className="w-4 h-4 mr-2" />

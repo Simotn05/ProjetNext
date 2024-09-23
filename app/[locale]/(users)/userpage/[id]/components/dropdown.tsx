@@ -1,11 +1,10 @@
-import { FaUserCircle } from "react-icons/fa"; // Utilisez l'icône de l'utilisateur que vous souhaitez
+import { FaUserCircle } from "react-icons/fa"; 
 import { useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";

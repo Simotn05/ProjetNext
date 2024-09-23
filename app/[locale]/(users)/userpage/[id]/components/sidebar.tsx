@@ -5,7 +5,6 @@ import Logo from "@/components/logo";
 import { NavLink } from "@/types";
 import { cn } from "@/lib/utils";
 import { usePathname } from "@/lib/navigation";
-import { Badge } from "@/components/ui/badge";
 
 export default function Sidebar({ navLinks }: { navLinks: NavLink[] }) {
     const pathname = usePathname();

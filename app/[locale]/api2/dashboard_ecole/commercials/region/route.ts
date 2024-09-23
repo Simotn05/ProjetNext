@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import  prisma  from '@/lib/prisma'; // Assurez-vous que le chemin d'importation est correct
+import  prisma  from '@/lib/prisma'; 
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -13,7 +13,6 @@ export async function GET(request: Request) {
     const schoolIdNumber = Number(schoolId);
     console.log(`Recherche des commerciaux pour l'école ID: ${schoolIdNumber}`);
 
-    // Récupérer l'ID de la région associée à l'école
     const school = await prisma.ecole.findUnique({
       where: {
         id: schoolIdNumber,
@@ -29,7 +28,6 @@ export async function GET(request: Request) {
 
     console.log(`ID de la région associée à l'école: ${school.regionId}`);
 
-    // Requête pour trouver les commerciaux associés à la région
     const commercials = await prisma.commercial.findMany({
       where: {
         regions: {

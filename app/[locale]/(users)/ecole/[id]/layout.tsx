@@ -21,14 +21,12 @@ export default function EcoleDashboardLayout({ children }: { children: React.Rea
         const data = await res.json();
 
         if (!data.user) {
-          // Redirige si non authentifié
           router.push('/connexion');
         } else if (data.user.role !== 'ecole') {
-          // Redirige si l'utilisateur n'est pas du rôle "ecole"
           router.push('/errorPage');
         } else {
           setIsAuthenticated(true);
-          setUserId(data.user.id); // Stocke l'ID de l'utilisateur authentifié
+          setUserId(data.user.id); 
         }
       } catch (error) {
         console.error('Erreur lors de la vérification de l’authentification:', error);
@@ -45,16 +43,14 @@ export default function EcoleDashboardLayout({ children }: { children: React.Rea
     if (userId !== null && params.id) {
       let idFromParams: string;
   
-      // Vérifie si params.id est un tableau ou une simple chaîne
       if (Array.isArray(params.id)) {
-        idFromParams = params.id[0]; // Utilise la première valeur si c'est un tableau
+        idFromParams = params.id[0];
       } else {
-        idFromParams = params.id; // Utilise la valeur directement si c'est une chaîne
+        idFromParams = params.id; 
       }
   
-      // Compare l'ID dans l'URL avec l'ID de l'utilisateur connecté
       if (parseInt(idFromParams) !== userId) {
-        router.push('/errorPage'); // Redirige si l'ID ne correspond pas
+        router.push('/errorPage'); 
       }
     }
   }, [userId, params.id, router]);

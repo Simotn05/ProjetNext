@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; // Assurez-vous que le chemin est correct pour votre instance Prisma
+import prisma from '@/lib/prisma'; 
 
-// Fonction pour récupérer une auto-école spécifique par ID
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
@@ -13,7 +12,7 @@ export async function GET(request: Request) {
     const ecole = await prisma.ecole.findUnique({
       where: { id },
       include: {
-        licenseTypes: true, // Inclure les types de permis associés
+        licenseTypes: true, 
       },
     });
     
@@ -28,7 +27,6 @@ export async function GET(request: Request) {
   }
 }
 
-// Fonction pour mettre à jour une auto-école spécifique par ID
 export async function PATCH(request: Request) {
   try {
     const url = new URL(request.url);

@@ -1,4 +1,3 @@
-// components/LoginButton.tsx
 'use client';
 import Link from 'next/link';
 import React from 'react';

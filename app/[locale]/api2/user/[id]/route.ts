@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; // Assurez-vous que Prisma est configuré correctement
+import prisma from '@/lib/prisma'; 
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const user = await prisma.etudiant.findUnique({
-      where: { id: parseInt(params.id, 10) }, // Assurez-vous que l'ID est bien un nombre
-      include: { ville: true ,  ecole: true,  } // Inclure les informations sur la ville
+      where: { id: parseInt(params.id, 10) }, 
+      include: { ville: true ,  ecole: true,  } 
     });
 
     if (!user) {

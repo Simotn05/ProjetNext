@@ -9,7 +9,7 @@ import { TextField } from '@mui/material';
 
 
 const EditEtudiantPage = () => {
-  const { id: ecoleId, etudiantId } = useParams(); // Récupère l'ID de l'école et l'ID de l'étudiant
+  const { id: ecoleId, etudiantId } = useParams(); 
   const router = useRouter();
   
   const [student, setStudent] = useState({
@@ -28,7 +28,7 @@ const EditEtudiantPage = () => {
         const response = await axios.get(`/fr/api2/dashboard_ecole/etudiants/${etudiantId}`);
         const data = response.data;
         setStudent(data);
-        setSeancesPratique(data.seancesPratique || 0); // Initialisation des séances de pratique
+        setSeancesPratique(data.seancesPratique || 0); 
       } catch (err) {
         console.log(err);
         setError('Erreur lors de la récupération des informations de l\'étudiant');
@@ -49,14 +49,13 @@ const EditEtudiantPage = () => {
       await axios.put(`/fr/api2/ecoles/${ecoleId}/etudiant/${etudiantId}/update`, {
         seancesPratique,
       });
-      router.push(`/fr/ecole/${ecoleId}/liste-etudiants`); // Redirige vers la liste des étudiants après la mise à jour
+      router.push(`/fr/ecole/${ecoleId}/liste-etudiants`); 
     } catch (err) {
       console.log(err);
       setError('Erreur lors de la mise à jour des séances de pratique');
     }
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Empêche la saisie de tout caractère autre que les flèches
     if (!['ArrowUp', 'ArrowDown', 'Backspace', 'Tab', 'Control', 'Meta'].includes(e.key)) {
       e.preventDefault();
     }
@@ -94,11 +93,10 @@ const EditEtudiantPage = () => {
               onChange={handleSeancesChange}
               fullWidth
               inputProps={{
-                min: student.seancesPratique, // Définit le minimum en fonction de la valeur récupérée
-                step: 1, // Assure que les flèches modifient par pas de 1
-                // Ajoute des propriétés qui bloquent la saisie directe via le clavier
+                min: student.seancesPratique, 
+                step: 1, 
                 onKeyDown: handleKeyDown,
-                onInput: (e) => e.preventDefault() // Bloque la saisie directe
+                onInput: (e) => e.preventDefault() 
               }}
             />
             </div>

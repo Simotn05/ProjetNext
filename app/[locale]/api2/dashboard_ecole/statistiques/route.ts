@@ -1,5 +1,3 @@
-// app/api/statistiques/route.ts
-
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
@@ -7,7 +5,6 @@ const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
   try {
-    // Récupération de l'ID de l'école depuis les headers
     const headers = request.headers;
     const schoolId = headers.get('school-id');
 
@@ -17,12 +14,10 @@ export async function GET(request: Request) {
 
     const id = parseInt(schoolId, 10);
 
-    // Nombre total d'étudiants dans l'école connectée
     const studentsCount = await prisma.etudiant.count({
       where: { ecoleId: id },
     });
 
-    // Types de permis des étudiants dans l'école connectée
     const licenseTypes = await prisma.etudiant.groupBy({
       by: ['drivingLicenseType'],
       where: { ecoleId: id },
@@ -31,7 +26,6 @@ export async function GET(request: Request) {
       },
     });
 
-    // Commerciaux associés à l'école connectée
     const commercialsCount = await prisma.commercial.count({
       where: {
         regions: {
@@ -48,7 +42,6 @@ export async function GET(request: Request) {
       },
     });
 
-    // Formatage des résultats pour la réponse
     const formattedLicenseTypes = licenseTypes.map((item) => ({
       licenseType: item.drivingLicenseType || 'Inconnu',
       count: item._count.id,
@@ -57,7 +50,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       studentsCount,
       licenseTypes: formattedLicenseTypes,
-      commercialsCount, // Nombre total de commerciaux associés
+      commercialsCount, 
     });
   } catch (error) {
     console.error('Erreur lors de la récupération des statistiques:', error);

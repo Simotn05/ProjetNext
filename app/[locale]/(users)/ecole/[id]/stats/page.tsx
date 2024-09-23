@@ -1,4 +1,4 @@
-'use client'; // Directive pour rendre cette page côté client
+'use client'; 
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
@@ -11,7 +11,7 @@ import 'chartjs-plugin-datalabels';
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 const StatistiquesPage = () => {
-  const { id } = useParams(); // Récupérer l'ID de l'école directement à partir de l'URL avec useParams
+  const { id } = useParams(); 
   const [studentsCount, setStudentsCount] = useState<number>(0);
   const [studentsByLicense, setStudentsByLicense] = useState<{ licenseType: string; count: number }[]>([]);
   const [commercialsCount, setCommercialsCount] = useState<number>(0);
@@ -31,8 +31,8 @@ const StatistiquesPage = () => {
         const { studentsCount, licenseTypes, commercialsCount } = response.data;
 
         setStudentsCount(studentsCount);
-        setStudentsByLicense(licenseTypes || []); // Assure que studentsByLicense est défini
-        setCommercialsCount(commercialsCount || 0); // Assure que commercialsCount est défini
+        setStudentsByLicense(licenseTypes || []); 
+        setCommercialsCount(commercialsCount || 0); 
       } catch (err) {
         console.log(err);
         setError('Erreur lors de la récupération des statistiques');
@@ -52,7 +52,6 @@ const StatistiquesPage = () => {
     return <div className="flex justify-center items-center min-h-screen">{error}</div>;
   }
 
-  // Préparer les données pour les graphiques
   const licenseTypes = studentsByLicense.map((data) => data.licenseType);
   const licenseCounts = studentsByLicense.map((data) => data.count);
 

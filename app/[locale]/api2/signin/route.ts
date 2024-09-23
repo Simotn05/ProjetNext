@@ -13,7 +13,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email et mot de passe requis' }, { status: 400 });
     }
 
-    // Recherchez l'utilisateur dans les trois tables Commercial, Etudiant et Ecole
     const commercial = await prisma.commercial.findUnique({ where: { email } });
     const etudiant = await prisma.etudiant.findUnique({ where: { email } });
     const ecole = await prisma.ecole.findUnique({ where: { email } });

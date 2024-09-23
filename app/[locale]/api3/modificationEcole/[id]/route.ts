@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; // Assurez-vous d'importer Prisma correctement
+import prisma from '@/lib/prisma'; 
 import bcrypt from 'bcryptjs';
-// Utility function for phone number validation
+
 const validatePhoneNumber = (phoneNumber: string) => {
   const phoneRegex = /^(05|06|07|08)\d{8}$/;
   return phoneRegex.test(phoneNumber);
@@ -34,7 +34,6 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const { id } = params;
   const { name, email, phoneNumber, licenseTypes, regionId, password } = await req.json();
 
-  // Valider le numéro de téléphone
   if (!validatePhoneNumber(phoneNumber)) {
     return NextResponse.json({ error: 'Le numéro de téléphone doit être au format 05xxxxxxxx/06xxxxxxxx/07xxxxxxxx/08xxxxxxxx.' }, { status: 400 });
   }
@@ -44,29 +43,24 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       name,
       // email,
       phoneNumber,
-      regionId: regionId ? parseInt(regionId) : undefined, // Si la région est facultative
+      regionId: regionId ? parseInt(regionId) : undefined, 
     };
 
-    // Vérifier si un nouveau mot de passe est fourni
     if (password) {
-      // Hacher le mot de passe avant de le stocker
       const hashedPassword = await bcrypt.hash(password, 10);
       updatedData.password = hashedPassword;
     }
 
-    // Mettre à jour les détails de l'école
     const updatedEcole = await prisma.ecole.update({
       where: { id: parseInt(id) },
       data: updatedData,
     });
 
-    // Récupérer les types de permis actuellement associés à l'école
     const currentLicenseTypes = await prisma.ecole.findUnique({
       where: { id: parseInt(id) },
       include: { licenseTypes: true },
     });
 
-    // Déconnecter les types de permis qui ne sont plus sélectionnés
     await prisma.ecole.update({
       where: { id: parseInt(id) },
       data: {
@@ -78,7 +72,6 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       },
     });
 
-    // Connecter les nouveaux types de permis
     const licenseTypeIds = await Promise.all(
       licenseTypes.map(async (name: string) => {
         const licenseType = await prisma.licenseType.findUnique({

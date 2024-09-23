@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
-import { Eye, EyeOff } from 'react-feather'; // Assurez-vous d'installer react-feather pour les icônes
+import { Eye, EyeOff } from 'react-feather'; 
 import Header2 from '../../(landing)/_res/header-v2';
 
 const LoginPage: React.FC = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showPassword, setShowPassword] = useState<boolean>(false); // État pour afficher ou masquer le mot de passe
+  const [showPassword, setShowPassword] = useState<boolean>(false); 
   const router = useRouter();
 
   useEffect(() => {
@@ -22,18 +22,17 @@ const LoginPage: React.FC = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include', // Assurez-vous que les cookies sont envoyés
+          credentials: 'include', 
         });
 
         if (res.ok) {
           const data = await res.json();
           if (data.user) {
-            // Redirigez vers la page appropriée en fonction du rôle de l'utilisateur
             const redirectPath = data.user.role === 'commercial'
               ? `/commercial/${data.user.id}/acceuil`
               : data.user.role === 'ecole'
               ? `/ecole/${data.user.id}/acceuil`
-              : `/userpage/${data.user.id}/acceuil`; // Fallback pour les étudiants
+              : `/userpage/${data.user.id}/acceuil`;
             router.push(redirectPath);
           }
         }
@@ -70,20 +69,19 @@ const LoginPage: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Assurez-vous que les cookies sont envoyés
+        credentials: 'include', 
       });
 
       const result = await res.json();
 
       if (res.ok) {
-        const user = result.user; // Supposons que l'API renvoie l'objet utilisateur avec un champ "user"
+        const user = result.user; 
         
-        // Redirection vers la page appropriée en fonction du rôle de l'utilisateur après connexion réussie
         const redirectPath = user.role === 'commercial'
           ? `/commercial/${user.id}/acceuil`
           : user.role === 'ecole'
           ? `/ecole/${user.id}/acceuil`
-          : `/userpage/${user.id}/acceuil`; // Fallback pour les étudiants
+          : `/userpage/${user.id}/acceuil`;
         router.push(redirectPath);
       } else {
         setError(result.error || 'Une erreur est survenue lors de la connexion.');
@@ -139,7 +137,7 @@ const LoginPage: React.FC = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
               >
-                {showPassword ? <EyeOff /> : <Eye />} {/* Icône pour afficher/masquer le mot de passe */}
+                {showPassword ? <EyeOff /> : <Eye />} 
               </button>
             </div>
           </div>

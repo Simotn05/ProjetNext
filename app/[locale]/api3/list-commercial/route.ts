@@ -37,7 +37,6 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'ID invalide' }, { status: 400 });
     }
 
-    // Vérifier si le commercial existe avant de tenter la suppression
     const commercial = await prisma.commercial.findUnique({
       where: { id },
     });
@@ -46,7 +45,6 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Commercial non trouvé' }, { status: 404 });
     }
 
-    // Supprimer le commercial
     await prisma.commercial.delete({
       where: { id },
     });

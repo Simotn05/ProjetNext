@@ -15,7 +15,6 @@ export async function POST(request: NextRequest) {
 
     console.log('Request Data:', { name, email, password, city, phoneNumber, licenseTypes, vehiclesPerType });
 
-    // Validation des types de permis
     const validLicenseTypes = Array.isArray(licenseTypes) ? licenseTypes.filter(id => id !== undefined) : [];
     console.log('Valid License Types:', validLicenseTypes);
 
@@ -36,10 +35,9 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Vérification de la ville et récupération de la région associée
     const cityData = await prisma.ville.findUnique({
-      where: { name: city }, // Supposons que 'name' est la clé unique pour les villes
-      include: { region: true } // Inclut la région associée à la ville
+      where: { name: city }, 
+      include: { region: true } 
     });
 
     if (!cityData) {
@@ -56,22 +54,18 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Validation des véhicules par type
     const validVehiclesPerType = Array.isArray(vehiclesPerType) ? vehiclesPerType.filter(vehicle => 
       vehicle && vehicle.licenseTypeId !== undefined && vehicle.count !== undefined && vehicle.vehicleType !== undefined && vehicle.ecoleId !== undefined
     ) : [];
     console.log('Valid Vehicles Per Type:', validVehiclesPerType);
 
-    // Si `vehiclesPerType` est `undefined`, nous définissons un tableau vide pour éviter les erreurs
     const vehiclesToCreate = validVehiclesPerType.length > 0 ? validVehiclesPerType : [];
 
-    // Validation du mot de passe
     if (!validatePassword(password)) {
       return NextResponse.json({
         error: 'Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre.'
       }, { status: 400 });
     }
-    //Verification Email
     const existingEtudiant = await prisma.etudiant.findUnique({
       where: { email },
     });
@@ -91,19 +85,17 @@ export async function POST(request: NextRequest) {
       
     }
 
-    // Hachage du mot de passe
-    const saltRounds = 10; // Nombre de tours pour le hachage
+    const saltRounds = 10; 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Création de l'école avec les types de permis, les véhicules associés, et la région
     const newEcole = await prisma.ecole.create({
       data: {
         name,
         email,
-        password: hashedPassword, // Stockez le mot de passe haché
+        password: hashedPassword, 
         city,
         phoneNumber,
-        regionId, // Utilisez la région associée à la ville
+        regionId, 
         licenseTypes: {
           connect: validLicenseTypes.map(id => ({ id }))
         },

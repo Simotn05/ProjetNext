@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Edit2, Trash2, Search } from "react-feather"; // Importation des icônes
+import { MoreHorizontal, Edit2, Trash2, Search } from "react-feather"; 
 import { Input } from '@/components/ui/input';
 
 const ListeCommercials: React.FC = () => {
@@ -28,7 +28,7 @@ const ListeCommercials: React.FC = () => {
         const data = await response.json();
         console.log('Data reçue:', data); 
         setCommercials(data.commercials);
-        setFilteredCommercials(data.commercials); // Initialiser la liste filtrée avec les commerciaux
+        setFilteredCommercials(data.commercials); 
       } catch (err) {
         console.error('Erreur lors du chargement des commerciaux:', err); 
         setError('Erreur lors du chargement des commerciaux.');
@@ -39,7 +39,6 @@ const ListeCommercials: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Filtrer les commerciaux en fonction du terme de recherche
     const filtered = commercials.filter(commercial =>
       commercial.name.toLowerCase().startsWith(searchTerm.toLowerCase())
     );
@@ -51,7 +50,6 @@ const ListeCommercials: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-  // Afficher une boîte de dialogue de confirmation avant de procéder à la suppression
   const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer ce commercial ?');
 
   if (confirmed) {
@@ -76,7 +74,6 @@ const ListeCommercials: React.FC = () => {
       <CardContent className="p-10">
         <h1 className="text-2xl font-bold mb-6">Liste des Commerciaux</h1>
   
-        {/* Barre de recherche */}
         <div className="relative w-full mb-6">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <Search className="h-5 w-5 text-muted-foreground" />
@@ -94,7 +91,7 @@ const ListeCommercials: React.FC = () => {
         {filteredCommercials.length === 0 && !error ? (
           <p className="text-gray-500">Aucun commercial à afficher.</p>
         ) : (
-          <div className="overflow-hidden rounded-lg border border-gray-200"> {/* Nouveau conteneur arrondi */}
+          <div className="overflow-hidden rounded-lg border border-gray-200"> 
             <table className="w-full border-collapse">
               <thead>
                 <tr>

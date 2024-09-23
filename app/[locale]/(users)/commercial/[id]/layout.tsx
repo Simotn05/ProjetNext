@@ -5,7 +5,7 @@ import DashboardHeader from '../../userpage/[id]/components/dashboardHeader';
 import Sidebar from '../../userpage/[id]/components/sidebar';
 import { NavLink } from '@/types';
 import { useParams, useRouter } from 'next/navigation';
-import { StudentProvider } from '@/contexts/StudentContext'; // Assurez-vous du bon chemin
+import { StudentProvider } from '@/contexts/StudentContext'; 
 import { useEffect, useState } from 'react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -22,14 +22,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         const data = await res.json();
 
         if (!data.user) {
-          // Redirige si non authentifié
           router.push('/connexion');
         } else if (data.user.role !== 'commercial') {
-          // Redirige si l'utilisateur n'est pas du rôle "ecole"
           router.push('/errorPage');
         } else {
           setIsAuthenticated(true);
-          setUserId(data.user.id); // Stocke l'ID de l'utilisateur authentifié
+          setUserId(data.user.id); 
         }
       } catch (error) {
         console.error('Erreur lors de la vérification de l’authentification:', error);
@@ -46,16 +44,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     if (userId !== null && params.id) {
       let idFromParams: string;
   
-      // Vérifie si params.id est un tableau ou une simple chaîne
       if (Array.isArray(params.id)) {
-        idFromParams = params.id[0]; // Utilise la première valeur si c'est un tableau
+        idFromParams = params.id[0]; 
       } else {
-        idFromParams = params.id; // Utilise la valeur directement si c'est une chaîne
+        idFromParams = params.id; 
       }
-  
-      // Compare l'ID dans l'URL avec l'ID de l'utilisateur connecté
       if (parseInt(idFromParams) !== userId) {
-        router.push('/errorPage'); // Redirige si l'ID ne correspond pas
+        router.push('/errorPage'); 
       }
     }
   }, [userId, params.id, router]);
@@ -69,32 +64,32 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     {
       icon: <Home />,
       label: 'Accueil',
-      href: `/commercial/${params.id}/acceuil`,  // URL dynamique
+      href: `/commercial/${params.id}/acceuil`,  
     },
     {
       icon: <Menu />,
       label: 'Profile',
-      href: `/commercial/${params.id}/profile`,  // URL dynamique
+      href: `/commercial/${params.id}/profile`,  
     },
     {
       icon: <User />,
       label: 'Liste des étudiants',
-      href: `/commercial/${params.id}/liste-etudiants`,  // URL dynamique
+      href: `/commercial/${params.id}/liste-etudiants`,  
     },
     {
       icon: <Car />,
       label: 'Liste des auto-écoles',
-      href: `/commercial/${params.id}/liste-ecoles`,  // URL dynamique
+      href: `/commercial/${params.id}/liste-ecoles`,  
     },
     {
       icon: <BarChart />,
       label: 'Statistiques',
-      href: `/commercial/${params.id}/stats`,  // URL dynamique
+      href: `/commercial/${params.id}/stats`,  
     },
   ];
 
   return (
-    <StudentProvider> {/* Enveloppe le contenu avec StudentProvider */}
+    <StudentProvider> 
       <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
         <Sidebar navLinks={navLinks} />
         <div className="flex flex-col">

@@ -14,13 +14,13 @@ const GestionCommercial: React.FC = () => {
         <div className="space-y-4">
           <Button 
             className="w-full" 
-            onClick={() => router.push('/liste-commercials')} // Redirection vers la page de liste des commerciaux
+            onClick={() => router.push('/liste-commercials')} 
           >
             Liste des Commerciaux
           </Button>
           <Button 
             className="w-full" 
-            onClick={() => router.push('/add-commercial')} // Redirection vers la page d'ajout de commercial
+            onClick={() => router.push('/add-commercial')} 
           >
             Ajouter un Commercial
           </Button>

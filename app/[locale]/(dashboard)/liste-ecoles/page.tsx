@@ -4,16 +4,16 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'; 
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input'; // Assurez-vous d'importer votre composant Input
+import { Input } from '@/components/ui/input'; 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Edit2, Trash2, Search } from "react-feather"; // Importation des icônes
+import { MoreHorizontal, Edit2, Trash2, Search } from "react-feather"; 
 
 const ListeEcoles: React.FC = () => {
   const [ecoles, setEcoles] = useState<
     { id: number; name: string; email: string; phoneNumber: string; city: string; licenseTypes: { name: string }[] }[]
   >([]);
-  const [filteredEcoles, setFilteredEcoles] = useState(ecoles); // État pour stocker la liste filtrée
-  const [searchTerm, setSearchTerm] = useState(''); // État pour stocker le texte de recherche
+  const [filteredEcoles, setFilteredEcoles] = useState(ecoles); 
+  const [searchTerm, setSearchTerm] = useState(''); 
   const [error, setError] = useState<string | null>(null);
   const router = useRouter(); 
 
@@ -27,7 +27,7 @@ const ListeEcoles: React.FC = () => {
         const data = await response.json();
         console.log('Data reçue:', data); 
         setEcoles(data.ecoles); 
-        setFilteredEcoles(data.ecoles); // Initialiser la liste filtrée avec toutes les auto-écoles
+        setFilteredEcoles(data.ecoles); 
       } catch (err) {
         console.error('Erreur lors du chargement des auto-écoles:', err); 
         setError('Erreur lors du chargement des auto-écoles.');
@@ -37,11 +37,10 @@ const ListeEcoles: React.FC = () => {
     fetchEcoles();
   }, []);
 
-  // Fonction pour gérer la recherche
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     if (event.target.value === '') {
-      setFilteredEcoles(ecoles); // Si la recherche est vide, réinitialiser la liste
+      setFilteredEcoles(ecoles); 
     } else {
       const filtered = ecoles.filter((ecole) =>
         ecole.name.toLowerCase().startsWith(event.target.value.toLowerCase()) ||
@@ -59,7 +58,6 @@ const ListeEcoles: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-    // Afficher une boîte de dialogue de confirmation avant de procéder à la suppression
     const confirmed = window.confirm('Êtes-vous sûr de vouloir supprimer cette auto-école ?');
   
     if (confirmed) {
@@ -69,7 +67,7 @@ const ListeEcoles: React.FC = () => {
         });
         if (response.ok) {
           setEcoles(ecoles.filter((ecole) => ecole.id !== id));
-          setFilteredEcoles(filteredEcoles.filter((ecole) => ecole.id !== id)); // Mettre à jour la liste filtrée
+          setFilteredEcoles(filteredEcoles.filter((ecole) => ecole.id !== id)); 
         } else {
           console.error('Erreur lors de la suppression de l\'auto-école');
           setError('Erreur lors de la suppression de l\'auto-école.');
@@ -88,7 +86,6 @@ const ListeEcoles: React.FC = () => {
         <h1 className="text-2xl font-bold mb-6">Liste des Auto-écoles</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         
-        {/* Barre de recherche */}
         <div className="relative w-full mb-6">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <Search className="h-5 w-5 text-muted-foreground" />

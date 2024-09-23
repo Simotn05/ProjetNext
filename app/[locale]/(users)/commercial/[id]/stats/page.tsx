@@ -27,8 +27,8 @@ const StatistiquesPage = () => {
         const { studentsCount, studentsByEcole, regionsCount } = response.data;
 
         setStudentsCount(studentsCount);
-        setStudentsByEcole(studentsByEcole || []); // Assure que studentsByEcole est défini
-        setRegionsCount(regionsCount || 0); // Assure que regionsCount est défini
+        setStudentsByEcole(studentsByEcole || []); 
+        setRegionsCount(regionsCount || 0); 
       } catch (err) {
         console.log(err);
         setError('Erreur lors de la récupération des statistiques');
@@ -48,7 +48,6 @@ const StatistiquesPage = () => {
     return <div className="flex justify-center items-center min-h-screen">{error}</div>;
   }
 
-  // Préparer les données pour les graphiques
   const ecoleNames = studentsByEcole.map((data) => data.ecoleName);
   const ecoleCounts = studentsByEcole.map((data) => data.count);
 

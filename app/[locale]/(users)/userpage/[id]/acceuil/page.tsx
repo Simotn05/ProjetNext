@@ -39,15 +39,15 @@ const UserPage: React.FC = () => {
 
     const updateCurrentDate = () => {
       const now = new Date();
-      const formattedDate = now.toLocaleString(); // Vous pouvez personnaliser le format selon vos besoins
+      const formattedDate = now.toLocaleString(); 
       setCurrentDate(formattedDate);
     };
 
     fetchUser();
-    updateCurrentDate(); // Update current date when component mounts
-    const intervalId = setInterval(updateCurrentDate, 1000); // Update every second
+    updateCurrentDate(); 
+    const intervalId = setInterval(updateCurrentDate, 1000); 
 
-    return () => clearInterval(intervalId); // Cleanup on component unmount
+    return () => clearInterval(intervalId); 
   }, [params.id, router]);
 
   if (error) {
